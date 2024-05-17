@@ -3,7 +3,7 @@ import ListingCard from "../ListingCard/ListingCard";
 
 const ListingsContainer = () => {
   return (
-    <div className="bg-gray-200 p-8 justify-between rounded-lg flex flex-wrap gap-4">
+    <div className="bg-blue-100 p-8 justify-between rounded-lg flex flex-wrap gap-4">
       <ListingCard />
       <ListingCard />
       <ListingCard />

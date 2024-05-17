@@ -8,7 +8,7 @@ const Hero = () => {
       <div className="gap-8 flex flex-col">
         <div className="flex flex-col gap-4">
           <h1 className="text-6xl font-semibold  text-gray-950">
-            Find Your Perfect <span className="text-blue-500">Home:</span>{" "}
+            Find Your Perfect <span className="text-blue-700">Home:</span>{" "}
             Discover Houses, Apartments, and More!
           </h1>
           <p className=" text-lg text-gray-800">

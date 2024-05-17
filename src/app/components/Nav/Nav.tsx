@@ -11,14 +11,14 @@ function Nav() {
           <Link href="/">Home</Link>
         </li>
         <li>
-          <Link href="/">Listings</Link>
+          <Link href="/listings">Listings</Link>
         </li>
         <li>
           <Link href="/">About Us</Link>
         </li>
         <li>
           <Link
-            className="py-4 px-8 bg-blue-500 rounded-full text-white hover:bg-blue-700"
+            className="py-4 px-8 bg-blue-700 rounded-full text-white hover:bg-blue-900"
             href="/"
           >
             Contact Us

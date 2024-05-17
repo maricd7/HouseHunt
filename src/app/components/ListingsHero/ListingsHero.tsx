@@ -8,7 +8,7 @@ const ListingsHero = () => {
         <h1 className="text-6xl font-semibold  text-gray-950">
           Our Current Listings
         </h1>
-        <p className="text-gray-400 text-xl">
+        <p className="text-gray-600 text-xl">
           Discover Your Perfect Property: Navigate Through a Vast Array of
           Listings on Our Real Estate Platform
         </p>

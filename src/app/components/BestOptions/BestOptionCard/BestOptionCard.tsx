@@ -5,7 +5,7 @@ import React from "react";
 
 function BestOptionCard() {
   return (
-    <div className="bg-white rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-500 cursor-pointer">
+    <div className="bg-white rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer">
       <Image
         className="rounded-lg"
         width={240}
