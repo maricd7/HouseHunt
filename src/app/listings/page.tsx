@@ -1,11 +1,14 @@
 import React from "react";
 import { ListingsHero } from "../components";
+import { PropertiesContextProvider } from "../contexts/PropertiesContext";
 
 const Listings = () => {
   return (
-    <main>
-      <ListingsHero />
-    </main>
+    <PropertiesContextProvider>
+      <main>
+        <ListingsHero />
+      </main>
+    </PropertiesContextProvider>
   );
 };
 
