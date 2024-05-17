@@ -1,16 +1,17 @@
 import React from "react";
 import { CtaButton } from "../common";
+import { HeroCard } from "../HeroCard";
 
 const Hero = () => {
   return (
-    <section className="h-full flex flex-col justify-center items center">
+    <section className="h-full flex justify-center items-center gap-16">
       <div className="gap-8 flex flex-col">
         <div className="flex flex-col gap-4">
-          <h1 className="text-6xl font-semibold w-1/2 text-gray-950">
+          <h1 className="text-6xl font-semibold  text-gray-950">
             Find Your Perfect <span className="text-blue-500">Home:</span>{" "}
             Discover Houses, Apartments, and More!
           </h1>
-          <p className="w-1/2 text-lg text-gray-800">
+          <p className=" text-lg text-gray-800">
             Easily search and explore a wide range of properties to find the
             perfect home that fits your lifestyle and budget. Whether you're
             looking for a cozy apartment, a spacious house, or a luxurious
@@ -20,6 +21,7 @@ const Hero = () => {
         </div>
         <CtaButton text="Browse Listings" />
       </div>
+      <HeroCard />
     </section>
   );
 };
