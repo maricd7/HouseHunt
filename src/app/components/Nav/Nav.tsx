@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function Nav() {
   return (
-    <nav className="py-8 px-32 flex justify-between">
+    <nav className="py-8 px-32 flex justify-between fixed top-0 left-0 w-full">
       <Logo />
       <ul className="flex gap-8">
         <li>
