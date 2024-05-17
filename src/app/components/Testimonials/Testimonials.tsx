@@ -4,7 +4,7 @@ import TestimonalCard from "./TestimonalCard";
 const Testimonials = () => {
   return (
     <section className="bg-white my-16 px-32 w-full relative z-40">
-      <h2 className="text-5xl font-semibold z-40 relative text-center">
+      <h2 className="text-5xl font-semibold z-40 relative text-centers">
         What our Customers Say About Us
       </h2>
       <div className="flex gap-32 z-40 relative">
