@@ -1,3 +1,5 @@
 export * from './Hero'
 export * from './Nav'
 export * from './common'
+export * from './BestOptions'
+export * from './AboutUs'
