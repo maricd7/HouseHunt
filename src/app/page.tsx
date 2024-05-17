@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Hero, BestOptions, AboutUs } from "./components";
+import { Hero, BestOptions, AboutUs, Testimonials } from "./components";
 
 export default function Home() {
   return (
@@ -7,6 +7,7 @@ export default function Home() {
       <Hero />
       <BestOptions />
       <AboutUs />
+      <Testimonials />
     </main>
   );
 }
