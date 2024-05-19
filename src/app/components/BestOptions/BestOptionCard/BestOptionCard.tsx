@@ -3,7 +3,23 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import React from "react";
 
-function BestOptionCard() {
+interface BestOptionCardProps {
+  name: string;
+  description: string;
+  image: string;
+  bedrooms: number;
+  bathrooms: number;
+  address: string;
+}
+
+function BestOptionCard({
+  name,
+  description,
+  image,
+  bedrooms,
+  bathrooms,
+  address,
+}: BestOptionCardProps) {
   return (
     <div className="bg-white rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer">
       <Image
@@ -11,16 +27,11 @@ function BestOptionCard() {
         width={240}
         height={360}
         alt="Hero Card Name"
-        src="https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D.jpg"
+        src={image}
       />
       <div className="flex flex-col gap-2">
-        <h4 className="text-2xl font-semibold text-gray-950">
-          Sunny Side Apartment
-        </h4>
-        <p>
-          A cozy apartment with lots of natural light, close to downtown
-          amenities.
-        </p>
+        <h4 className="text-2xl font-semibold text-gray-950">{name}</h4>
+        <p>{description}</p>
         <div className="flex gap-2 items-center">
           <Icon
             icon="carbon:location-filled"
@@ -28,7 +39,7 @@ function BestOptionCard() {
             height="24"
             style={{ color: " #1f2937" }}
           />
-          <p className="text-md text-gray-800">123 Elm St, Springfield, IL</p>
+          <p className="text-md text-gray-800">{address}</p>
         </div>
         <div className="flex gap-2 items-center">
           <Icon
@@ -37,7 +48,7 @@ function BestOptionCard() {
             height="24"
             style={{ color: " #1f2937" }}
           />
-          <p className="text-md text-gray-800">1</p>
+          <p className="text-md text-gray-800">{bathrooms}</p>
         </div>
         <div className="flex gap-2 items-center">
           <Icon
@@ -46,7 +57,7 @@ function BestOptionCard() {
             height="24"
             style={{ color: " #1f2937" }}
           />
-          <p className="text-md text-gray-800">2</p>
+          <p className="text-md text-gray-800">{bedrooms}</p>
         </div>
       </div>
     </div>

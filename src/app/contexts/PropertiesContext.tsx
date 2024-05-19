@@ -21,16 +21,19 @@ interface Property {
 
 interface PropertiesContextProps {
   properties: Property[];
+  specialOffer: Property[];
 }
 
 const PropertiesContext = createContext<PropertiesContextProps>({
   properties: [],
+  specialOffer: [],
 });
 
 export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [properties, setProperties] = useState<Property[]>([]);
+  const [specialOffer, setSpecialOffer] = useState<Property[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -40,16 +43,21 @@ export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
           throw error;
         }
         setProperties(data);
+        getSpecialOffer(data);
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
       }
     }
-
     fetchData();
   }, []);
+  const getSpecialOffer = (offers: Property[]) => {
+    const shuffled = offers && offers.sort(() => 0.5 - Math.random());
+    setSpecialOffer(shuffled.slice(0, 4));
+  };
 
   const contextValue: PropertiesContextProps = {
     properties: properties,
+    specialOffer: specialOffer,
   };
 
   return (

@@ -5,7 +5,6 @@ import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
 
 const ListingsContainer = () => {
   const { properties } = usePropertiesContext();
-  console.log(properties);
   return (
     <div className="bg-blue-100 p-8 justify-between rounded-lg flex flex-wrap gap-4">
       {properties ? (
