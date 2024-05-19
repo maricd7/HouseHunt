@@ -14,6 +14,7 @@ const BestOptions = () => {
         <div className="flex flex-col gap-8 w-full">
           {specialOffer.slice(0, 3).map((property, index) => (
             <BestOptionCard
+              id={property.id}
               key={index}
               name={property.name}
               description={property.description}

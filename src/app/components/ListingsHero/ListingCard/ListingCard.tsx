@@ -1,6 +1,7 @@
 "use client";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface ListingCardProps {
@@ -10,8 +11,10 @@ interface ListingCardProps {
   bedrooms: number;
   bathrooms: number;
   address: string;
+  id: number;
 }
 const ListingCard = ({
+  id,
   name,
   description,
   image,
@@ -20,7 +23,10 @@ const ListingCard = ({
   address,
 }: ListingCardProps) => {
   return (
-    <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white p-4 w-72 cursor-pointer border border-gray-300 hover:scale-105 hover:border-blue-700 flex flex-col gap-4">
+    <Link
+      href={"/listings/" + id}
+      className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white p-4 w-72 cursor-pointer border border-gray-300 hover:scale-105 hover:border-blue-700 flex flex-col gap-4"
+    >
       <Image
         className="rounded-md h-36"
         width={400}
@@ -61,7 +67,7 @@ const ListingCard = ({
           <p className="text-md text-gray-800">{bedrooms}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

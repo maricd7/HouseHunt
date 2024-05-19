@@ -1,6 +1,7 @@
 "use client";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface BestOptionCardProps {
@@ -10,6 +11,7 @@ interface BestOptionCardProps {
   bedrooms: number;
   bathrooms: number;
   address: string;
+  id: number;
 }
 
 function BestOptionCard({
@@ -19,11 +21,15 @@ function BestOptionCard({
   bedrooms,
   bathrooms,
   address,
+  id,
 }: BestOptionCardProps) {
   return (
-    <div className="bg-white rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer">
+    <Link
+      href={"/listings/" + id}
+      className="bg-white rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer"
+    >
       <Image
-        className="rounded-lg"
+        className="rounded-lg "
         width={240}
         height={360}
         alt="Hero Card Name"
@@ -60,7 +66,7 @@ function BestOptionCard({
           <p className="text-md text-gray-800">{bedrooms}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

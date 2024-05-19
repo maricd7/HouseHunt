@@ -2,25 +2,34 @@
 import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function BestOptionMain() {
   const { specialOffer } = usePropertiesContext();
-  const speccialOfferMain = specialOffer[3];
+
+  if (!specialOffer || specialOffer.length < 4) {
+    return <>loading</>;
+  }
+  const specialOfferMain = specialOffer[3];
+
   return (
-    <div className="bg-white rounded-lg p-4 flex flex-col  gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer">
+    <Link
+      className="bg-white rounded-lg p-4 flex flex-col  gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer"
+      href={"/listings/" + specialOfferMain.id}
+    >
       <Image
         className="rounded-lg"
         width={900}
         height={120}
         alt="Hero Card Name"
-        src={speccialOfferMain.image}
+        src={specialOfferMain.image}
       />
       <div className="flex flex-col gap-2">
         <h2 className="text-4xl font-semibold text-gray-950">
-          {speccialOfferMain.name}
+          {specialOfferMain.name}
         </h2>
-        <p>{speccialOfferMain.description}</p>
+        <p>{specialOfferMain.description}</p>
         <div className="flex gap-2 items-center">
           <Icon
             icon="carbon:location-filled"
@@ -29,7 +38,7 @@ function BestOptionMain() {
             style={{ color: " #1f2937" }}
           />
           <p className="text-md text-gray-800">
-            {speccialOfferMain.description}
+            {specialOfferMain.description}
           </p>
         </div>
         <div className="flex gap-2 items-center">
@@ -39,7 +48,7 @@ function BestOptionMain() {
             height="24"
             style={{ color: " #1f2937" }}
           />
-          <p className="text-md text-gray-800">{speccialOfferMain.bathrooms}</p>
+          <p className="text-md text-gray-800">{specialOfferMain.bathrooms}</p>
         </div>
         <div className="flex gap-2 items-center">
           <Icon
@@ -48,10 +57,10 @@ function BestOptionMain() {
             height="24"
             style={{ color: " #1f2937" }}
           />
-          <p className="text-md text-gray-800">{speccialOfferMain.bedrooms}</p>
+          <p className="text-md text-gray-800">{specialOfferMain.bedrooms}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

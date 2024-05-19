@@ -10,6 +10,7 @@ const ListingsContainer = () => {
       {properties ? (
         properties.map((property, index) => (
           <ListingCard
+            id={property.id}
             key={index}
             name={property.name}
             description={property.description}
