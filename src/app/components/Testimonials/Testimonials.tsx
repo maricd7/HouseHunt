@@ -1,85 +1,58 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import { motion, useAnimation } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import TestimonalCard from "./TestimonalCard";
+import supabase from "@/app/supabase";
+
+interface Testimonial {
+  id: number;
+  customer_name: string;
+  testimonial: string;
+  image: string;
+}
 
 const Testimonials = () => {
-  const controls = useAnimation();
   const sectionRef = useRef(null);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          controls.start("visible");
-          observer.disconnect();
+    // Fetch testimonials
+    const fetchTestimonials = async () => {
+      try {
+        const { data, error } = await supabase.from("testimonials").select("*");
+        if (error) {
+          throw error;
         }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+        setTestimonials(data);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
       }
     };
-  }, [controls]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        duration: 1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1 } },
-  };
+    // Fetch testimonials on mount
+    fetchTestimonials();
+  }, []);
 
   return (
-    <motion.section
+    <section
       className="bg-white my-16 px-32 w-full relative z-40"
       ref={sectionRef}
-      initial="hidden"
-      animate={controls}
-      variants={containerVariants}
     >
-      <motion.h2
-        className="text-5xl font-semibold z-40 relative text-center"
-        variants={itemVariants}
-      >
+      <h2 className="text-5xl font-semibold z-40 relative text-center">
         What our Customers Say About Us
-      </motion.h2>
-      <motion.div
-        className="flex gap-32 z-40 relative py-10"
-        variants={containerVariants}
-      >
-        <motion.div variants={itemVariants}>
-          <TestimonalCard />
-        </motion.div>
-        <motion.div variants={itemVariants}>
-          <TestimonalCard />
-        </motion.div>
-        <motion.div variants={itemVariants}>
-          <TestimonalCard />
-        </motion.div>
-      </motion.div>
-      <motion.div
-        className="w-96 h-96 rounded-full bg-sky-100 absolute bottom-0 right-0 z-10"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1 }}
-      ></motion.div>
-    </motion.section>
+      </h2>
+      <div className="flex gap-32 z-40 relative py-10">
+        {testimonials.map((testi, index) => (
+          <div key={index}>
+            <TestimonalCard
+              name={testi.customer_name}
+              testimonial={testi.testimonial}
+              image={testi.image}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="w-96 h-96 rounded-full bg-sky-100 absolute bottom-0 right-0 z-10"></div>
+    </section>
   );
 };
 
