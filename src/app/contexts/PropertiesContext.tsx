@@ -22,7 +22,7 @@ interface Property {
 interface PropertiesContextProps {
   properties: Property[];
   specialOffer: Property[];
-  setProperties: () => [];
+  setProperties: (arg: Property[]) => void;
 }
 
 const PropertiesContext = createContext<PropertiesContextProps>({
@@ -62,7 +62,7 @@ export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
   const contextValue: PropertiesContextProps = {
     properties: properties,
     specialOffer: specialOffer,
-    setProperties: () => [],
+    setProperties: setProperties,
   };
 
   return (

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ListingCard from "../ListingCard/ListingCard";
 import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
 import ListingCardLoading from "../ListingCard/ListinCardLoading";

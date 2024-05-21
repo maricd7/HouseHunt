@@ -1,6 +1,6 @@
 "use client";
 import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 
 interface Filters {
   query: string;
@@ -10,7 +10,7 @@ interface Filters {
   maxPrice: number | null;
 }
 const ListingsFilter = () => {
-  const { properties } = usePropertiesContext();
+  const { properties, setProperties } = usePropertiesContext();
 
   const [filters, setFilters] = useState<Filters>({
     query: "",
@@ -20,7 +20,9 @@ const ListingsFilter = () => {
     maxPrice: null,
   });
   const [search, setSearch] = useState<string>("");
+
   const filterProperites = (filters: Filters) => {
+    console.log("trigger", properties);
     const filtered = properties.filter((property) => {
       return (
         (!filters.query ||
@@ -31,8 +33,13 @@ const ListingsFilter = () => {
         (!filters.maxPrice || property.price <= filters.maxPrice)
       );
     });
-  };
 
+    setProperties(filtered);
+  };
+  useEffect(() => {
+    console.log(properties, "asdasd");
+  }, [properties]);
+  // search change handler
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearch(value);
@@ -41,7 +48,7 @@ const ListingsFilter = () => {
       query: value,
     }));
   };
-  console.log("filter props", properties);
+  // console.log("filter props", properties);
   return (
     <div>
       <input
