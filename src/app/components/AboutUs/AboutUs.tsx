@@ -47,7 +47,7 @@ const AboutUs = () => {
 
   return (
     <motion.section
-      className="bg-blue-100 py-16 px-32 w-full flex gap-32"
+      className="bg-blue-100 py-16 px-32 w-full flex gap-32 relative z-40"
       ref={sectionRef}
       initial="hidden"
       animate={controls}

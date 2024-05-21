@@ -34,7 +34,7 @@ const Testimonials = () => {
 
   return (
     <section
-      className="bg-white my-16 px-32 w-full relative z-40"
+      className="bg-white py-16 px-32 w-full relative z-40"
       ref={sectionRef}
     >
       <h2 className="text-5xl font-semibold z-40 relative text-center">

@@ -42,7 +42,7 @@ const Hero = () => {
       variants={containerVariants}
     >
       <motion.div
-        className="gap-8 flex flex-col w-1/2"
+        className="gap-8 flex flex-col w-1/2 z-40"
         variants={containerVariants}
       >
         <motion.div className="flex flex-col gap-4" variants={itemVariants}>
@@ -50,7 +50,7 @@ const Hero = () => {
             Find Your Perfect <span className="text-blue-700">Home:</span>{" "}
             Discover Houses, Apartments, and More!
           </h1>
-          <p className="text-lg text-gray-800">
+          <p className="text-lg text-gray-00">
             Easily search and explore a wide range of properties to find the
             perfect home that fits your lifestyle and budget. Whether you're
             looking for a cozy apartment, a spacious house, or a luxurious

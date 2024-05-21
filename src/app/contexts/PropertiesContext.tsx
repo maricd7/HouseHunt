@@ -22,11 +22,13 @@ interface Property {
 interface PropertiesContextProps {
   properties: Property[];
   specialOffer: Property[];
+  setProperties: () => [];
 }
 
 const PropertiesContext = createContext<PropertiesContextProps>({
   properties: [],
   specialOffer: [],
+  setProperties: () => [],
 });
 
 export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
@@ -50,6 +52,8 @@ export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
     }
     fetchData();
   }, []);
+
+  //special offers random shuffler
   const getSpecialOffer = (offers: Property[]) => {
     const shuffled = offers && offers.sort(() => 0.5 - Math.random());
     setSpecialOffer(shuffled.slice(0, 4));
@@ -58,6 +62,7 @@ export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
   const contextValue: PropertiesContextProps = {
     properties: properties,
     specialOffer: specialOffer,
+    setProperties: () => [],
   };
 
   return (
