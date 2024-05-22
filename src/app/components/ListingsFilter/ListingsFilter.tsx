@@ -11,7 +11,6 @@ interface Filters {
 }
 const ListingsFilter = () => {
   const { properties, setProperties } = usePropertiesContext();
-
   const [filters, setFilters] = useState<Filters>({
     query: "",
     bathrooms: null,
@@ -23,6 +22,8 @@ const ListingsFilter = () => {
 
   const filterProperites = (filters: Filters) => {
     console.log("trigger", properties);
+
+    //function for filtering properties
     const filtered = properties.filter((property) => {
       return (
         (!filters.query ||
@@ -39,7 +40,8 @@ const ListingsFilter = () => {
   useEffect(() => {
     console.log(properties, "asdasd");
   }, [properties]);
-  // search change handler
+
+  // search change filters handler
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearch(value);
@@ -48,14 +50,45 @@ const ListingsFilter = () => {
       query: value,
     }));
   };
-  // console.log("filter props", properties);
+
+  //min price setter
+  const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const minPriceValue = Number(e.target.value);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      maxPrice: minPriceValue,
+    }));
+  };
+
+  //max price setter
+  const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const maxPriceValue = Number(e.target.value);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      maxPrice: maxPriceValue,
+    }));
+  };
+
   return (
     <div>
       <input
         type="text"
-        placeholder="enter your search"
+        placeholder="Enter your search"
         onChange={handleSearchChange}
       />
+      <div>
+        <label>Price</label>
+        <input
+          type="number"
+          placeholder="Price From"
+          onChange={handleMinPriceChange}
+        />
+        <input
+          type="number"
+          placeholder="Price To"
+          onChange={handleMaxPriceChange}
+        />
+      </div>
       <button onClick={() => filterProperites(filters)}>Search</button>
     </div>
   );
