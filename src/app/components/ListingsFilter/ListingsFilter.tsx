@@ -70,26 +70,39 @@ const ListingsFilter = () => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Enter your search"
-        onChange={handleSearchChange}
-      />
-      <div>
-        <label>Price</label>
+    <div className="p-4 bg-white rounded-lg shadow-md">
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">Search</label>
         <input
-          type="number"
-          placeholder="Price From"
-          onChange={handleMinPriceChange}
-        />
-        <input
-          type="number"
-          placeholder="Price To"
-          onChange={handleMaxPriceChange}
+          type="text"
+          placeholder="Enter your search"
+          onChange={handleSearchChange}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <button onClick={() => filterProperites(filters)}>Search</button>
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">Price</label>
+        <div className="flex space-x-4">
+          <input
+            type="number"
+            placeholder="Price From"
+            onChange={handleMinPriceChange}
+            className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="number"
+            placeholder="Price To"
+            onChange={handleMaxPriceChange}
+            className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+      <button
+        onClick={() => filterProperites(filters)}
+        className="w-full bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+      >
+        Search
+      </button>
     </div>
   );
 };
