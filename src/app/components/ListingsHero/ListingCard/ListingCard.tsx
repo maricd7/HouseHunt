@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { PropertyDetail } from "../../common";
 
 interface ListingCardProps {
   name: string;
@@ -39,36 +40,14 @@ const ListingCard = ({
         <p className="text-gray-400">{description}</p>
       </div>
       <div className="flex flex-col gap-4">
-        <div className="flex gap-2 items-center">
-          <Icon
-            icon="carbon:location-filled"
-            width="24"
-            height="24"
-            style={{ color: " #1f2937" }}
-          />
-          <p className="text-md text-gray-800">{address}</p>
-        </div>
-        <div className="flex gap-2 items-center">
-          <Icon
-            icon="iconoir:bathroom"
-            width="24"
-            height="24"
-            style={{ color: " #1f2937" }}
-          />
-          <p className="text-md text-gray-800">{bathrooms}</p>
-        </div>
-        <div className="flex gap-2 items-center">
-          <Icon
-            icon="mdi:bed-outline"
-            width="24"
-            height="24"
-            style={{ color: " #1f2937" }}
-          />
-          <p className="text-md text-gray-800">{bedrooms}</p>
-        </div>
+        <PropertyDetail text={address} iconName="carbon:location-filled" />
+        <PropertyDetail text={bathrooms} iconName="iconoir:bathroom" />
+        <PropertyDetail text={bedrooms} iconName="mdi:bed-outline" />
       </div>
     </Link>
   );
 };
 
 export default ListingCard;
+
+//

@@ -17,9 +17,9 @@ function Nav() {
           <Link href="/">About Us</Link>
         </li>
         <li>
-          <li>
-            <Link href="/wishlist">Wishlist</Link>
-          </li>
+          <Link href="/wishlist">Wishlist</Link>
+        </li>
+        <li>
           <Link
             className="py-4 px-8 bg-blue-700 rounded-full text-white hover:bg-blue-900"
             href="/"
