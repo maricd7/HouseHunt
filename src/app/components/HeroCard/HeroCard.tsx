@@ -2,8 +2,16 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import React from "react";
+import { PropertyDetail } from "../common";
+import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
 
 const HeroCard = () => {
+  const { specialOffer } = usePropertiesContext();
+
+  if (!specialOffer) {
+    return;
+  }
+
   return (
     <div className="bg-gray-200 rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:scale-105 cursor-pointer z-40 relative">
       <Image
@@ -15,39 +23,21 @@ const HeroCard = () => {
       />
       <div className="flex flex-col gap-2">
         <h4 className="text-2xl font-semibold text-gray-950">
-          Sunny Side Apartment
+          {specialOffer[0].name}
         </h4>
-        <p>
-          A cozy apartment with lots of natural light, close to downtown
-          amenities.
-        </p>
-        <div className="flex gap-2 items-center">
-          <Icon
-            icon="carbon:location-filled"
-            width="24"
-            height="24"
-            style={{ color: " #1f2937" }}
-          />
-          <p className="text-md text-gray-800">123 Elm St, Springfield, IL</p>
-        </div>
-        <div className="flex gap-2 items-center">
-          <Icon
-            icon="iconoir:bathroom"
-            width="24"
-            height="24"
-            style={{ color: " #1f2937" }}
-          />
-          <p className="text-md text-gray-800">1</p>
-        </div>
-        <div className="flex gap-2 items-center">
-          <Icon
-            icon="mdi:bed-outline"
-            width="24"
-            height="24"
-            style={{ color: " #1f2937" }}
-          />
-          <p className="text-md text-gray-800">2</p>
-        </div>
+        <p>{specialOffer[0].description}</p>
+        <PropertyDetail
+          iconName="carbon:location-filled"
+          text={specialOffer[0].address}
+        />
+        <PropertyDetail
+          iconName="iconoir:bathroom"
+          text={specialOffer[0].bathrooms}
+        />
+        <PropertyDetail
+          iconName="mdi:bed-outline"
+          text={specialOffer[0].bedrooms}
+        />
       </div>
     </div>
   );

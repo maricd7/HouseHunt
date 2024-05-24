@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { PropertyDetail } from "../../common";
+import { ListingCardMainInfo, PropertyDetail } from "../../common";
 
 interface ListingCardProps {
   name: string;
@@ -35,10 +35,7 @@ const ListingCard = ({
         alt="Listing"
         src={image}
       />
-      <div className="flex flex-col gap-2">
-        <h2 className="text-2xl font-semibold w-fit">{name}</h2>
-        <p className="text-gray-400">{description}</p>
-      </div>
+      <ListingCardMainInfo name={name} description={description} />
       <div className="flex flex-col gap-4">
         <PropertyDetail text={address} iconName="carbon:location-filled" />
         <PropertyDetail text={bathrooms} iconName="iconoir:bathroom" />
