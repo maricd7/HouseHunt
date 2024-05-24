@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { PropertyDetail } from "../../common";
 
 function BestOptionMain() {
   const { specialOffer } = usePropertiesContext();
@@ -30,35 +31,18 @@ function BestOptionMain() {
           {specialOfferMain.name}
         </h2>
         <p>{specialOfferMain.description}</p>
-        <div className="flex gap-2 items-center">
-          <Icon
-            icon="carbon:location-filled"
-            width="24"
-            height="24"
-            style={{ color: " #1f2937" }}
-          />
-          <p className="text-md text-gray-800">
-            {specialOfferMain.description}
-          </p>
-        </div>
-        <div className="flex gap-2 items-center">
-          <Icon
-            icon="iconoir:bathroom"
-            width="24"
-            height="24"
-            style={{ color: " #1f2937" }}
-          />
-          <p className="text-md text-gray-800">{specialOfferMain.bathrooms}</p>
-        </div>
-        <div className="flex gap-2 items-center">
-          <Icon
-            icon="mdi:bed-outline"
-            width="24"
-            height="24"
-            style={{ color: " #1f2937" }}
-          />
-          <p className="text-md text-gray-800">{specialOfferMain.bedrooms}</p>
-        </div>
+        <PropertyDetail
+          text={specialOfferMain.address}
+          iconName="carbon:location-filled"
+        />
+        <PropertyDetail
+          text={specialOfferMain.bathrooms}
+          iconName="iconoir:bathroom"
+        />
+        <PropertyDetail
+          text={specialOfferMain.bedrooms}
+          iconName="mdi:bed-outline"
+        />
       </div>
     </Link>
   );
