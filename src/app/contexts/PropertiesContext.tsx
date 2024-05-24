@@ -7,17 +7,7 @@ import React, {
   useContext,
 } from "react";
 import supabase from "../supabase";
-
-interface Property {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  bedrooms: number;
-  bathrooms: number;
-  image: string;
-  address: string;
-}
+import { Property } from "../types/Property";
 
 interface PropertiesContextProps {
   properties: Property[];

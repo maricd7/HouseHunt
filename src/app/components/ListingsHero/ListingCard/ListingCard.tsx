@@ -4,16 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { ListingCardMainInfo, PropertyDetail } from "../../common";
+import { ListingCardProps } from "@/app/types/ListingCardProps";
 
-interface ListingCardProps {
-  name: string;
-  description: string;
-  image: string;
-  bedrooms: number;
-  bathrooms: number;
-  address: string;
-  id: number;
-}
 const ListingCard = ({
   id,
   name,
