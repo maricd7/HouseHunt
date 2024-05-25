@@ -13,7 +13,6 @@ const useAddToWishlist = () => {
 
   const addToWishlist = useCallback((property: Property) => {
     setWishlist((prevWishlist) => {
-      // Check for duplicates
       if (!prevWishlist.some((item) => item.id === property.id)) {
         return [...prevWishlist, property];
       }

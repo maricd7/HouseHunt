@@ -1,4 +1,5 @@
 import React from "react";
+import { WishlistContainer } from "../WishlistContainer";
 
 const WishListMain = () => {
   return (
@@ -12,7 +13,7 @@ const WishListMain = () => {
             Keep track of homes that caught your eye and revisit them anytime.
           </p>
         </div>
-        <div></div>
+        <WishlistContainer />
       </div>
       <div></div>
     </section>
