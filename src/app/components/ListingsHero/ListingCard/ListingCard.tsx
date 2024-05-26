@@ -2,19 +2,21 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AddToWishListButton,
   ListingCardMainInfo,
   PropertyDetail,
 } from "../../common";
 import { Property } from "@/app/types/Property";
+import { profileEnd } from "console";
 
 interface ListingCardProps {
   property: Property;
 }
 
 const ListingCard = ({ property }: ListingCardProps) => {
+  const [isInWishlist, setIsInWishlist] = useState<Boolean>(false);
   const { id, image, name, description, address, bathrooms, bedrooms } =
     property;
 

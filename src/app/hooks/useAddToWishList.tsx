@@ -6,7 +6,6 @@ const useAddToWishlist = () => {
     const savedWishlist = localStorage.getItem("wishlist");
     return savedWishlist ? JSON.parse(savedWishlist) : [];
   });
-
   useEffect(() => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   }, [wishlist]);
@@ -20,7 +19,14 @@ const useAddToWishlist = () => {
     });
   }, []);
 
-  return { wishlist, addToWishlist };
+  const isInWishlist = useCallback(
+    (property: Property) => {
+      return wishlist.some((item) => item.id === property.id);
+    },
+    [wishlist]
+  );
+
+  return { wishlist, addToWishlist, isInWishlist };
 };
 
 export default useAddToWishlist;

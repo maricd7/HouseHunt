@@ -1,6 +1,6 @@
 "use client";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Property } from "@/app/types/Property";
 import useAddToWishlist from "@/app/hooks/useAddToWishList";
 
@@ -9,7 +9,8 @@ interface AddToWishListButtonProps {
 }
 
 const AddToWishListButton = ({ property }: AddToWishListButtonProps) => {
-  const { wishlist, addToWishlist } = useAddToWishlist();
+  const { isInWishlist, addToWishlist } = useAddToWishlist();
+  const iconColor = isInWishlist(property) ? "#1d4ed8" : "#9ca3af";
   const handleAddToWishList = (prop: Property) => {
     addToWishlist(prop);
   };
@@ -20,7 +21,7 @@ const AddToWishListButton = ({ property }: AddToWishListButtonProps) => {
       icon="carbon:location-heart-filled"
       width="32"
       height="32"
-      style={{ color: "#9ca3af" }}
+      style={{ color: iconColor }}
       onClick={() => handleAddToWishList(property)}
     />
   );
