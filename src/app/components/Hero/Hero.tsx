@@ -2,11 +2,11 @@
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { CtaButton } from "../common";
-import { HeroCard } from "../HeroCard";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
   const controls = useAnimation();
-
+  const router = useRouter();
   useEffect(() => {
     controls.start({
       opacity: 1,
@@ -46,11 +46,11 @@ const Hero = () => {
         variants={containerVariants}
       >
         <motion.div className="flex flex-col gap-4" variants={itemVariants}>
-          <h1 className="text-6xl font-semibold text-gray-950">
+          <h1 className="text-6xl font-semibold text-gray-950 text-center">
             Find Your Perfect <span className="text-blue-700">Home:</span>{" "}
             Discover Houses, Apartments, and More!
           </h1>
-          <p className="text-lg text-gray-00">
+          <p className="text-lg text-gray-00 text-center">
             Easily search and explore a wide range of properties to find the
             perfect home that fits your lifestyle and budget. Whether you're
             looking for a cozy apartment, a spacious house, or a luxurious
@@ -58,13 +58,23 @@ const Hero = () => {
             dream home a reality.
           </p>
         </motion.div>
-        <motion.div variants={itemVariants}>
-          <CtaButton text="Browse Listings" />
+        <motion.div
+          variants={itemVariants}
+          className="flex gap-8 justify-center"
+        >
+          <CtaButton
+            onClick={() => router.push("/signup")}
+            text="Start Selling"
+          />
+          <CtaButton
+            onClick={() => router.push("/signup")}
+            text="Find a Perfect Home"
+          />
         </motion.div>
       </motion.div>
-      <motion.div variants={itemVariants}>
+      {/* <motion.div variants={itemVariants}>
         <HeroCard />
-      </motion.div>
+      </motion.div> */}
     </motion.section>
   );
 };
