@@ -19,6 +19,11 @@ const useAddToWishlist = () => {
     });
   }, []);
 
+  const removeFromWishlist = useCallback((property: Property) => {
+    const newWishlist = wishlist.filter((wish) => wish.id !== property.id);
+    setWishlist(newWishlist);
+  }, []);
+
   const isInWishlist = useCallback(
     (property: Property) => {
       return wishlist.some((item) => item.id === property.id);
@@ -26,7 +31,7 @@ const useAddToWishlist = () => {
     [wishlist]
   );
 
-  return { wishlist, addToWishlist, isInWishlist };
+  return { wishlist, addToWishlist, isInWishlist, removeFromWishlist };
 };
 
 export default useAddToWishlist;

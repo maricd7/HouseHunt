@@ -9,20 +9,27 @@ interface AddToWishListButtonProps {
 }
 
 const AddToWishListButton = ({ property }: AddToWishListButtonProps) => {
-  const { isInWishlist, addToWishlist } = useAddToWishlist();
+  const { isInWishlist, addToWishlist, removeFromWishlist } =
+    useAddToWishlist();
+
   const iconColor = isInWishlist(property) ? "#1d4ed8" : "#9ca3af";
+
   const handleAddToWishList = (prop: Property) => {
     addToWishlist(prop);
   };
 
   return (
     <Icon
-      className="absolute top-6 right-6 hover text-white"
+      className="absolute top-6 right-6 hover text-white z-40"
       icon="carbon:location-heart-filled"
       width="32"
       height="32"
       style={{ color: iconColor }}
-      onClick={() => handleAddToWishList(property)}
+      onClick={
+        isInWishlist(property)
+          ? () => removeFromWishlist(property)
+          : () => handleAddToWishList(property)
+      }
     />
   );
 };

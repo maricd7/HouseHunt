@@ -23,7 +23,7 @@ const ListingCard = ({ property }: ListingCardProps) => {
   return (
     <Link
       href={`/listings/${id}`}
-      className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white p-4 w-72 cursor-pointer border border-gray-300 hover:scale-105 hover:border-blue-700 flex flex-col gap-4 relative"
+      className="z-10 max-w-sm rounded-lg overflow-hidden shadow-lg bg-white p-4 w-72 cursor-pointer border border-gray-300 hover:scale-105 hover:border-blue-700 flex flex-col gap-4 relative"
     >
       <Image
         className="rounded-md h-36"
