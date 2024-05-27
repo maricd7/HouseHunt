@@ -14,10 +14,6 @@ const AddToWishListButton = ({ property }: AddToWishListButtonProps) => {
 
   const iconColor = isInWishlist(property) ? "#1d4ed8" : "#9ca3af";
 
-  const handleAddToWishList = (prop: Property) => {
-    addToWishlist(prop);
-  };
-
   return (
     <Icon
       className="absolute top-6 right-6 hover text-white z-40"
@@ -28,7 +24,7 @@ const AddToWishListButton = ({ property }: AddToWishListButtonProps) => {
       onClick={
         isInWishlist(property)
           ? () => removeFromWishlist(property)
-          : () => handleAddToWishList(property)
+          : () => addToWishlist(property)
       }
     />
   );
