@@ -15,15 +15,18 @@ const UserSignupForm = () => {
     if (passwordRef === passwordConfirmRef) {
       return;
     }
-
-    const { data, error } = await supabase.from("users").insert([
-      {
-        email: emailRef.current?.value,
-        password: passwordRef.current?.value,
-        username: usernameRef.current?.value,
-        role: roleRef.current?.value,
-      },
-    ]);
+    try {
+      const { data, error } = await supabase.from("users").insert([
+        {
+          email: emailRef.current?.value,
+          password: passwordRef.current?.value,
+          username: usernameRef.current?.value,
+          role: roleRef.current?.value,
+        },
+      ]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
