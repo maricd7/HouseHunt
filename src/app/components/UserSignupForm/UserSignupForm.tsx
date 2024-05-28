@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { CtaButton, Input } from "../common";
 import supabase from "@/app/supabase";
 
@@ -10,11 +10,29 @@ const UserSignupForm = () => {
   const roleRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (passwordRef === passwordConfirmRef) {
       return;
     }
+
+    try {
+      const { data, error } = await supabase
+        .from("users")
+        .select()
+        .eq("email", emailRef.current?.value);
+      if (data) {
+        console.log("user already exists");
+        setErrorMessage("User Already Exists!");
+        return;
+      }
+    } catch (error) {
+      setErrorMessage("Error signing up!");
+      console.log(error);
+    }
+
     try {
       const { data, error } = await supabase.from("users").insert([
         {
@@ -25,6 +43,7 @@ const UserSignupForm = () => {
         },
       ]);
     } catch (error) {
+      setErrorMessage("Error signing up!");
       console.log(error);
     }
   };
@@ -71,6 +90,7 @@ const UserSignupForm = () => {
           required
           reference={roleRef}
         />
+        <span className="text-red-500 font-semibold">{errorMessage}</span>
         <CtaButton onClick={() => {}} type="submit" text="Sign Up" />
       </form>
     </div>
