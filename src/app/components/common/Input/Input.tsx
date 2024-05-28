@@ -1,12 +1,19 @@
-import React from "react";
+import React, { RefObject } from "react";
 
 interface InputProps {
   placeholder: string;
   label: string;
   type: string;
   required: boolean;
+  reference: React.RefObject<HTMLInputElement>;
 }
-const Input = ({ label, placeholder, type, required }: InputProps) => {
+const Input = ({
+  label,
+  placeholder,
+  type,
+  required,
+  reference,
+}: InputProps) => {
   return (
     <div className="flex flex-col gap-2 ">
       <label>{label}</label>
@@ -15,6 +22,7 @@ const Input = ({ label, placeholder, type, required }: InputProps) => {
         placeholder={placeholder}
         className="border border-gray-500 px-4 py-2 rounded-lg"
         required={required}
+        ref={reference}
       />
     </div>
   );
