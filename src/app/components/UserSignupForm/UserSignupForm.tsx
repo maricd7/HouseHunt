@@ -90,7 +90,7 @@ const UserSignupForm = () => {
           required
           reference={roleRef}
         />
-        <span className="text-red-500 font-semibold">{errorMessage}</span>
+        <span className="text-red-500 font  -semibold">{errorMessage}</span>
         <CtaButton onClick={() => {}} type="submit" text="Sign Up" />
       </form>
     </div>
