@@ -1,7 +1,6 @@
 "use client";
-import { Input } from "../common";
 import React, { useRef, useState } from "react";
-import { CtaButton } from "../common";
+import { CtaButton, Input } from "../common";
 
 const UserLoginForm = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -10,7 +9,40 @@ const UserLoginForm = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrorMessage("");
+
+    const username = usernameRef.current?.value;
+    const password = passwordRef.current?.value;
+
+    if (!username || !password) {
+      setErrorMessage("Username and password are required.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: username, password }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Login failed");
+      }
+
+      const { token } = result;
+
+      // Store the token (e.g., in localStorage or cookies)
+      localStorage.setItem("token", token);
+    } catch (error: any) {
+      setErrorMessage(error.message);
+    }
   };
+
   return (
     <div className="flex flex-col gap-8">
       <div>
