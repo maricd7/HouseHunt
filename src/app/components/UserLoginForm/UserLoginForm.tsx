@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import { CtaButton, Input } from "../common";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const UserLoginForm = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -74,6 +75,12 @@ const UserLoginForm = () => {
         />
         <span className="text-red-500 font  -semibold">{errorMessage}</span>
         <CtaButton onClick={() => {}} type="submit" text="Sign Up" />
+        <span className="text-center">
+          Don't have an account ?{" "}
+          <Link href="/signup" className="text-blue-400">
+            Sign In
+          </Link>
+        </span>
       </form>
     </div>
   );
