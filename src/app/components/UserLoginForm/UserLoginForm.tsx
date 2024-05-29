@@ -1,20 +1,22 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { CtaButton, Input } from "../common";
+import { useRouter } from "next/navigation";
 
 const UserLoginForm = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
-  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
 
-    const username = usernameRef.current?.value;
+    const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
 
-    if (!username || !password) {
+    if (!email || !password) {
       setErrorMessage("Username and password are required.");
       return;
     }
@@ -25,7 +27,7 @@ const UserLoginForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: username, password }),
+        body: JSON.stringify({ email: email, password }),
       });
 
       const result = await response.json();
@@ -38,6 +40,10 @@ const UserLoginForm = () => {
 
       // Store the token (e.g., in localStorage or cookies)
       localStorage.setItem("token", token);
+
+      if (token) {
+        router.push("/");
+      }
     } catch (error: any) {
       setErrorMessage(error.message);
     }
@@ -51,11 +57,11 @@ const UserLoginForm = () => {
       </div>
       <form className="flex flex-col gap-8" onSubmit={(e) => handleLogin(e)}>
         <Input
-          placeholder="Username"
-          type="text"
-          label="Username"
+          placeholder="Email"
+          type="email"
+          label="Email"
           required
-          reference={usernameRef}
+          reference={emailRef}
         />
         <Input
           placeholder="Password"

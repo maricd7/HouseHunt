@@ -8,6 +8,13 @@ const Hero = () => {
   const controls = useAnimation();
   const router = useRouter();
   useEffect(() => {
+    // get verification token
+    const token = localStorage.getItem("token");
+    console.log(token, "tokenn");
+    if (!token?.length) {
+      router.push("/login");
+    }
+
     controls.start({
       opacity: 1,
       y: 0,
@@ -63,10 +70,12 @@ const Hero = () => {
           className="flex gap-8 justify-center"
         >
           <CtaButton
+            type="button"
             onClick={() => router.push("/signup")}
             text="Start Selling"
           />
           <CtaButton
+            type="button"
             onClick={() => router.push("/signup")}
             text="Find a Perfect Home"
           />

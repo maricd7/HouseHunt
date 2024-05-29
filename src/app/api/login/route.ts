@@ -15,7 +15,7 @@ export async function POST(request: Request) {
       const { data, error } = await supabase
         .from('users')
         .select()
-        .eq('username', email);
+        .eq('email', email);
   
       if (error) {
         throw new Error(error.message);
@@ -33,7 +33,8 @@ export async function POST(request: Request) {
       }
   
       const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
-  
+      
+
       return NextResponse.json({ token });
     } catch (err: unknown) {
       let errorMessage = 'Internal Server Error';
