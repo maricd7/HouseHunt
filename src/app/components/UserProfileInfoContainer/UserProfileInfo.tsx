@@ -14,10 +14,15 @@ const UserProfileInfo = () => {
     if (userDataFromCookie) {
       const parsedUserData = JSON.parse(userDataFromCookie);
       console.log(parsedUserData);
+      if (params.slug !== parsedUserData.username) {
+        getUserProfileData();
+      }
       setUserProfileData(parsedUserData);
       return;
     }
-    const getUserProfileData = async () => {
+
+    //using declaration for hoisting
+    async function getUserProfileData() {
       try {
         const { data, error } = await supabase
           .from("users")
@@ -29,7 +34,7 @@ const UserProfileInfo = () => {
       } catch (error) {
         console.log("Error fetching data for this profile!");
       }
-    };
+    }
 
     getUserProfileData();
   }, [params]);
