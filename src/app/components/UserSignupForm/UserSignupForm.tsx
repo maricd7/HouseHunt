@@ -13,6 +13,7 @@ const UserSignupForm = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
+  ("use server");
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (passwordRef === passwordConfirmRef) {

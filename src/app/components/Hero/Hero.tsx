@@ -10,7 +10,6 @@ const Hero = () => {
   useEffect(() => {
     // get verification token
     const token = localStorage.getItem("token");
-    console.log(token, "tokenn");
     if (!token?.length) {
       router.push("/login");
     }

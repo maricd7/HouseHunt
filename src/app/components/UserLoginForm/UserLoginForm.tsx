@@ -37,6 +37,8 @@ const UserLoginForm = () => {
       }
 
       const { token } = result;
+      const { userData } = result;
+      console.log(userData, "user");
 
       // Store the token (e.g., in localStorage or cookies)
       localStorage.setItem("token", token);
