@@ -16,6 +16,7 @@ const UserLoginForm = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     setErrorMessage("");
 
     const email = emailRef.current?.value;
@@ -32,13 +33,15 @@ const UserLoginForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: email, password }),
+        body: JSON.stringify({ email: email, password: password }),
       });
 
       const result = await response.json();
-
       if (!response.ok) {
         throw new Error(result.message || "Login failed");
+      }
+      if (result.length) {
+        console.log("wtf");
       }
 
       const { token } = result;
@@ -82,11 +85,11 @@ const UserLoginForm = () => {
           reference={passwordRef}
         />
         <span className="text-red-500 font  -semibold">{errorMessage}</span>
-        <CtaButton onClick={() => {}} type="submit" text="Sign Up" />
+        <CtaButton onClick={() => {}} type="submit" text="Sign In" />
         <span className="text-center">
           Don't have an account ?{" "}
           <Link href="/signup" className="text-blue-400">
-            Sign In
+            Sign Up
           </Link>
         </span>
       </form>

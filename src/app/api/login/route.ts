@@ -19,7 +19,7 @@ export async function POST(request: Request) {
         .from('users')
         .select()
         .eq('email', email);
-  
+
       if (error) {
         throw new Error(error.message);
       }
@@ -31,10 +31,10 @@ export async function POST(request: Request) {
       //declaring relevant data 
       const user = data[0];
       const userData = {
-        userEmail : data[0].email,
+        email : data[0].email,
         name:data[0].name,
         username:data[0].username,
-        userRole:data[0].role,
+        role:data[0].role,
      }
 
       const match = await bcrypt.compare(password, user.password);

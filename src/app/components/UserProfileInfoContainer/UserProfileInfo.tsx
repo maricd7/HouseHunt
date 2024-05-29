@@ -1,7 +1,39 @@
+"use client";
+import supabase from "@/app/supabase";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Cookies from "js-cookie";
 
 const UserProfileInfo = () => {
+  const params = useParams();
+  const [userProfileData, setUserProfileData] = useState<any>({});
+
+  useEffect(() => {
+    const userDataFromCookie = Cookies.get("userData");
+    if (userDataFromCookie) {
+      const parsedUserData = JSON.parse(userDataFromCookie);
+      console.log(parsedUserData);
+      setUserProfileData(parsedUserData);
+      return;
+    }
+    const getUserProfileData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("users")
+          .select("name,email,username,role")
+          .eq("username", params.slug);
+        if (data?.length) {
+          setUserProfileData(data[0]);
+        }
+      } catch (error) {
+        console.log("Error fetching data for this profile!");
+      }
+    };
+
+    getUserProfileData();
+  }, [params]);
+  console.log(userProfileData);
   return (
     <div className="bg-white rounded-lg px-8  py-16 w-fit flex flex-col gap-16">
       <div className="flex gap-8">
@@ -14,11 +46,13 @@ const UserProfileInfo = () => {
         />
         <div className="flex flex-col gap-4">
           <div>
-            <h2 className="font-semibold text-4xl text-gray-950">Jon Doe</h2>
-            <p className="text-lg text-gray-500 ">@jondoe1234</p>
+            <h2 className="font-semibold text-4xl text-gray-950">
+              {userProfileData.name}
+            </h2>
+            <p className="text-lg text-gray-500 ">{userProfileData.username}</p>
           </div>
           <span className="text-xl text-gray-950 px-4 py-2 bg-blue-200 w-fit rounded-lg">
-            Buyer
+            {userProfileData.role}
           </span>
           <p className="w-1/2 text-gray-500">
             "As a lifelong resident of sunny San Diego, I bring a deep
@@ -28,7 +62,7 @@ const UserProfileInfo = () => {
             process as seamless and stress-free as possible.
           </p>
           <p className="mt-4">
-            Contact Me via:<span>jondoe@mail.com</span>
+            Contact Me via: <span>{userProfileData.email}</span>
           </p>
         </div>
       </div>

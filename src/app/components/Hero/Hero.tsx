@@ -4,6 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 import { CtaButton } from "../common";
 import { useRouter } from "next/navigation";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
+import Cookies from "js-cookie";
 
 const Hero = () => {
   const { userData } = useClientDataContext();
@@ -12,7 +13,7 @@ const Hero = () => {
   const router = useRouter();
   useEffect(() => {
     // get verification token
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token?.length) {
       router.push("/login");
     }
