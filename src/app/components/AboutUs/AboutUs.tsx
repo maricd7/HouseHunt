@@ -47,11 +47,12 @@ const AboutUs = () => {
 
   return (
     <motion.section
-      className="bg-blue-100 py-16 px-32 w-full flex gap-32 relative z-40"
+      className="bg-blue-100 py-24 px-32 w-full flex gap-32 relative z-40"
       ref={sectionRef}
       initial="hidden"
       animate={controls}
       variants={containerVariants}
+      id="about-us"
     >
       <motion.div className="flex flex-col gap-4" variants={containerVariants}>
         <motion.h2 className="text-5xl font-semibold" variants={itemVariants}>

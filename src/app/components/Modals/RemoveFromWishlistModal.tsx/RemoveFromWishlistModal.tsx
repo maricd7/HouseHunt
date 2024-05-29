@@ -24,12 +24,12 @@ const RemoveFromWishlistModal = ({
   return (
     <div className="fixed top-24 right-32 z-50 flex items-center bg-red-500 text-white p-4 rounded-lg shadow-lg animate-slide-in">
       <Icon
-        icon="mdi:check-circle"
+        icon="carbon:close"
         width="24"
         height="24"
         style={{ color: "#fff" }}
       />
-      <span>Product added to wishlist!</span>
+      <span>Product removed from wishlist!</span>
     </div>
   );
 };

@@ -12,7 +12,7 @@ interface NavLinkProps {
 const NavLink = ({ href, icon, text }: NavLinkProps) => {
   return (
     <li>
-      <Link className="flex itmes-center gap-4" href={href}>
+      <Link className="flex itmes-center gap-4 hover:text-blue-700" href={href}>
         <Icon
           icon={"carbon:" + icon}
           width="24"
