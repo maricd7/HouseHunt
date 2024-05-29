@@ -3,8 +3,11 @@ import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { CtaButton } from "../common";
 import { useRouter } from "next/navigation";
+import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 const Hero = () => {
+  const { userData } = useClientDataContext();
+
   const controls = useAnimation();
   const router = useRouter();
   useEffect(() => {
@@ -22,7 +25,7 @@ const Hero = () => {
         ease: "easeOut",
       },
     });
-  }, [controls]);
+  }, [controls, userData]);
 
   const containerVariants = {
     hidden: { opacity: 0 },

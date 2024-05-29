@@ -1,7 +1,12 @@
+import { ClientDataContextProvider } from "@/app/contexts/ClientDataContext";
 import React from "react";
 
 const UserProfile = () => {
-  return <div>UserProfile</div>;
+  return (
+    <ClientDataContextProvider>
+      <div>UserProfile</div>
+    </ClientDataContextProvider>
+  );
 };
 
 export default UserProfile;

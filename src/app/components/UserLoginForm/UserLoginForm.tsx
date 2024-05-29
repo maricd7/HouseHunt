@@ -3,12 +3,16 @@ import React, { useRef, useState } from "react";
 import { CtaButton, Input } from "../common";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useClientDataContext } from "@/app/contexts/ClientDataContext";
+import Cookies from "js-cookie";
 
 const UserLoginForm = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+
+  const { setUserData } = useClientDataContext();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,10 +43,14 @@ const UserLoginForm = () => {
 
       const { token } = result;
       const { userData } = result;
-      console.log(userData, "user");
+      setUserData(userData);
 
-      // Store the token (e.g., in localStorage or cookies)
-      localStorage.setItem("token", token);
+      //storing the token to cookies
+      Cookies.set("token", JSON.stringify(token), {
+        expires: 7,
+        secure: true,
+        sameSite: "strict",
+      });
 
       if (token) {
         router.push("/");

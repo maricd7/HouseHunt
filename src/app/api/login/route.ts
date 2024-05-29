@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import supabase from '@/app/supabase';
 
 
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
       if (!match) {
         return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
       }
+      
   
       const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
       
