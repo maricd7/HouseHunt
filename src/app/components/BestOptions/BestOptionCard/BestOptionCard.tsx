@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { PropertyType } from "../../common";
 
 interface BestOptionCardProps {
   name: string;
@@ -12,6 +13,7 @@ interface BestOptionCardProps {
   bathrooms: number;
   address: string;
   id: number;
+  property_type: string;
 }
 
 function BestOptionCard({
@@ -22,11 +24,12 @@ function BestOptionCard({
   bathrooms,
   address,
   id,
+  property_type,
 }: BestOptionCardProps) {
   return (
     <Link
       href={"/listings/" + id}
-      className="bg-white rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer"
+      className="bg-white h-full rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer relative"
     >
       <Image
         className="rounded-lg "
@@ -35,6 +38,7 @@ function BestOptionCard({
         alt="Hero Card Name"
         src={image}
       />
+      <PropertyType property_type={property_type} />
       <div className="flex flex-col gap-2">
         <h4 className="text-2xl font-semibold text-gray-950">{name}</h4>
         <p>{description}</p>

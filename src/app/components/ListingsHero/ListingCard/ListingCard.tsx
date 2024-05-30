@@ -47,8 +47,11 @@ const ListingCard = ({ property }: ListingCardProps) => {
   };
 
   return (
-    <div className="z-10 max-w-sm rounded-lg overflow-hidden shadow-lg bg-white p-4 w-72 cursor-pointer border border-gray-300  hover:border-blue-700 flex flex-col gap-4 relative">
-      <div onClick={handleWishlistClick}>
+    <div className="z-10 max-w-sm rounded-lg overflow-hidden shadow-lg p-2 w-72 cursor-pointer border border-gray-300  hover:border-blue-700 flex flex-col gap-4 relative">
+      <div
+        className="absolute top-6 left-6 hover text-white z-40 bg-white p-1 rounded-md"
+        onClick={handleWishlistClick}
+      >
         <AddToWishListButton property={property} />
       </div>
       <Link href={`/listings/${id}`}>

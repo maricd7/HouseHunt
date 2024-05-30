@@ -7,4 +7,5 @@ export interface Property {
   bathrooms: number;
   image: string;
   address: string;
+  property_type: string;
 }

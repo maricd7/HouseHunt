@@ -16,16 +16,10 @@ const AddToWishListButton = ({ property }: AddToWishListButtonProps) => {
 
   return (
     <Icon
-      className="absolute top-6 right-6 hover text-white z-40"
       icon="carbon:location-heart-filled"
-      width="32"
-      height="32"
+      width="24"
+      height="24"
       style={{ color: iconColor }}
-      onClick={
-        isInWishlist(property)
-          ? () => removeFromWishlist(property)
-          : () => addToWishlist(property)
-      }
     />
   );
 };

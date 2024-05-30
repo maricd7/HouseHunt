@@ -9,7 +9,7 @@ const ListingsContainer = () => {
   const { properties } = usePropertiesContext();
 
   return (
-    <div className="bg-blue-100 p-8 justify-between rounded-lg flex flex-wrap gap-4">
+    <div className="p-8 justify-between rounded-lg flex flex-wrap gap-4">
       {properties.length
         ? properties.map((property, index) => (
             <ListingCard property={property} key={index} />

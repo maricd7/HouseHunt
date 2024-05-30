@@ -2,14 +2,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import BestOptionCard from "./BestOptionCard/BestOptionCard";
-import BestOptionMain from "./BestOptionCard/BestOptionMain";
 import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
+import { CtaButton } from "../common";
+import { useRouter } from "next/navigation";
 
 const BestOptions = () => {
   const { specialOffer } = usePropertiesContext();
   const controls = useAnimation();
   const [inView, setInView] = useState(false);
   const sectionRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -52,7 +54,7 @@ const BestOptions = () => {
 
   return (
     <motion.section
-      className="bg-white px-32 w-full relative z-40 py-16"
+      className="bg-white px-32 w-full relative z-40 py-16 flex flex-col gap-4 justify-center items-center"
       ref={sectionRef}
       initial="hidden"
       animate={controls}
@@ -65,12 +67,11 @@ const BestOptions = () => {
         className="flex gap-8 mt-8 justify-between"
         variants={itemVariants}
       >
-        <BestOptionMain />
         <motion.div
-          className="flex flex-col gap-8 w-full"
+          className="grid grid-cols-2 gap-8 w-full"
           variants={containerVariants}
         >
-          {specialOffer.slice(0, 3).map((property, index) => (
+          {specialOffer.slice(0, 4).map((property, index) => (
             <motion.div key={index} variants={itemVariants}>
               <BestOptionCard
                 id={property.id}
@@ -80,11 +81,17 @@ const BestOptions = () => {
                 bedrooms={property.bedrooms}
                 bathrooms={property.bathrooms}
                 address={property.address}
+                property_type={property.property_type}
               />
             </motion.div>
           ))}
         </motion.div>
       </motion.div>
+      <CtaButton
+        text="View All"
+        type="button"
+        onClick={() => router.push("/listings")}
+      />
     </motion.section>
   );
 };

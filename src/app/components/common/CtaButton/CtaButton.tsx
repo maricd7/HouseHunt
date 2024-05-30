@@ -10,7 +10,7 @@ const CtaButton = ({ text, type, onClick }: CtaButtonProps) => {
     <button
       type={type}
       onClick={onClick}
-      className="py-4 px-8 bg-blue-700 w-full rounded-full text-white hover:bg-blue-900"
+      className="py-4 px-8 bg-blue-700 min-w-64 w-fit rounded-full text-white hover:bg-blue-900"
     >
       {text}
     </button>
