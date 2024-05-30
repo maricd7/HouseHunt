@@ -13,9 +13,9 @@ const PropertyDetail = ({ iconName, text }: PropertyDetailProps) => {
         icon={iconName}
         width="24"
         height="24"
-        style={{ color: " #1f2937" }}
+        style={{ color: "#1f2937" }}
       />
-      <p className="text-md text-gray-800">{text}</p>
+      <p className="text-sm text-gray-800">{text}</p>
     </div>
   );
 };
