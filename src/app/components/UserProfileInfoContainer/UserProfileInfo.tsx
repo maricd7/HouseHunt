@@ -4,10 +4,12 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Cookies from "js-cookie";
+import { UserProfileBiography } from "../UserProfileBiography";
 
 const UserProfileInfo = () => {
   const params = useParams();
   const [userProfileData, setUserProfileData] = useState<any>({});
+  const [userBiography, setUserBiography] = useState<string>("");
 
   useEffect(() => {
     const userDataFromCookie = Cookies.get("userData");
@@ -26,7 +28,7 @@ const UserProfileInfo = () => {
       try {
         const { data, error } = await supabase
           .from("users")
-          .select("name,email,username,role")
+          .select("name,email,username,role,biography")
           .eq("username", params.slug);
         if (data?.length) {
           setUserProfileData(data[0]);
@@ -38,7 +40,8 @@ const UserProfileInfo = () => {
 
     getUserProfileData();
   }, [params]);
-  console.log(userProfileData);
+
+  const editBiography = () => {};
   return (
     <div className="bg-white rounded-lg px-8  py-16 w-fit flex flex-col gap-16">
       <div className="flex gap-8">
@@ -59,13 +62,7 @@ const UserProfileInfo = () => {
           <span className="text-xl text-gray-950 px-4 py-2 bg-blue-200 w-fit rounded-lg">
             {userProfileData.role}
           </span>
-          <p className="w-1/2 text-gray-500">
-            "As a lifelong resident of sunny San Diego, I bring a deep
-            understanding of the local real estate market. With over a decade of
-            experience, I am dedicated to helping my clients find their dream
-            homes. Whether you're buying or selling, my goal is to make the
-            process as seamless and stress-free as possible.
-          </p>
+          <UserProfileBiography biography={userProfileData.biography} />
           <p className="mt-4">
             Contact Me via: <span>{userProfileData.email}</span>
           </p>

@@ -35,6 +35,7 @@ export async function POST(request: Request) {
         name:data[0].name,
         username:data[0].username,
         role:data[0].role,
+        biography:data[0].biography,
      }
 
       const match = await bcrypt.compare(password, user.password);
