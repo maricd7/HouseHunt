@@ -6,7 +6,7 @@ interface PropertyTypeProps {
 
 const PropertyType = ({ property_type }: PropertyTypeProps) => {
   return (
-    <span className="absolute bottom-8 left-8 bg-white p-2 rounded-md text-sm font-semibold">
+    <span className="bg-white p-2 rounded-md text-sm font-semibold">
       {property_type}
     </span>
   );

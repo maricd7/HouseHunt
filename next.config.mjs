@@ -8,6 +8,7 @@ const nextConfig = {
       "www.bostonmagazine.com",
       "res.cloudinary.com",
       "i.lmpm.com",
+      "www.familyhomeplans.com",
     ],
   },
 };

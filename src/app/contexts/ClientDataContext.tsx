@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { UserInterface } from "../types/User";
 import Cookies from "js-cookie";
+import supabase from "../supabase";
 
 interface ClientDataContextProps {
   userData: UserInterface | undefined;
@@ -28,7 +29,8 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
     }
     return undefined;
   });
-
+  const [currentUserId, setCurrentUserId] = useState<number>();
+  const [currentUserBiography, setCurrentUserBiography] = useState<any>();
   useEffect(() => {
     if (userData) {
       Cookies.set("userData", JSON.stringify(userData), {
@@ -36,11 +38,25 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
         secure: true,
         sameSite: "strict",
       });
+      setCurrentUserId(userData.id);
     } else {
       Cookies.remove("userData");
     }
-  }, [userData]);
 
+    const getUserBiography = async () => {
+      if (userData) {
+        const { data, error } = await supabase
+          .from("users")
+          .select()
+          .eq("id", userData.id);
+        data
+          ? setCurrentUserBiography(data[0].biography)
+          : console.log("error fetching bio");
+      }
+    };
+    getUserBiography();
+  }, [userData]);
+  console.log(currentUserBiography, "biopooo");
   const contextValue: ClientDataContextProps = {
     userData,
     setUserData,

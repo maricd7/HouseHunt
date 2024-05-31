@@ -38,7 +38,9 @@ function BestOptionCard({
         alt="Hero Card Name"
         src={image}
       />
-      <PropertyType property_type={property_type} />
+      <div className="absolute bottom-8 left-8 ">
+        <PropertyType property_type={property_type} />
+      </div>
       <div className="flex flex-col gap-2">
         <h4 className="text-2xl font-semibold text-gray-950">{name}</h4>
         <p>{description}</p>

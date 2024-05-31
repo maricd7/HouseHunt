@@ -1,21 +1,71 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import supabase from "@/app/supabase";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface UserProfileBiographyProps {
   biography: string;
+  id: number;
 }
 
-const UserProfileBiography = ({ biography }: UserProfileBiographyProps) => {
+const UserProfileBiography = ({ biography, id }: UserProfileBiographyProps) => {
   const [editBiography, setEditBiography] = useState<boolean>(false);
+  const [currentBiography, setCurrentBiography] = useState("");
+  const [userId, setUserId] = useState<number>();
 
+  useEffect(() => {
+    id ? setUserId(id) : <></>;
+  }, [id]);
+
+  const handleUpdateBiography = async (bio: string) => {
+    if (userId) {
+      const { data, error } = await supabase
+        .from("users")
+        .update({ biography: bio })
+        .eq("id", userId);
+
+      if (!error) {
+        setEditBiography(false);
+      } else {
+        console.error(error);
+      }
+    } else {
+      console.log("User id is undefined!");
+    }
+  };
+
+  const handleBiographyButtonClick = () => {
+    if (!editBiography) {
+      setEditBiography(true);
+    } else {
+      handleUpdateBiography(currentBiography);
+    }
+  };
   return (
     <div>
       {editBiography ? (
-        <textarea value={biography}></textarea>
+        <textarea
+          className="px-4 py-2 my-4 border boder-gray-200 text-md min-w-96 min-h-56"
+          value={currentBiography}
+          placeholder="Enter your biography"
+          onChange={(e) => setCurrentBiography(e.currentTarget.value)}
+        ></textarea>
       ) : (
-        <p className="w-1/2 text-gray-500">{biography}</p>
+        <p className="w-1/2 text-gray-500 text-md">{biography}</p>
       )}
+      <span
+        className="flex px-4 py-2 bg-gray-800 text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"
+        onClick={() => {
+          handleBiographyButtonClick();
+        }}
+      >
+        <Icon
+          icon="carbon:pen"
+          width="24"
+          height="24"
+          style={{ color: "#fff" }}
+        />
+        {editBiography ? "Save Biography" : "Edit Bio"}
+      </span>
     </div>
   );
 };

@@ -9,13 +9,11 @@ import { UserProfileBiography } from "../UserProfileBiography";
 const UserProfileInfo = () => {
   const params = useParams();
   const [userProfileData, setUserProfileData] = useState<any>({});
-  const [userBiography, setUserBiography] = useState<string>("");
 
   useEffect(() => {
     const userDataFromCookie = Cookies.get("userData");
     if (userDataFromCookie) {
       const parsedUserData = JSON.parse(userDataFromCookie);
-      console.log(parsedUserData);
       if (params.slug !== parsedUserData.username) {
         getUserProfileData();
       }
@@ -41,7 +39,7 @@ const UserProfileInfo = () => {
     getUserProfileData();
   }, [params]);
 
-  const editBiography = () => {};
+  console.log(userProfileData);
   return (
     <div className="bg-white rounded-lg px-8  py-16 w-fit flex flex-col gap-16">
       <div className="flex gap-8">
@@ -62,7 +60,10 @@ const UserProfileInfo = () => {
           <span className="text-xl text-gray-950 px-4 py-2 bg-blue-200 w-fit rounded-lg">
             {userProfileData.role}
           </span>
-          <UserProfileBiography biography={userProfileData.biography} />
+          <UserProfileBiography
+            biography={userProfileData.biography}
+            id={userProfileData.id}
+          />
           <p className="mt-4">
             Contact Me via: <span>{userProfileData.email}</span>
           </p>
