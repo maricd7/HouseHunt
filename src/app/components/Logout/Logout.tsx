@@ -3,7 +3,11 @@ import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-const Logout = () => {
+
+interface LogoutProps {
+  setLogoutButton: (bool: boolean) => void;
+}
+const Logout = ({ setLogoutButton }: LogoutProps) => {
   const router = useRouter();
 
   // function for handlig logout
@@ -11,6 +15,7 @@ const Logout = () => {
     Cookies.remove("token");
     Cookies.remove("userData");
     router.push("/login");
+    setLogoutButton(false);
   };
 
   return (

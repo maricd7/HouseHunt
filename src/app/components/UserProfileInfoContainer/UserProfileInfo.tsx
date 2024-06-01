@@ -10,7 +10,7 @@ import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 const UserProfileInfo = () => {
   const params = useParams();
   const [userProfileData, setUserProfileData] = useState<any>({});
-
+  const { setCurrentUserBiography } = useClientDataContext();
   useEffect(() => {
     const userDataFromCookie = Cookies.get("userData");
     if (userDataFromCookie) {
@@ -30,6 +30,7 @@ const UserProfileInfo = () => {
           .select("name,email,username,role,biography")
           .eq("username", params.slug);
         if (data?.length) {
+          setCurrentUserBiography(data[0].biography);
           setUserProfileData(data[0]);
         }
       } catch (error) {
@@ -40,7 +41,6 @@ const UserProfileInfo = () => {
     getUserProfileData();
   }, [params]);
 
-  console.log(userProfileData);
   return (
     <div className="bg-white rounded-lg px-8  py-16 w-fit flex flex-col gap-16">
       <div className="flex gap-8">

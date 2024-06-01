@@ -36,6 +36,10 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   const [currentUserId, setCurrentUserId] = useState<number>();
   const [currentUserBiography, setCurrentUserBiography] = useState<any>();
   useEffect(() => {
+    const token = Cookies.get("token");
+    if (!token?.length) {
+      setUserData(undefined);
+    }
     if (userData) {
       Cookies.set("userData", JSON.stringify(userData), {
         expires: 7,

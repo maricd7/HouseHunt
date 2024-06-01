@@ -36,6 +36,7 @@ const UserProfileBiography = ({ id }: UserProfileBiographyProps) => {
     }
   };
 
+  // biography editor button handler
   const handleBiographyButtonClick = () => {
     if (!editBiography) {
       setEditBiography(true);
@@ -43,6 +44,7 @@ const UserProfileBiography = ({ id }: UserProfileBiographyProps) => {
       handleUpdateBiography(currentUserBiography);
     }
   };
+
   return (
     <div>
       {editBiography ? (

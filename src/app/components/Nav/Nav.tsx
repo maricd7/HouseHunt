@@ -7,8 +7,8 @@ import { Loguout } from "../Logout";
 function Nav() {
   const [userProfileSlug, setUserProfileSlug] = useState<string>("");
   const [logoutButton, setLogoutButton] = useState<boolean>(false);
+  const userDataFromCookie = Cookies.get("userData");
   useEffect(() => {
-    const userDataFromCookie = Cookies.get("userData");
     if (userDataFromCookie) {
       const parsedUserData = JSON.parse(userDataFromCookie);
       if (parsedUserData) {
@@ -16,7 +16,7 @@ function Nav() {
         setLogoutButton(true);
       }
     }
-  }, []);
+  }, [logoutButton]);
 
   const url = "/profile/" + userProfileSlug;
 
@@ -28,8 +28,12 @@ function Nav() {
         <NavLink icon="building" text="Listings" href="/listings" />
         <NavLink icon="information" text="About Us" href="../#about-us" />
         <NavLink icon="location-heart" text="Wishlist" href="/wishlist" />
-        <NavLink icon="user" text="Profile" href={url} />
-        {logoutButton ? <Loguout /> : <></>}
+        {logoutButton ? (
+          <NavLink icon="user" text="Profile" href={url} />
+        ) : (
+          <></>
+        )}
+        {logoutButton ? <Loguout setLogoutButton={setLogoutButton} /> : <></>}
       </ul>
     </nav>
   );

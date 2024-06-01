@@ -64,7 +64,7 @@ const UserLoginForm = () => {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 items-center">
       <div>
         <h1 className="text-4xl font-bold text-gray-950">Login</h1>
         <h2>Login into Your HouseHunt Account Now!</h2>
