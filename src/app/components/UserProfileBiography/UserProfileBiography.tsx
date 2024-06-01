@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import supabase from "@/app/supabase";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 interface UserProfileBiographyProps {
-  biography: string;
   id: number;
 }
 
-const UserProfileBiography = ({ biography, id }: UserProfileBiographyProps) => {
+const UserProfileBiography = ({ id }: UserProfileBiographyProps) => {
   const [editBiography, setEditBiography] = useState<boolean>(false);
-  const [currentBiography, setCurrentBiography] = useState("");
   const [userId, setUserId] = useState<number>();
+
+  //biography setters
+  const { currentUserBiography, setCurrentUserBiography } =
+    useClientDataContext();
 
   useEffect(() => {
     id ? setUserId(id) : <></>;
@@ -37,7 +40,7 @@ const UserProfileBiography = ({ biography, id }: UserProfileBiographyProps) => {
     if (!editBiography) {
       setEditBiography(true);
     } else {
-      handleUpdateBiography(currentBiography);
+      handleUpdateBiography(currentUserBiography);
     }
   };
   return (
@@ -45,12 +48,12 @@ const UserProfileBiography = ({ biography, id }: UserProfileBiographyProps) => {
       {editBiography ? (
         <textarea
           className="px-4 py-2 my-4 border boder-gray-200 text-md min-w-96 min-h-56"
-          value={currentBiography}
+          value={currentUserBiography}
           placeholder="Enter your biography"
-          onChange={(e) => setCurrentBiography(e.currentTarget.value)}
+          onChange={(e) => setCurrentUserBiography(e.currentTarget.value)}
         ></textarea>
       ) : (
-        <p className="w-1/2 text-gray-500 text-md">{biography}</p>
+        <p className="w-1/2 text-gray-500 text-md">{currentUserBiography}</p>
       )}
       <span
         className="flex px-4 py-2 bg-gray-800 text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"

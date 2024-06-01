@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Cookies from "js-cookie";
 import { UserProfileBiography } from "../UserProfileBiography";
+import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 const UserProfileInfo = () => {
   const params = useParams();
@@ -60,10 +61,7 @@ const UserProfileInfo = () => {
           <span className="text-xl text-gray-950 px-4 py-2 bg-blue-200 w-fit rounded-lg">
             {userProfileData.role}
           </span>
-          <UserProfileBiography
-            biography={userProfileData.biography}
-            id={userProfileData.id}
-          />
+          <UserProfileBiography id={userProfileData.id} />
           <p className="mt-4">
             Contact Me via: <span>{userProfileData.email}</span>
           </p>

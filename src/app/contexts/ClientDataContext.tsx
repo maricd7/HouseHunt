@@ -12,7 +12,11 @@ import supabase from "../supabase";
 
 interface ClientDataContextProps {
   userData: UserInterface | undefined;
+  currentUserBiography: string;
   setUserData: React.Dispatch<React.SetStateAction<UserInterface | undefined>>;
+  setCurrentUserBiography: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
 }
 
 const ClientDataContext = createContext<ClientDataContextProps | undefined>(
@@ -56,10 +60,12 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
     };
     getUserBiography();
   }, [userData]);
-  console.log(currentUserBiography, "biopooo");
+
   const contextValue: ClientDataContextProps = {
     userData,
     setUserData,
+    currentUserBiography,
+    setCurrentUserBiography,
   };
 
   return (
