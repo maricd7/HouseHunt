@@ -47,7 +47,7 @@ const UserProfileBiography = ({ id }: UserProfileBiographyProps) => {
     <div>
       {editBiography ? (
         <textarea
-          className="px-4 py-2 my-4 border boder-gray-200 text-md min-w-96 min-h-56"
+          className="px-4 py-2 my-4  text-md "
           value={currentUserBiography}
           placeholder="Enter your biography"
           onChange={(e) => setCurrentUserBiography(e.currentTarget.value)}
@@ -55,20 +55,34 @@ const UserProfileBiography = ({ id }: UserProfileBiographyProps) => {
       ) : (
         <p className="w-1/2 text-gray-500 text-md">{currentUserBiography}</p>
       )}
-      <span
-        className="flex px-4 py-2 bg-gray-800 text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"
-        onClick={() => {
-          handleBiographyButtonClick();
-        }}
-      >
-        <Icon
-          icon="carbon:pen"
-          width="24"
-          height="24"
-          style={{ color: "#fff" }}
-        />
-        {editBiography ? "Save Biography" : "Edit Bio"}
-      </span>
+      <div className="flex gap-4 mt-8">
+        <span
+          className="flex px-4 py-2 bg-gray-800 text-sm items-center text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"
+          onClick={() => {
+            handleBiographyButtonClick();
+          }}
+        >
+          <Icon
+            icon="carbon:pen"
+            width="24"
+            height="24"
+            style={{ color: "#fff" }}
+          />
+          {editBiography ? "Save Biography" : "Edit Bio"}
+        </span>
+        {editBiography ? (
+          <span
+            onClick={() => {
+              setEditBiography(false);
+            }}
+            className="text-sm flex items center  justify-center px-4 py-2 bg-red-800 text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"
+          >
+            Cancel
+          </span>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 };
