@@ -12,12 +12,6 @@ const Hero = () => {
   const controls = useAnimation();
   const router = useRouter();
   useEffect(() => {
-    // get verification token
-    const token = Cookies.get("token");
-    if (!token?.length) {
-      router.push("/login");
-    }
-
     controls.start({
       opacity: 1,
       y: 0,

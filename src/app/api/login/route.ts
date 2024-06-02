@@ -30,14 +30,7 @@ export async function POST(request: Request) {
   
       //declaring relevant data 
       const user = data[0];
-      const userData = {
-        email : data[0].email,
-        name:data[0].name,
-        username:data[0].username,
-        role:data[0].role,
-        biography:data[0].biography,
-        id:data[0].id,
-     }
+
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
         return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
@@ -48,7 +41,7 @@ export async function POST(request: Request) {
       
 
       //response payload
-      return NextResponse.json({ token,userData});
+      return NextResponse.json({token});
 
       //error handling 
     } catch (err: unknown) {

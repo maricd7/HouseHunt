@@ -11,9 +11,9 @@ import Cookies from "js-cookie";
 import supabase from "../supabase";
 
 interface ClientDataContextProps {
-  userData: UserInterface | undefined;
+  currentUserId: number | undefined;
   currentUserBiography: string;
-  setUserData: React.Dispatch<React.SetStateAction<UserInterface | undefined>>;
+  setCurrentUserId: React.Dispatch<React.SetStateAction<number | undefined>>;
   setCurrentUserBiography: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
@@ -26,48 +26,41 @@ const ClientDataContext = createContext<ClientDataContextProps | undefined>(
 export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [userData, setUserData] = useState<UserInterface | undefined>(() => {
-    if (typeof window !== "undefined") {
-      const savedUserData = Cookies.get("userData");
-      return savedUserData ? JSON.parse(savedUserData) : undefined;
-    }
-    return undefined;
-  });
   const [currentUserId, setCurrentUserId] = useState<number>();
   const [currentUserBiography, setCurrentUserBiography] = useState<any>();
   useEffect(() => {
     const token = Cookies.get("token");
     if (!token?.length) {
-      setUserData(undefined);
+      setCurrentUserId(undefined);
     }
-    if (userData) {
-      Cookies.set("userData", JSON.stringify(userData), {
+    if (currentUserId) {
+      Cookies.set("userId", JSON.stringify(currentUserId), {
         expires: 7,
         secure: true,
         sameSite: "strict",
       });
-      setCurrentUserId(userData.id);
+      setCurrentUserId(currentUserId);
     } else {
       Cookies.remove("userData");
     }
 
     const getUserBiography = async () => {
-      if (userData) {
+      if (currentUserId) {
         const { data, error } = await supabase
           .from("users")
           .select()
-          .eq("id", userData.id);
+          .eq("id", currentUserId);
         data
           ? setCurrentUserBiography(data[0].biography)
           : console.log("error fetching bio");
       }
     };
     getUserBiography();
-  }, [userData]);
+  }, [currentUserId]);
 
   const contextValue: ClientDataContextProps = {
-    userData,
-    setUserData,
+    currentUserId,
+    setCurrentUserId,
     currentUserBiography,
     setCurrentUserBiography,
   };

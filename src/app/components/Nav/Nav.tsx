@@ -2,23 +2,24 @@
 import React, { useState, useEffect } from "react";
 import { Logo } from "../common/Logo";
 import NavLink from "./NavLink";
-import Cookies from "js-cookie";
 import { Loguout } from "../Logout";
+
 function Nav() {
   const [userProfileSlug, setUserProfileSlug] = useState<string>("");
   const [logoutButton, setLogoutButton] = useState<boolean>(false);
-  const userDataFromCookie = Cookies.get("userData");
+  const token = window.sessionStorage.getItem("token");
+
   useEffect(() => {
-    if (userDataFromCookie) {
-      const parsedUserData = JSON.parse(userDataFromCookie);
-      if (parsedUserData) {
-        setUserProfileSlug(parsedUserData.username);
-        setLogoutButton(true);
+    if (token) {
+      try {
+        console.log("token", token);
+      } catch (err) {
+        console.log(err);
       }
     }
   }, [logoutButton]);
 
-  const url = "/profile/" + userProfileSlug;
+  const userProfileURL = "/profile/" + userProfileSlug;
 
   return (
     <nav className=" bg-white py-6 px-32 flex justify-between fixed top-0 left-0 w-full z-50 border border-gray-200">
@@ -29,11 +30,15 @@ function Nav() {
         <NavLink icon="information" text="About Us" href="../#about-us" />
         <NavLink icon="location-heart" text="Wishlist" href="/wishlist" />
         {logoutButton ? (
-          <NavLink icon="user" text="Profile" href={url} />
+          <NavLink icon="user" text="Profile" href={userProfileURL} />
         ) : (
           <></>
         )}
-        {logoutButton ? <Loguout setLogoutButton={setLogoutButton} /> : <></>}
+        {logoutButton ? (
+          <Loguout setLogoutButton={setLogoutButton} />
+        ) : (
+          <NavLink icon="login" text="Login" href="/login" />
+        )}
       </ul>
     </nav>
   );

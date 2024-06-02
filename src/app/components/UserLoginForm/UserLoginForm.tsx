@@ -12,7 +12,7 @@ const UserLoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
-  const { setUserData } = useClientDataContext();
+  const { setCurrentUserId } = useClientDataContext();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,15 +45,22 @@ const UserLoginForm = () => {
       }
 
       const { token } = result;
-      const { userData } = result;
-      setUserData(userData);
+      const { userId } = result;
+      const { userName } = result;
+
+      setCurrentUserId(userId);
 
       //storing the token to cookies
-      Cookies.set("token", JSON.stringify(token), {
-        expires: 7,
-        secure: true,
-        sameSite: "strict",
-      });
+      // Cookies.set("token", JSON.stringify(token), {
+      //   expires: 7,
+      //   secure: true,
+      //   sameSite: "strict",
+      // });
+
+      //storing token and user data to session storage
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("userId", userId);
+      sessionStorage.setItem("userName", userName);
 
       if (token) {
         router.push("/");
@@ -64,7 +71,7 @@ const UserLoginForm = () => {
   };
 
   return (
-    <div className="flex flex-col gap-8 items-center">
+    <div className="flex flex-col gap-8 items-center mt-8">
       <div>
         <h1 className="text-4xl font-bold text-gray-950">Login</h1>
         <h2>Login into Your HouseHunt Account Now!</h2>
