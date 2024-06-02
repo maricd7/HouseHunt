@@ -15,6 +15,7 @@ import { JwtPayload } from "../types/JwtPayload";
 interface ClientDataContextProps {
   currentUserId: number | undefined;
   currentUserBiography: string;
+  currentUserName: string | undefined;
   setCurrentUserId: React.Dispatch<React.SetStateAction<number | undefined>>;
   setCurrentUserBiography: React.Dispatch<
     React.SetStateAction<string | undefined>
@@ -29,14 +30,17 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [currentUserId, setCurrentUserId] = useState<number>();
+  const [currentUserName, setCurrentUserName] = useState<string>();
   const [currentUserBiography, setCurrentUserBiography] = useState<any>();
   const token = window.sessionStorage.getItem("token");
+
   useEffect(() => {
     if (!token?.length) {
       setCurrentUserId(undefined);
     } else {
       const decoded = jwtDecode<JwtPayload>(token);
       setCurrentUserId(decoded.id);
+      setCurrentUserName(decoded.username);
     }
 
     const getUserBiography = async () => {
@@ -55,8 +59,9 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const contextValue: ClientDataContextProps = {
     currentUserId,
-    setCurrentUserId,
     currentUserBiography,
+    currentUserName,
+    setCurrentUserId,
     setCurrentUserBiography,
   };
 

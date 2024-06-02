@@ -3,7 +3,10 @@ import supabase from "@/app/supabase";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
-const UserProfileBiography = () => {
+interface UserProfileBiography {
+  editPermission: boolean;
+}
+const UserProfileBiography = ({ editPermission }: UserProfileBiography) => {
   const [editBiography, setEditBiography] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>();
 
@@ -53,34 +56,38 @@ const UserProfileBiography = () => {
       ) : (
         <p className="w-1/2 text-gray-500 text-md">{currentUserBiography}</p>
       )}
-      <div className="flex gap-4 mt-8">
-        <span
-          className="flex px-4 py-2 bg-gray-800 text-sm items-center text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"
-          onClick={() => {
-            handleBiographyButtonClick();
-          }}
-        >
-          <Icon
-            icon="carbon:pen"
-            width="24"
-            height="24"
-            style={{ color: "#fff" }}
-          />
-          {editBiography ? "Save Biography" : "Edit Bio"}
-        </span>
-        {editBiography ? (
+      {editPermission ? (
+        <div className="flex gap-4 mt-8">
           <span
+            className="flex px-4 py-2 bg-gray-800 text-sm items-center text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"
             onClick={() => {
-              setEditBiography(false);
+              handleBiographyButtonClick();
             }}
-            className="text-sm flex items center  justify-center px-4 py-2 bg-red-800 text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"
           >
-            Cancel
+            <Icon
+              icon="carbon:pen"
+              width="24"
+              height="24"
+              style={{ color: "#fff" }}
+            />
+            {editBiography ? "Save Biography" : "Edit Bio"}
           </span>
-        ) : (
-          <></>
-        )}
-      </div>
+          {editBiography ? (
+            <span
+              onClick={() => {
+                setEditBiography(false);
+              }}
+              className="text-sm flex items center  justify-center px-4 py-2 bg-red-800 text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"
+            >
+              Cancel
+            </span>
+          ) : (
+            <></>
+          )}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

@@ -10,7 +10,9 @@ import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 const UserProfileInfo = () => {
   const params = useParams();
   const [userProfileData, setUserProfileData] = useState<any>({});
-  const { setCurrentUserBiography } = useClientDataContext();
+  const { setCurrentUserBiography, currentUserId, currentUserName } =
+    useClientDataContext();
+  const [editPermission, setEditPermission] = useState<boolean>(false);
 
   useEffect(() => {
     const userDataFromCookie = Cookies.get("userData");
@@ -23,7 +25,7 @@ const UserProfileInfo = () => {
       return;
     }
 
-    //using declaration for hoisting
+    //function for getting user profile data if profile is not from the logged in user (using declaration for hoisting)
     async function getUserProfileData() {
       try {
         const { data, error } = await supabase
@@ -39,6 +41,10 @@ const UserProfileInfo = () => {
       }
     }
 
+    //check if user can edit the profile
+    if (currentUserId && userProfileData.username === currentUserName) {
+      setEditPermission(true);
+    }
     getUserProfileData();
   }, [params]);
 
@@ -62,7 +68,7 @@ const UserProfileInfo = () => {
           <span className="text-xl text-gray-950 px-4 py-2 bg-blue-200 w-fit rounded-lg">
             {userProfileData.role}
           </span>
-          <UserProfileBiography />
+          <UserProfileBiography editPermission={editPermission} />
           <p className="mt-4">
             Contact Me via: <span>{userProfileData.email}</span>
           </p>
