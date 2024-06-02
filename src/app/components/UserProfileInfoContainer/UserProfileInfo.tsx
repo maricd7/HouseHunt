@@ -11,6 +11,7 @@ const UserProfileInfo = () => {
   const params = useParams();
   const [userProfileData, setUserProfileData] = useState<any>({});
   const { setCurrentUserBiography } = useClientDataContext();
+
   useEffect(() => {
     const userDataFromCookie = Cookies.get("userData");
     if (userDataFromCookie) {
@@ -61,7 +62,7 @@ const UserProfileInfo = () => {
           <span className="text-xl text-gray-950 px-4 py-2 bg-blue-200 w-fit rounded-lg">
             {userProfileData.role}
           </span>
-          <UserProfileBiography id={userProfileData.id} />
+          <UserProfileBiography />
           <p className="mt-4">
             Contact Me via: <span>{userProfileData.email}</span>
           </p>

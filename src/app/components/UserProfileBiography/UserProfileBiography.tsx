@@ -3,21 +3,17 @@ import supabase from "@/app/supabase";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
-interface UserProfileBiographyProps {
-  id: number;
-}
-
-const UserProfileBiography = ({ id }: UserProfileBiographyProps) => {
+const UserProfileBiography = () => {
   const [editBiography, setEditBiography] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>();
 
   //biography setters
-  const { currentUserBiography, setCurrentUserBiography } =
+  const { currentUserBiography, setCurrentUserBiography, currentUserId } =
     useClientDataContext();
 
   useEffect(() => {
-    id ? setUserId(id) : <></>;
-  }, [id]);
+    setUserId(currentUserId);
+  }, [currentUserId]);
 
   const handleUpdateBiography = async (bio: string) => {
     if (userId) {

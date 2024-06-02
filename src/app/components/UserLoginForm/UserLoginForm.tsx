@@ -4,7 +4,8 @@ import { CtaButton, Input } from "../common";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
-import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "@/app/types/JwtPayload";
 
 const UserLoginForm = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -45,24 +46,14 @@ const UserLoginForm = () => {
       }
 
       const { token } = result;
-      const { userId } = result;
-      const { userName } = result;
-
-      setCurrentUserId(userId);
-
-      //storing the token to cookies
-      // Cookies.set("token", JSON.stringify(token), {
-      //   expires: 7,
-      //   secure: true,
-      //   sameSite: "strict",
-      // });
 
       //storing token and user data to session storage
       sessionStorage.setItem("token", token);
-      sessionStorage.setItem("userId", userId);
-      sessionStorage.setItem("userName", userName);
 
       if (token) {
+        const decoded = jwtDecode<JwtPayload>(token);
+        console.log("asdasdasd", decoded.id);
+        setCurrentUserId(decoded.id);
         router.push("/");
       }
     } catch (error: any) {

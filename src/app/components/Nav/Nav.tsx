@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Logo } from "../common/Logo";
 import NavLink from "./NavLink";
 import { Loguout } from "../Logout";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "@/app/types/JwtPayload";
 
 function Nav() {
   const [userProfileSlug, setUserProfileSlug] = useState<string>("");
@@ -12,7 +14,10 @@ function Nav() {
   useEffect(() => {
     if (token) {
       try {
-        console.log("token", token);
+        const decoded = jwtDecode<JwtPayload>(token);
+        setUserProfileSlug(decoded.username);
+        setLogoutButton(true);
+        console.log("token", decoded);
       } catch (err) {
         console.log(err);
       }

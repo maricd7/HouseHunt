@@ -10,10 +10,10 @@ interface LogoutProps {
 const Logout = ({ setLogoutButton }: LogoutProps) => {
   const router = useRouter();
 
-  // function for handlig logout
+  // function for handling logout
   const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("userData");
+    sessionStorage.removeItem("token");
+
     router.push("/login");
     setLogoutButton(false);
   };

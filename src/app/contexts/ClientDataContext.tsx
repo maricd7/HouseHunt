@@ -9,6 +9,8 @@ import React, {
 import { UserInterface } from "../types/User";
 import Cookies from "js-cookie";
 import supabase from "../supabase";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "../types/JwtPayload";
 
 interface ClientDataContextProps {
   currentUserId: number | undefined;
@@ -28,20 +30,13 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [currentUserId, setCurrentUserId] = useState<number>();
   const [currentUserBiography, setCurrentUserBiography] = useState<any>();
+  const token = window.sessionStorage.getItem("token");
   useEffect(() => {
-    const token = Cookies.get("token");
     if (!token?.length) {
       setCurrentUserId(undefined);
-    }
-    if (currentUserId) {
-      Cookies.set("userId", JSON.stringify(currentUserId), {
-        expires: 7,
-        secure: true,
-        sameSite: "strict",
-      });
-      setCurrentUserId(currentUserId);
     } else {
-      Cookies.remove("userData");
+      const decoded = jwtDecode<JwtPayload>(token);
+      setCurrentUserId(decoded.id);
     }
 
     const getUserBiography = async () => {
@@ -56,7 +51,7 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
       }
     };
     getUserBiography();
-  }, [currentUserId]);
+  }, [currentUserId, token]);
 
   const contextValue: ClientDataContextProps = {
     currentUserId,
