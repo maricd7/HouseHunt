@@ -9,7 +9,7 @@ const ListingCardMainInfo = ({
   description,
 }: ListingCardMainInfoProps) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 mt-4">
       <h2 className="text-2xl font-semibold w-fit">{name}</h2>
       <p className="text-gray-400">{description}</p>
     </div>

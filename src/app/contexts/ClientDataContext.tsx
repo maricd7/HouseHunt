@@ -6,15 +6,13 @@ import React, {
   ReactNode,
   useContext,
 } from "react";
-import { UserInterface } from "../types/User";
-import Cookies from "js-cookie";
 import supabase from "../supabase";
-import { jwtDecode } from "jwt-decode";
+import useSessionToken from "../hooks/useSessionToken";
 import { JwtPayload } from "../types/JwtPayload";
 
 interface ClientDataContextProps {
   currentUserId: number | undefined;
-  currentUserBiography: string;
+  currentUserBiography: string | undefined;
   currentUserName: string | undefined;
   setCurrentUserId: React.Dispatch<React.SetStateAction<number | undefined>>;
   setCurrentUserBiography: React.Dispatch<
@@ -29,18 +27,19 @@ const ClientDataContext = createContext<ClientDataContextProps | undefined>(
 export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [currentUserId, setCurrentUserId] = useState<number>();
-  const [currentUserName, setCurrentUserName] = useState<string>();
-  const [currentUserBiography, setCurrentUserBiography] = useState<any>();
-  const token = window.sessionStorage.getItem("token");
+  const { decodedToken } = useSessionToken();
+  const [currentUserId, setCurrentUserId] = useState<number | undefined>();
+  const [currentUserName, setCurrentUserName] = useState<string | undefined>();
+  const [currentUserBiography, setCurrentUserBiography] = useState<
+    string | undefined
+  >("");
 
   useEffect(() => {
-    if (!token?.length) {
-      setCurrentUserId(undefined);
+    if (decodedToken) {
+      setCurrentUserId(decodedToken.id);
+      setCurrentUserName(decodedToken.username);
     } else {
-      const decoded = jwtDecode<JwtPayload>(token);
-      setCurrentUserId(decoded.id);
-      setCurrentUserName(decoded.username);
+      setCurrentUserId(undefined);
     }
 
     const getUserBiography = async () => {
@@ -49,13 +48,15 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
           .from("users")
           .select()
           .eq("id", currentUserId);
-        data
-          ? setCurrentUserBiography(data[0].biography)
-          : console.log("error fetching bio");
+        if (data) {
+          setCurrentUserBiography(data[0].biography);
+        } else {
+          console.log("error fetching bio");
+        }
       }
     };
     getUserBiography();
-  }, [currentUserId, token]);
+  }, [currentUserId, decodedToken]);
 
   const contextValue: ClientDataContextProps = {
     currentUserId,
@@ -77,7 +78,7 @@ export const useClientDataContext = () => {
 
   if (!clientDataContext) {
     throw new Error(
-      "No PropertiesContext.Provider found when calling useClientDataContext."
+      "No ClientDataContext.Provider found when calling useClientDataContext."
     );
   }
   return clientDataContext;

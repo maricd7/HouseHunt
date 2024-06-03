@@ -3,31 +3,25 @@ import React, { useState, useEffect } from "react";
 import { Logo } from "../common/Logo";
 import NavLink from "./NavLink";
 import { Loguout } from "../Logout";
-import { jwtDecode } from "jwt-decode";
-import { JwtPayload } from "@/app/types/JwtPayload";
+import useSessionToken from "@/app/hooks/useSessionToken";
 
 function Nav() {
-  const [userProfileSlug, setUserProfileSlug] = useState<string>("");
+  const { decodedToken } = useSessionToken();
   const [logoutButton, setLogoutButton] = useState<boolean>(false);
-  const token = window.sessionStorage.getItem("token");
 
   useEffect(() => {
-    if (token) {
-      try {
-        const decoded = jwtDecode<JwtPayload>(token);
-        setUserProfileSlug(decoded.username);
-        setLogoutButton(true);
-        console.log("token", decoded);
-      } catch (err) {
-        console.log(err);
-      }
+    if (decodedToken) {
+      setLogoutButton(true);
+    } else {
+      setLogoutButton(false);
     }
-  }, [logoutButton]);
+  }, [decodedToken]);
 
-  const userProfileURL = "/profile/" + userProfileSlug;
+  const userProfileURL =
+    "/profile/" + (decodedToken ? decodedToken.username : "");
 
   return (
-    <nav className=" bg-white py-6 px-32 flex justify-between fixed top-0 left-0 w-full z-50 border border-gray-200">
+    <nav className="bg-white py-6 px-32 flex justify-between fixed top-0 left-0 w-full z-50 border border-gray-200">
       <Logo />
       <ul className="flex gap-8">
         <NavLink icon="home" text="Home" href="/" />
@@ -36,9 +30,7 @@ function Nav() {
         <NavLink icon="location-heart" text="Wishlist" href="/wishlist" />
         {logoutButton ? (
           <NavLink icon="user" text="Profile" href={userProfileURL} />
-        ) : (
-          <></>
-        )}
+        ) : null}
         {logoutButton ? (
           <Loguout setLogoutButton={setLogoutButton} />
         ) : (

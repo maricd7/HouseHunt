@@ -54,7 +54,7 @@ const BestOptions = () => {
 
   return (
     <motion.section
-      className="bg-white px-32 w-full relative z-40 py-16 flex flex-col gap-4 justify-center items-center"
+      className="bg-white px-32 w-full relative z-40 py-16 flex flex-col gap-8 justify-center items-center"
       ref={sectionRef}
       initial="hidden"
       animate={controls}
