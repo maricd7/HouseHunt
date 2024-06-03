@@ -23,6 +23,7 @@ const ListingCard = ({ property }: ListingCardProps) => {
     bathrooms,
     bedrooms,
     property_type,
+    price,
   } = property;
 
   return (
@@ -46,6 +47,7 @@ const ListingCard = ({ property }: ListingCardProps) => {
           <PropertyDetail text={address} iconName="carbon:location-filled" />
           <PropertyDetail text={bathrooms} iconName="iconoir:bathroom" />
           <PropertyDetail text={bedrooms} iconName="mdi:bed-outline" />
+          <span className="text-2xl font-semibold">${price}</span>
         </div>
       </Link>
     </div>
