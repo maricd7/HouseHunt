@@ -6,9 +6,10 @@ import supabase from "@/app/supabase";
 
 interface UserAvatarProps {
   userId: number;
+  editPermission: boolean;
 }
 
-const UserProfileAvatar = ({ userId }: UserAvatarProps) => {
+const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [avatar, setAvatar] = useState<string>("");
@@ -16,7 +17,6 @@ const UserProfileAvatar = ({ userId }: UserAvatarProps) => {
   const handleChangeAvatar = () => {
     setUploading((prevState) => !prevState);
   };
-
   const uploadAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     if (!file) {
@@ -47,17 +47,21 @@ const UserProfileAvatar = ({ userId }: UserAvatarProps) => {
 
   return (
     <div className="relative">
-      <div
-        className="bg-gray-800 absolute bottom-16 right-4 rounded-full cursor-pointer p-2 hover:shadow-lg"
-        onClick={handleChangeAvatar}
-      >
-        <Icon
-          icon="carbon:edit"
-          width="32"
-          height="32"
-          style={{ color: "#fff" }}
-        />
-      </div>
+      {editPermission ? (
+        <div
+          className="bg-gray-800 absolute bottom-16 right-4 rounded-full cursor-pointer p-2 hover:shadow-lg"
+          onClick={handleChangeAvatar}
+        >
+          <Icon
+            icon="carbon:edit"
+            width="32"
+            height="32"
+            style={{ color: "#fff" }}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
       <Image
         width={256}
         height={256}

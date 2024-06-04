@@ -44,6 +44,7 @@ const UserProfileBiography = ({ editPermission }: UserProfileBiography) => {
     if (!editBiography) {
       setEditBiography(true);
     } else {
+      setEditBiography(true);
       handleUpdateBiography(currentUserBiography);
     }
   };

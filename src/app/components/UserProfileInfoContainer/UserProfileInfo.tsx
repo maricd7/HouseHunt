@@ -39,13 +39,16 @@ const UserProfileInfo = () => {
       setEditPermission(true);
     }
     getUserProfileData();
-  }, [params]);
+  }, [params, userProfileData]);
 
   return (
     <div className="bg-white rounded-lg px-8 py-16 w-full flex flex-col gap-16">
       <div className="flex gap-8">
         {userProfileData.id ? (
-          <UserProfileAvatar userId={userProfileData.id} />
+          <UserProfileAvatar
+            userId={userProfileData.id}
+            editPermission={editPermission}
+          />
         ) : (
           <></>
         )}
