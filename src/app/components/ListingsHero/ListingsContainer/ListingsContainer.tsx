@@ -1,9 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import ListingCard from "../ListingCard/ListingCard";
 import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
 import ListingCardLoading from "../ListingCard/ListinCardLoading";
-import { AddToWishListModal } from "../../Modals/AddToWishlistModal";
 
 const ListingsContainer = () => {
   const { properties } = usePropertiesContext();

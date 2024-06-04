@@ -12,6 +12,7 @@
     "@supabase/supabase-js": "^2.43.2",
     "@types/jwt-decode": "^3.1.0",
     "bcryptjs": "^2.4.3",
+    "formidable": "^3.5.1",
     "framer-motion": "^11.2.4",
     "iron-session": "^8.0.1",
     "js-cookie": "^3.0.5",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@iconify/react": "^4.1.1",
     "@types/bcryptjs": "^2.4.6",
+    "@types/formidable": "^3.4.5",
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",

@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import Cookies from "js-cookie";
 import { UserProfileBiography } from "../UserProfileBiography";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
+import { UserProfileAvatar } from "../UserProfileAvatar";
 
 const UserProfileInfo = () => {
   const params = useParams();
@@ -30,7 +31,7 @@ const UserProfileInfo = () => {
       try {
         const { data, error } = await supabase
           .from("users")
-          .select("name,email,username,role,biography")
+          .select("name,email,username,role,biography,avatar")
           .eq("username", params.slug);
         if (data?.length) {
           setCurrentUserBiography(data[0].biography);
@@ -51,13 +52,11 @@ const UserProfileInfo = () => {
   return (
     <div className="bg-white rounded-lg px-8 py-16 w-full flex flex-col gap-16">
       <div className="flex gap-8">
-        <Image
-          width={256}
-          height={256}
-          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D.jpg"
-          alt="Profile Picture"
-          className="rounded-full"
-        />
+        {userProfileData.avatar ? (
+          <UserProfileAvatar avatar={userProfileData.avatar} />
+        ) : (
+          <></>
+        )}
         <div className="flex flex-col gap-4">
           <div>
             <h2 className="font-semibold text-4xl text-gray-950">
