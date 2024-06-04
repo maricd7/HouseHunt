@@ -11,8 +11,12 @@ const UserProfileBiography = ({ editPermission }: UserProfileBiography) => {
   const [userId, setUserId] = useState<number>();
 
   //biography setters
-  const { currentUserBiography, setCurrentUserBiography, currentUserId } =
-    useClientDataContext();
+  const {
+    currentUserBiography,
+    setCurrentUserBiography,
+    currentUserId,
+    ogUserBio,
+  } = useClientDataContext();
 
   useEffect(() => {
     setUserId(currentUserId);
@@ -42,6 +46,12 @@ const UserProfileBiography = ({ editPermission }: UserProfileBiography) => {
     } else {
       handleUpdateBiography(currentUserBiography);
     }
+  };
+
+  // cancel edit handler
+  const handleCancelEdit = () => {
+    setEditBiography(false);
+    setCurrentUserBiography(ogUserBio);
   };
 
   return (
@@ -75,7 +85,7 @@ const UserProfileBiography = ({ editPermission }: UserProfileBiography) => {
           {editBiography ? (
             <span
               onClick={() => {
-                setEditBiography(false);
+                handleCancelEdit();
               }}
               className="text-sm flex items center  justify-center px-4 py-2 bg-red-800 text-white w-fit rounded-md cursor-pointer hover:bg-gray-950"
             >

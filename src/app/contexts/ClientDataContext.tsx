@@ -8,12 +8,12 @@ import React, {
 } from "react";
 import supabase from "../supabase";
 import useSessionToken from "../hooks/useSessionToken";
-import { JwtPayload } from "../types/JwtPayload";
 
 interface ClientDataContextProps {
   currentUserId: number | undefined;
   currentUserBiography: string | undefined;
   currentUserName: string | undefined;
+  ogUserBio: string | undefined;
   setCurrentUserId: React.Dispatch<React.SetStateAction<number | undefined>>;
   setCurrentUserBiography: React.Dispatch<
     React.SetStateAction<string | undefined>
@@ -33,6 +33,7 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   const [currentUserBiography, setCurrentUserBiography] = useState<
     string | undefined
   >("");
+  const [ogUserBio, setOgUserBio] = useState<string | undefined>("");
 
   useEffect(() => {
     if (decodedToken) {
@@ -50,6 +51,7 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
           .eq("id", currentUserId);
         if (data) {
           setCurrentUserBiography(data[0].biography);
+          setOgUserBio(data[0].biography);
         } else {
           console.log("error fetching bio");
         }
@@ -62,6 +64,7 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
     currentUserId,
     currentUserBiography,
     currentUserName,
+    ogUserBio,
     setCurrentUserId,
     setCurrentUserBiography,
   };
