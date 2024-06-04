@@ -11,27 +11,19 @@ import { UserProfileAvatar } from "../UserProfileAvatar";
 const UserProfileInfo = () => {
   const params = useParams();
   const [userProfileData, setUserProfileData] = useState<any>({});
+
   const { setCurrentUserBiography, currentUserId, currentUserName } =
     useClientDataContext();
+
   const [editPermission, setEditPermission] = useState<boolean>(false);
 
   useEffect(() => {
-    const userDataFromCookie = Cookies.get("userData");
-    if (userDataFromCookie) {
-      const parsedUserData = JSON.parse(userDataFromCookie);
-      if (params.slug !== parsedUserData.username) {
-        getUserProfileData();
-      }
-      setUserProfileData(parsedUserData);
-      return;
-    }
-
     //function for getting user profile data if profile is not from the logged in user (using declaration for hoisting)
     async function getUserProfileData() {
       try {
         const { data, error } = await supabase
           .from("users")
-          .select("name,email,username,role,biography,avatar")
+          .select("id,name,email,username,role,biography")
           .eq("username", params.slug);
         if (data?.length) {
           setCurrentUserBiography(data[0].biography);
@@ -52,8 +44,8 @@ const UserProfileInfo = () => {
   return (
     <div className="bg-white rounded-lg px-8 py-16 w-full flex flex-col gap-16">
       <div className="flex gap-8">
-        {userProfileData.avatar ? (
-          <UserProfileAvatar avatar={userProfileData.avatar} />
+        {userProfileData.id ? (
+          <UserProfileAvatar userId={userProfileData.id} />
         ) : (
           <></>
         )}

@@ -9,6 +9,7 @@ const nextConfig = {
       "res.cloudinary.com",
       "i.lmpm.com",
       "www.familyhomeplans.com",
+      "xyzpokhxjitbvvqxdwrz.supabase.co",
     ],
   },
 };

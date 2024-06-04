@@ -1,16 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import supabase from "@/app/supabase";
 
 interface UserAvatarProps {
-  avatar: string;
+  userId: number;
 }
 
-const UserProfileAvatar = ({ avatar }: UserAvatarProps) => {
+const UserProfileAvatar = ({ userId }: UserAvatarProps) => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [avatar, setAvatar] = useState<string>("");
 
   const handleChangeAvatar = () => {
     setUploading((prevState) => !prevState);
@@ -26,7 +27,7 @@ const UserProfileAvatar = ({ avatar }: UserAvatarProps) => {
     console.log(avatarFile, "fajl");
     const { data, error } = await supabase.storage
       .from("avatars")
-      .upload(`public/${avatarFile.name}`, avatarFile, {
+      .upload(`public/${userId}/${avatarFile.name}`, avatarFile, {
         cacheControl: "3600",
         upsert: false,
       });
@@ -35,10 +36,19 @@ const UserProfileAvatar = ({ avatar }: UserAvatarProps) => {
     }
   };
 
+  useEffect(() => {
+    const { data } = supabase.storage
+      .from("avatars")
+      .getPublicUrl(`public/${userId}/avatar.jpg`);
+    if (data) {
+      setAvatar(data.publicUrl);
+    }
+  }, []);
+
   return (
     <div className="relative">
       <div
-        className="bg-gray-800 absolute bottom-20 right-4 rounded-full cursor-pointer p-2 hover:shadow-lg"
+        className="bg-gray-800 absolute bottom-16 right-4 rounded-full cursor-pointer p-2 hover:shadow-lg"
         onClick={handleChangeAvatar}
       >
         <Icon
