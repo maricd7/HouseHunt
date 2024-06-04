@@ -26,6 +26,7 @@ function Nav() {
       <ul className="flex gap-8">
         <NavLink icon="home" text="Home" href="/" />
         <NavLink icon="building" text="Listings" href="/listings" />
+        <NavLink icon="user-multiple" text="Members" href="/members" />
         <NavLink icon="information" text="About Us" href="../#about-us" />
         <NavLink icon="location-heart" text="Wishlist" href="/wishlist" />
         {logoutButton ? (
