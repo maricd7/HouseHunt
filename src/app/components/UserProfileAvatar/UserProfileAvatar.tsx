@@ -13,37 +13,83 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [avatar, setAvatar] = useState<string>("");
+  const [originalAvatar, setOriginalAvatar] = useState<string>("");
+  const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleChangeAvatar = () => {
     setUploading((prevState) => !prevState);
   };
-  const uploadAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    if (!file) {
+
+  const profileAvatarFileSetter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files && e.target.files[0];
+    if (!selectedFile) {
       setError("You must choose a file to upload!");
       return;
     }
-    const avatarFile = file;
-    console.log(avatarFile, "fajl");
-    const { data, error } = await supabase.storage
-      .from("avatars")
-      .upload(`public/${userId}/${avatarFile.name}`, avatarFile, {
-        cacheControl: "3600",
-        upsert: false,
-      });
-    if (data) {
-      console.log(data, "data");
+    const newAvatarFile = new File([selectedFile], "avatar.jpg", {
+      type: selectedFile.type,
+    });
+    setFile(newAvatarFile);
+    setIsFileUploaded(true);
+
+    // Display the selected file immediately
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatar(reader.result as string);
+    };
+    reader.readAsDataURL(selectedFile);
+  };
+
+  const uploadAvatar = async () => {
+    if (file) {
+      const { data, error } = await supabase.storage
+        .from("avatars")
+        .upload(`public/${userId}/avatar.jpg`, file, {
+          cacheControl: "3600",
+          upsert: true,
+        });
+      if (error) {
+        setError(error.message);
+      } else {
+        setError("");
+        if (data) {
+          // Fetch the new avatar URL with a cache-busting query parameter
+          const { data: avatarData } = supabase.storage
+            .from("avatars")
+            .getPublicUrl(`public/${userId}/avatar.jpg`);
+          if (avatarData) {
+            setAvatar(`${avatarData.publicUrl}?t=${new Date().getTime()}`);
+            setOriginalAvatar(
+              `${avatarData.publicUrl}?t=${new Date().getTime()}`
+            );
+          }
+        }
+      }
+      setUploading(false);
+      setIsFileUploaded(false);
     }
   };
 
+  const handleCancel = () => {
+    setAvatar(originalAvatar);
+    setUploading(false);
+    setIsFileUploaded(false);
+  };
+
   useEffect(() => {
-    const { data } = supabase.storage
-      .from("avatars")
-      .getPublicUrl(`public/${userId}/avatar.jpg`);
-    if (data) {
-      setAvatar(data.publicUrl);
-    }
-  }, []);
+    const fetchAvatarUrl = async () => {
+      const { data } = await supabase.storage
+        .from("avatars")
+        .getPublicUrl(`public/${userId}/avatar.jpg`);
+      if (data) {
+        const avatarUrl = `${data.publicUrl}?t=${new Date().getTime()}`;
+        setAvatar(avatarUrl);
+        setOriginalAvatar(avatarUrl);
+      }
+    };
+    fetchAvatarUrl();
+  }, [userId]);
 
   return (
     <div className="relative">
@@ -65,19 +111,39 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
       <Image
         width={256}
         height={256}
-        src={avatar}
+        src={
+          avatar
+            ? avatar
+            : "https://plus.unsplash.com/premium_photo-1683133252442-b06a950092da?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D.jpg"
+        }
         alt="Profile Picture"
         className="rounded-full"
       />
       {uploading && (
-        <div className="bg-gray-800 px-4 py-2 rounded-lg mt-4 w-fit text-white flex items-center justify-center">
+        <div className="bg-gray-800 px-4 py-2 rounded-lg mt-4 w-fit text-white flex gap-4 items-center justify-center">
           <input
             className="w-56"
             type="file"
             id="single"
             accept="image/*"
-            onChange={uploadAvatar}
+            onChange={profileAvatarFileSetter}
           />
+          {isFileUploaded && (
+            <div className="flex gap-2">
+              <span
+                onClick={uploadAvatar}
+                className="bg-white text-gray-950 px-4 py-2 rounded-md cursor-pointer"
+              >
+                Save
+              </span>
+              <span
+                onClick={handleCancel}
+                className="bg-transparent text-red-700 px-4 py-2 border border-red-700 rounded-md cursor-pointer hover:bg-red-700 hover:text-white"
+              >
+                Cancel
+              </span>
+            </div>
+          )}
         </div>
       )}
       {error && <span>{error}</span>}

@@ -70,7 +70,7 @@ const UserProfileInfo = () => {
       </div>
       <div>
         <h2 className="text-4xl text-gray-950 font-semibold">
-          Jon Doe's Current Listings
+          {userProfileData.name}'s Current Listings
         </h2>
         <div></div>
       </div>
