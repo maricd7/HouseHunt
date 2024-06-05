@@ -2,10 +2,12 @@
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "../types/JwtPayload";
+import { useRouter } from "next/navigation";
 
 const useSessionToken = () => {
   const [token, setToken] = useState<string | null>(null);
   const [decodedToken, setDecodedToken] = useState<JwtPayload | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (window) {
@@ -27,7 +29,7 @@ const useSessionToken = () => {
     }
   }, [token]);
 
-  return { token, decodedToken };
+  return { token, decodedToken, setDecodedToken };
 };
 
 export default useSessionToken;

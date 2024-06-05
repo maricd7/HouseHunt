@@ -1,23 +1,23 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CtaButton, Input } from "../common";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "@/app/types/JwtPayload";
+import useSessionToken from "@/app/hooks/useSessionToken";
 
 const UserLoginForm = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-
-  const { setCurrentUserId } = useClientDataContext();
-
+  const { setDecodedToken, decodedToken } = useSessionToken();
+  const { setIsLoggedIn } = useClientDataContext();
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoggedIn(true);
     setErrorMessage("");
 
     const email = emailRef.current?.value;
@@ -50,7 +50,8 @@ const UserLoginForm = () => {
       if (token) {
         const decoded = jwtDecode<JwtPayload>(token);
         console.log("asdasdasd", decoded.id);
-        setCurrentUserId(decoded.id);
+        setDecodedToken(decoded);
+        setIsLoggedIn(true);
         router.push("/");
       }
     } catch (error: any) {

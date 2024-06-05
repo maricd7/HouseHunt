@@ -21,8 +21,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientDataContextProvider>
           <Nav />
+          {children}
         </ClientDataContextProvider>
-        {children}
         <Footer />
       </body>
     </html>

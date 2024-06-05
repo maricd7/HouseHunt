@@ -8,20 +8,15 @@ import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 function Nav() {
   const { decodedToken } = useSessionToken();
-  const [logoutButton, setLogoutButton] = useState<boolean>(false);
-  // const { currentUserId } = useClientDataContext();
-
-  useEffect(() => {
-    if (decodedToken) {
-      setLogoutButton(true);
-    } else {
-      setLogoutButton(false);
-    }
-  }, [decodedToken]);
-
+  const { isLoggedIn } = useClientDataContext();
+  const [oboze, setOBoze] = useState("");
   const userProfileURL =
     "/profile/" + (decodedToken ? decodedToken.username : "");
 
+  useEffect(() => {
+    console.log("DA LI JE LOGIN", isLoggedIn);
+    setOBoze("joj");
+  }, [isLoggedIn]);
   return (
     <nav className="bg-white py-6 px-32 flex justify-between fixed top-0 left-0 w-full z-50 border border-gray-200">
       <Logo />
@@ -31,11 +26,11 @@ function Nav() {
         <NavLink icon="user-multiple" text="Members" href="/members" />
         <NavLink icon="information" text="About Us" href="../#about-us" />
         <NavLink icon="location-heart" text="Wishlist" href="/wishlist" />
-        {logoutButton ? (
+        {isLoggedIn ? (
           <NavLink icon="user" text="Profile" href={userProfileURL} />
         ) : null}
-        {logoutButton ? (
-          <Loguout setLogoutButton={setLogoutButton} />
+        {isLoggedIn ? (
+          <Loguout />
         ) : (
           <NavLink icon="login" text="Login" href="/login" />
         )}
