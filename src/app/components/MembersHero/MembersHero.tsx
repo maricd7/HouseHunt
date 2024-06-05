@@ -9,7 +9,7 @@ const MembersHero = () => {
           Connect with Buyers & Sellers!
         </h1>
         <p className="text-gray-600 text-xl text-center">
-          Reach a wide audience of potential buyers and sell quickly.
+          Reach a wide audience of potential buyers and sellers quickly.
         </p>
       </div>
       <MembersContainer />

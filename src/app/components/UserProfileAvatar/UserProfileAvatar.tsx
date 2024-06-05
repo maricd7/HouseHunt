@@ -78,6 +78,7 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
   };
 
   useEffect(() => {
+    //fetch source for avatar on mount
     const fetchAvatarUrl = async () => {
       const { data } = await supabase.storage
         .from("avatars")
@@ -86,6 +87,15 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
         const avatarUrl = `${data.publicUrl}?t=${new Date().getTime()}`;
         setAvatar(avatarUrl);
         setOriginalAvatar(avatarUrl);
+
+        // update avatar in users table
+        const { error } = await supabase
+          .from("users")
+          .update({ avatar: avatarUrl })
+          .eq("id", userId);
+        if (error) {
+          console.log(error, "Error");
+        }
       }
     };
     fetchAvatarUrl();
