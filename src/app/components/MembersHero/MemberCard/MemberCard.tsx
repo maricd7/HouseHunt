@@ -1,4 +1,3 @@
-import supabase from "@/app/supabase";
 import { UserInterface } from "@/app/types/User";
 import Image from "next/image";
 import Link from "next/link";

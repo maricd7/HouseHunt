@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import supabase from "@/app/supabase";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
@@ -9,13 +9,14 @@ interface UserProfileBiography {
 const UserProfileBiography = ({ editPermission }: UserProfileBiography) => {
   const [editBiography, setEditBiography] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>();
+  const [tempBio, setTempBio] = useState<string>("");
 
   //biography setters
   const {
     currentUserBiography,
-    setCurrentUserBiography,
     currentUserId,
     ogUserBio,
+    currentUserBiographySetter,
   } = useClientDataContext();
 
   useEffect(() => {
@@ -45,14 +46,14 @@ const UserProfileBiography = ({ editPermission }: UserProfileBiography) => {
       setEditBiography(true);
     } else {
       setEditBiography(true);
-      handleUpdateBiography(currentUserBiography);
+      handleUpdateBiography(tempBio);
     }
   };
 
   // cancel edit handler
   const handleCancelEdit = () => {
     setEditBiography(false);
-    setCurrentUserBiography(ogUserBio);
+    ogUserBio && currentUserBiographySetter(ogUserBio);
   };
 
   return (
@@ -60,9 +61,9 @@ const UserProfileBiography = ({ editPermission }: UserProfileBiography) => {
       {editBiography ? (
         <textarea
           className="px-4 py-2 my-4  text-md "
-          value={currentUserBiography}
+          value={tempBio}
           placeholder="Enter your biography"
-          onChange={(e) => setCurrentUserBiography(e.currentTarget.value)}
+          onChange={(e) => setTempBio(e.currentTarget.value)}
         ></textarea>
       ) : (
         <p className="w-1/2 text-gray-500 text-md">{currentUserBiography}</p>

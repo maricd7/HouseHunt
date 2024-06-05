@@ -18,6 +18,7 @@ interface ClientDataContextProps {
   setCurrentUserBiography: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
+  currentUserBiographySetter: (currentBio: string) => void;
 }
 
 const ClientDataContext = createContext<ClientDataContextProps | undefined>(
@@ -60,6 +61,10 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
     getUserBiography();
   }, [currentUserId, decodedToken]);
 
+  const currentUserBiographySetter = (currentBio: string) => {
+    console.log(currentBio);
+    setCurrentUserBiography(currentBio);
+  };
   const contextValue: ClientDataContextProps = {
     currentUserId,
     currentUserBiography,
@@ -67,6 +72,7 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
     ogUserBio,
     setCurrentUserId,
     setCurrentUserBiography,
+    currentUserBiographySetter,
   };
 
   return (

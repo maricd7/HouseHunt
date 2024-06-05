@@ -15,7 +15,7 @@ const UserProfileInfo = () => {
   const { setCurrentUserBiography, currentUserId, currentUserName } =
     useClientDataContext();
 
-  const [editPermission, setEditPermission] = useState<boolean>(false);
+  const [editPermission, setEditPermission] = useState<boolean>(true);
 
   useEffect(() => {
     //function for getting user profile data if profile is not from the logged in user (using declaration for hoisting)

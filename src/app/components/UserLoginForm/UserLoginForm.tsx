@@ -41,9 +41,6 @@ const UserLoginForm = () => {
       if (!response.ok) {
         throw new Error(result.message || "Login failed");
       }
-      if (result.length) {
-        console.log("wtf");
-      }
 
       const { token } = result;
 

@@ -4,10 +4,12 @@ import { Logo } from "../common/Logo";
 import NavLink from "./NavLink";
 import { Loguout } from "../Logout";
 import useSessionToken from "@/app/hooks/useSessionToken";
+import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 function Nav() {
   const { decodedToken } = useSessionToken();
   const [logoutButton, setLogoutButton] = useState<boolean>(false);
+  // const { currentUserId } = useClientDataContext();
 
   useEffect(() => {
     if (decodedToken) {
