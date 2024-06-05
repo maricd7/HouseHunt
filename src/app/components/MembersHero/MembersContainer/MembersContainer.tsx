@@ -22,7 +22,7 @@ const MembersContainer = () => {
     fetchData();
   }, []);
   return (
-    <div>
+    <div className="flex flex-wrap gap-16">
       {members ? (
         members.map((member, index) => (
           <MemberCard member={member} key={index} />
