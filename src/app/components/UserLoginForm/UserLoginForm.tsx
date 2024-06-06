@@ -1,23 +1,22 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { CtaButton, Input } from "../common";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useClientDataContext } from "@/app/contexts/ClientDataContext";
-import { jwtDecode } from "jwt-decode";
-import { JwtPayload } from "@/app/types/JwtPayload";
 import useSessionToken from "@/app/hooks/useSessionToken";
+import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 const UserLoginForm = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  const { setDecodedToken, decodedToken } = useSessionToken();
-  const { setIsLoggedIn } = useClientDataContext();
+  const { setToken } = useSessionToken();
+  const {setIsLoggedIn} = useClientDataContext()
+
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoggedIn(true);
     setErrorMessage("");
 
     const email = emailRef.current?.value;
@@ -34,7 +33,7 @@ const UserLoginForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: email, password: password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const result = await response.json();
@@ -44,14 +43,10 @@ const UserLoginForm = () => {
 
       const { token } = result;
 
-      //storing token and user data to session storage
-      sessionStorage.setItem("token", token);
-
       if (token) {
-        const decoded = jwtDecode<JwtPayload>(token);
-        console.log("asdasdasd", decoded.id);
-        setDecodedToken(decoded);
-        setIsLoggedIn(true);
+        sessionStorage.setItem("token", token);
+        setToken(token);
+        setIsLoggedIn(true)
         router.push("/");
       }
     } catch (error: any) {
@@ -65,7 +60,7 @@ const UserLoginForm = () => {
         <h1 className="text-4xl font-bold text-gray-950">Login</h1>
         <h2>Login into Your HouseHunt Account Now!</h2>
       </div>
-      <form className="flex flex-col gap-8" onSubmit={(e) => handleLogin(e)}>
+      <form className="flex flex-col gap-8" onSubmit={handleLogin}>
         <Input
           placeholder="Email"
           type="email"
@@ -80,7 +75,7 @@ const UserLoginForm = () => {
           required
           reference={passwordRef}
         />
-        <span className="text-red-500 font  -semibold">{errorMessage}</span>
+        <span className="text-red-500 font-semibold">{errorMessage}</span>
         <CtaButton onClick={() => {}} type="submit" text="Sign In" />
         <span className="text-center">
           Don't have an account ?{" "}

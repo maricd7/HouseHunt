@@ -18,7 +18,7 @@ interface ClientDataContextProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentUserId: React.Dispatch<React.SetStateAction<number | undefined>>;
   setCurrentUserBiography: React.Dispatch<
-    React.SetStateAction<string | undefined>
+    React.SetStateAction<string | undefined | any>
   >;
   currentUserBiographySetter: (currentBio: string) => void;
 }
@@ -38,12 +38,15 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   >("");
   const [ogUserBio, setOgUserBio] = useState<string | undefined>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
   useEffect(() => {
     if (decodedToken) {
       setCurrentUserId(decodedToken.id);
       setCurrentUserName(decodedToken.username);
+      setIsLoggedIn(true);
     } else {
       setCurrentUserId(undefined);
+      setIsLoggedIn(false);
     }
 
     const getUserBiography = async () => {
@@ -53,7 +56,6 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
           .select()
           .eq("id", currentUserId);
         if (data) {
-          setIsLoggedIn(true);
           setCurrentUserBiography(data[0].biography);
           setOgUserBio(data[0].biography);
         } else {
@@ -61,10 +63,8 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
         }
       }
     };
-
     getUserBiography();
-  }, [currentUserId, decodedToken, isLoggedIn]);
-
+  }, [currentUserId, decodedToken]);
   const currentUserBiographySetter = (currentBio: string) => {
     console.log(currentBio);
     setCurrentUserBiography(currentBio);

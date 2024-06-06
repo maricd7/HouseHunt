@@ -6,10 +6,9 @@ import { JwtPayload } from "../types/JwtPayload";
 const useSessionToken = () => {
   const [token, setToken] = useState<string | null>(null);
   const [decodedToken, setDecodedToken] = useState<JwtPayload | null>(null);
-
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const windowToken = window.sessionStorage.getItem("token");
+    const windowToken = window.sessionStorage.getItem("token");
+    if (windowToken) {
       setToken(windowToken);
     }
   }, []);
@@ -28,12 +27,11 @@ const useSessionToken = () => {
     }
   }, [token]);
 
-  const destroySession = () => {
-    sessionStorage.removeItem("token");
-    setDecodedToken(null);
+  return {
+    token,
+    decodedToken,
+    setToken,
   };
-
-  return { token, decodedToken, setDecodedToken, destroySession };
 };
 
 export default useSessionToken;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Logo } from "../common/Logo";
 import NavLink from "./NavLink";
 import Logout from "../Logout/Logout";
@@ -8,20 +8,19 @@ import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 function Nav() {
   const { decodedToken } = useSessionToken();
-  const { isLoggedIn, setIsLoggedIn } = useClientDataContext();
   const [userProfileURL, setUserProfileURL] = useState<string>("");
-
+  const { isLoggedIn, setIsLoggedIn } = useClientDataContext();
+  console.log("nav", isLoggedIn);
   useEffect(() => {
-    if (decodedToken) {
-      setIsLoggedIn(true);
+    if (!decodedToken) {
+      console.log("no session");
+    }
+    if (isLoggedIn && decodedToken) {
       setUserProfileURL(`/profile/${decodedToken.username}`);
     } else {
-      setIsLoggedIn(false);
       setUserProfileURL("");
     }
-  }, [decodedToken, setIsLoggedIn]);
-
-  console.log(userProfileURL, "url");
+  }, [decodedToken, isLoggedIn, setIsLoggedIn]);
 
   return (
     <nav className="bg-white py-6 px-32 flex justify-between fixed top-0 left-0 w-full z-50 border border-gray-200">
@@ -44,4 +43,5 @@ function Nav() {
     </nav>
   );
 }
+
 export default Nav;

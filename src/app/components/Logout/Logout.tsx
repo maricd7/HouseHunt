@@ -1,25 +1,22 @@
 "use client";
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import useSessionToken from "@/app/hooks/useSessionToken";
 import { useRouter } from "next/navigation";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 const Logout = () => {
-  const { destroySession } = useSessionToken();
-  const { setIsLoggedIn } = useClientDataContext();
   const router = useRouter();
-
+  const { setIsLoggedIn } = useClientDataContext();
   const handleLogout = () => {
-    destroySession();
-    setIsLoggedIn(false);
     router.push("/login");
+    sessionStorage.removeItem("token");
+    setIsLoggedIn(false);
   };
 
   return (
     <div
       className="flex gap-2 cursor-pointer hover:text-blue-700"
-      onClick={() => handleLogout()}
+      onClick={handleLogout}
     >
       <Icon
         icon="carbon:logout"
