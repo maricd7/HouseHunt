@@ -1,9 +1,7 @@
 "use client";
 import supabase from "@/app/supabase";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import Cookies from "js-cookie";
 import { UserProfileBiography } from "../UserProfileBiography";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 import { UserProfileAvatar } from "../UserProfileAvatar";

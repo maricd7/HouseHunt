@@ -2,21 +2,27 @@
 import React, { useState, useEffect } from "react";
 import { Logo } from "../common/Logo";
 import NavLink from "./NavLink";
-import { Loguout } from "../Logout";
+import Logout from "../Logout/Logout";
 import useSessionToken from "@/app/hooks/useSessionToken";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 function Nav() {
   const { decodedToken } = useSessionToken();
-  const { isLoggedIn } = useClientDataContext();
-  const [oboze, setOBoze] = useState("");
-  const userProfileURL =
-    "/profile/" + (decodedToken ? decodedToken.username : "");
+  const { isLoggedIn, setIsLoggedIn } = useClientDataContext();
+  const [userProfileURL, setUserProfileURL] = useState<string>("");
 
   useEffect(() => {
-    console.log("DA LI JE LOGIN", isLoggedIn);
-    setOBoze("joj");
-  }, [isLoggedIn]);
+    if (decodedToken) {
+      setIsLoggedIn(true);
+      setUserProfileURL(`/profile/${decodedToken.username}`);
+    } else {
+      setIsLoggedIn(false);
+      setUserProfileURL("");
+    }
+  }, [decodedToken, setIsLoggedIn]);
+
+  console.log(userProfileURL, "url");
+
   return (
     <nav className="bg-white py-6 px-32 flex justify-between fixed top-0 left-0 w-full z-50 border border-gray-200">
       <Logo />
@@ -26,11 +32,11 @@ function Nav() {
         <NavLink icon="user-multiple" text="Members" href="/members" />
         <NavLink icon="information" text="About Us" href="../#about-us" />
         <NavLink icon="location-heart" text="Wishlist" href="/wishlist" />
-        {isLoggedIn ? (
+        {isLoggedIn && userProfileURL ? (
           <NavLink icon="user" text="Profile" href={userProfileURL} />
         ) : null}
         {isLoggedIn ? (
-          <Loguout />
+          <Logout />
         ) : (
           <NavLink icon="login" text="Login" href="/login" />
         )}

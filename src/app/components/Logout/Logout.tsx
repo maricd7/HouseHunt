@@ -1,16 +1,17 @@
 "use client";
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import useSessionToken from "@/app/hooks/useSessionToken";
 import { useRouter } from "next/navigation";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 const Logout = () => {
-  const router = useRouter();
+  const { destroySession } = useSessionToken();
   const { setIsLoggedIn } = useClientDataContext();
-  // function for handling logout
+  const router = useRouter();
+
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    console.log("lol");
+    destroySession();
     setIsLoggedIn(false);
     router.push("/login");
   };

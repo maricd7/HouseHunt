@@ -53,6 +53,7 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
           .select()
           .eq("id", currentUserId);
         if (data) {
+          setIsLoggedIn(true);
           setCurrentUserBiography(data[0].biography);
           setOgUserBio(data[0].biography);
         } else {
