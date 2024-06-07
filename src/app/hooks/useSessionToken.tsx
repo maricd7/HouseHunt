@@ -13,20 +13,6 @@ const useSessionToken = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (token) {
-      try {
-        const decoded = jwtDecode<JwtPayload>(token);
-        setDecodedToken(decoded);
-      } catch (err) {
-        console.error("Failed to decode token:", err);
-        setDecodedToken(null);
-      }
-    } else {
-      setDecodedToken(null);
-    }
-  }, [token]);
-
   return {
     token,
     decodedToken,

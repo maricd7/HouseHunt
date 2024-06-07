@@ -7,21 +7,9 @@ import React, {
   useContext,
 } from "react";
 import supabase from "../supabase";
-import useSessionToken from "../hooks/useSessionToken";
-
-interface ClientDataContextProps {
-  currentUserId: number | undefined;
-  currentUserBiography: string | undefined;
-  currentUserName: string | undefined;
-  ogUserBio: string | undefined;
-  isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentUserId: React.Dispatch<React.SetStateAction<number | undefined>>;
-  setCurrentUserBiography: React.Dispatch<
-    React.SetStateAction<string | undefined | any>
-  >;
-  currentUserBiographySetter: (currentBio: string) => void;
-}
+import { jwtDecode } from "jwt-decode";
+import { ClientDataContextProps } from "../types/ClientDataContext";
+import { JwtPayload } from "../types/JwtPayload";
 
 const ClientDataContext = createContext<ClientDataContextProps | undefined>(
   undefined
@@ -30,7 +18,9 @@ const ClientDataContext = createContext<ClientDataContextProps | undefined>(
 export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const { decodedToken } = useSessionToken();
+  const [token, setToken] = useState<string | null>(null);
+  const [decodedToken, setDecodedToken] = useState<JwtPayload | null>(null);
+
   const [currentUserId, setCurrentUserId] = useState<number | undefined>();
   const [currentUserName, setCurrentUserName] = useState<string | undefined>();
   const [currentUserBiography, setCurrentUserBiography] = useState<
@@ -38,6 +28,25 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   >("");
   const [ogUserBio, setOgUserBio] = useState<string | undefined>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    const windowToken = window.sessionStorage.getItem("token");
+    if (windowToken) {
+      setToken(windowToken);
+    }
+
+    if (token) {
+      try {
+        const decoded = jwtDecode<JwtPayload>(token);
+        setDecodedToken(decoded);
+      } catch (err) {
+        console.error("Failed to decode token:", err);
+        setDecodedToken(null);
+      }
+    } else {
+      setDecodedToken(null);
+    }
+  }, [token]);
 
   useEffect(() => {
     if (decodedToken) {
@@ -53,28 +62,32 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
       if (currentUserId) {
         const { data, error } = await supabase
           .from("users")
-          .select()
-          .eq("id", currentUserId);
+          .select("biography")
+          .eq("id", currentUserId)
+          .single();
         if (data) {
-          setCurrentUserBiography(data[0].biography);
-          setOgUserBio(data[0].biography);
+          setCurrentUserBiography(data.biography);
+          setOgUserBio(data.biography);
         } else {
-          console.log("Error fetching bio");
+          console.log("Error fetching bio", error);
         }
       }
     };
     getUserBiography();
   }, [currentUserId, decodedToken]);
+
   const currentUserBiographySetter = (currentBio: string) => {
-    console.log(currentBio);
     setCurrentUserBiography(currentBio);
   };
+
   const contextValue: ClientDataContextProps = {
     currentUserId,
     currentUserBiography,
     currentUserName,
     ogUserBio,
     isLoggedIn,
+    decodedToken,
+    token,
     setIsLoggedIn,
     setCurrentUserId,
     setCurrentUserBiography,
@@ -90,7 +103,6 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
 
 export const useClientDataContext = () => {
   const clientDataContext = useContext(ClientDataContext);
-
   if (!clientDataContext) {
     throw new Error(
       "No ClientDataContext.Provider found when calling useClientDataContext."
