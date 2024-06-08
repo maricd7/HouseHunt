@@ -76,7 +76,9 @@ const UserProfileInfo = () => {
         {useProperties.length > 0 ? (
           <UserProfileListings useProperties={useProperties} />
         ) : (
-          <></>
+          <h2 className=" text-xl mt-16">
+            This seller has no listings available..
+          </h2>
         )}
       </div>
     </div>

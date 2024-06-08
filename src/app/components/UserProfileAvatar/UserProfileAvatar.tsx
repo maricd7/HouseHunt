@@ -88,7 +88,6 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
         const avatarUrl = data[0].avatar;
         setAvatar(avatarUrl);
         setOriginalAvatar(avatarUrl);
-        console.log(avatarUrl, "iur;");
         // update avatar in users table1
         const { error } = await supabase
           .from("users")

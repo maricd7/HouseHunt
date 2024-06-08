@@ -8,4 +8,5 @@ export interface Property {
   image: string;
   address: string;
   property_type: string;
+  status: boolean;
 }

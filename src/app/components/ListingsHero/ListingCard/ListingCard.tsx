@@ -6,6 +6,7 @@ import {
   ListingCardMainInfo,
   PropertyDetail,
   PropertyType,
+  Sold,
 } from "../../common";
 import { Property } from "@/app/types/Property";
 
@@ -24,6 +25,7 @@ const ListingCard = ({ property }: ListingCardProps) => {
     bedrooms,
     property_type,
     price,
+    status,
   } = property;
 
   return (
@@ -38,9 +40,10 @@ const ListingCard = ({ property }: ListingCardProps) => {
             alt="Listing"
             src={image}
           />
-          <div className="absolute top-2 right-2 ">
+          <div className="absolute top-4 right-2 ">
             <PropertyType property_type={property_type} />
           </div>
+          <Sold status={status} />
         </div>
         <ListingCardMainInfo name={name} description={description} />
         <div className="flex flex-col gap-4 mt-4">
