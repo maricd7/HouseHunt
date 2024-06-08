@@ -6,9 +6,10 @@ import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 const Logout = () => {
   const router = useRouter();
-  const { setIsLoggedIn } = useClientDataContext();
+  const { setIsLoggedIn, setUserProfileURL } = useClientDataContext();
   const handleLogout = () => {
     router.push("/login");
+    setUserProfileURL("");
     sessionStorage.removeItem("token");
     setIsLoggedIn(false);
   };

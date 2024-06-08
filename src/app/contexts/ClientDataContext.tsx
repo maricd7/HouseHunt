@@ -43,7 +43,6 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
       try {
         const decoded = jwtDecode<JwtPayload>(token);
         setDecodedToken(decoded);
-        setUserProfileURL(`/profile/${decoded.username}`);
       } catch (err) {
         console.error("Failed to decode token:", err);
         setDecodedToken(null);
@@ -57,6 +56,8 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
     if (decodedToken) {
       setCurrentUserId(decodedToken.id);
       setCurrentUserName(decodedToken.username);
+      setUserProfileURL(`/profile/${decodedToken.username}`);
+
       setIsLoggedIn(true);
     } else {
       setCurrentUserId(undefined);

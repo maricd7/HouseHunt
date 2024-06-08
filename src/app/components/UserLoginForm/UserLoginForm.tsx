@@ -12,8 +12,7 @@ const UserLoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const { setToken } = useSessionToken();
-  const {setIsLoggedIn} = useClientDataContext()
-
+  const { setIsLoggedIn } = useClientDataContext();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,7 +45,8 @@ const UserLoginForm = () => {
       if (token) {
         sessionStorage.setItem("token", token);
         setToken(token);
-        setIsLoggedIn(true)
+
+        setIsLoggedIn(true);
         router.push("/");
       }
     } catch (error: any) {
