@@ -80,15 +80,16 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
   useEffect(() => {
     //fetch source for avatar on mount
     const fetchAvatarUrl = async () => {
-      const { data } = await supabase.storage
-        .from("avatars")
-        .getPublicUrl(`public/${userId}/avatar.jpg`);
+      const { data, error } = await supabase
+        .from("users")
+        .select("avatar")
+        .eq("id", userId);
       if (data) {
-        const avatarUrl = `${data.publicUrl}?t=${new Date().getTime()}`;
+        const avatarUrl = data[0].avatar;
         setAvatar(avatarUrl);
         setOriginalAvatar(avatarUrl);
-
-        // update avatar in users table
+        console.log(avatarUrl, "iur;");
+        // update avatar in users table1
         const { error } = await supabase
           .from("users")
           .update({ avatar: avatarUrl })
@@ -100,7 +101,6 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
     };
     fetchAvatarUrl();
   }, [userId]);
-
   return (
     <div className="relative">
       {editPermission ? (
@@ -121,11 +121,7 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
       <Image
         width={256}
         height={256}
-        src={
-          avatar
-            ? avatar
-            : "https://plus.unsplash.com/premium_photo-1683133252442-b06a950092da?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D.jpg"
-        }
+        src={avatar ? avatar : "/avatars/avatar.jpg"}
         alt="Profile Picture"
         className="rounded-full"
       />

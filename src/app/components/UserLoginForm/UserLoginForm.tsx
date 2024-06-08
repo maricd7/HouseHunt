@@ -12,7 +12,7 @@ const UserLoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const { setToken } = useSessionToken();
-  const { setIsLoggedIn } = useClientDataContext();
+  const { setIsLoggedIn, setUserProfileURL } = useClientDataContext();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,7 +41,10 @@ const UserLoginForm = () => {
       }
 
       const { token } = result;
-
+      const { userName } = result;
+      if (userName) {
+        setUserProfileURL(`/profile/${userName}`);
+      }
       if (token) {
         sessionStorage.setItem("token", token);
         setToken(token);

@@ -38,11 +38,15 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
     if (windowToken) {
       setToken(windowToken);
     }
+  }, []);
 
+  useEffect(() => {
     if (token) {
       try {
         const decoded = jwtDecode<JwtPayload>(token);
         setDecodedToken(decoded);
+        setCurrentUserId(decoded.id);
+        setCurrentUserName(decoded.username);
       } catch (err) {
         console.error("Failed to decode token:", err);
         setDecodedToken(null);
@@ -54,16 +58,14 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (decodedToken) {
-      setCurrentUserId(decodedToken.id);
-      setCurrentUserName(decodedToken.username);
-      setUserProfileURL(`/profile/${decodedToken.username}`);
-
       setIsLoggedIn(true);
     } else {
       setCurrentUserId(undefined);
       setIsLoggedIn(false);
     }
+  }, [decodedToken]);
 
+  useEffect(() => {
     const getUserBiography = async () => {
       if (currentUserId) {
         const { data, error } = await supabase
@@ -80,7 +82,7 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
       }
     };
     getUserBiography();
-  }, [currentUserId, decodedToken]);
+  }, [currentUserId]);
 
   const currentUserBiographySetter = (currentBio: string) => {
     setCurrentUserBiography(currentBio);

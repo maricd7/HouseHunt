@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     domains: [
+      "/",
       "images.unsplash.com",
       "plus.unsplash.com",
       "media.inmobalia.com",

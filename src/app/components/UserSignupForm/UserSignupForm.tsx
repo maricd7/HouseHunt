@@ -4,6 +4,7 @@ import { CtaButton, Input } from "../common";
 import supabase from "@/app/supabase";
 import bcrypt from "bcryptjs";
 import Link from "next/link";
+import { SingupModal } from "../Modals/SingupModal";
 
 const UserSignupForm = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -14,8 +15,7 @@ const UserSignupForm = () => {
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
   const [errorMessage, setErrorMessage] = useState("");
-
-  ("use server");
+  const [signUpModal, setSignUpModal] = useState<boolean>(false);
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (passwordRef === passwordConfirmRef) {
@@ -39,6 +39,7 @@ const UserSignupForm = () => {
           name: nameRef.current?.value,
         },
       ]);
+      setSignUpModal(true);
     } catch (error) {
       setErrorMessage("Error signing up!");
       console.log(error);
@@ -103,6 +104,7 @@ const UserSignupForm = () => {
           </Link>
         </span>
       </form>
+      {signUpModal && <SingupModal />}
     </div>
   );
 };

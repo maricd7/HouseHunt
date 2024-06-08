@@ -30,6 +30,7 @@ export async function POST(request: Request) {
   
       //declaring relevant data 
       const user = data[0];
+      const userName = data[0].username
 
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
       
 
       //response payload
-      return NextResponse.json({token});
+      return NextResponse.json({token,userName});
 
       //error handling 
     } catch (err: unknown) {
