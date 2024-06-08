@@ -10,6 +10,7 @@ import supabase from "../supabase";
 import { jwtDecode } from "jwt-decode";
 import { ClientDataContextProps } from "../types/ClientDataContext";
 import { JwtPayload } from "../types/JwtPayload";
+import { Property } from "../types/Property";
 
 const ClientDataContext = createContext<ClientDataContextProps | undefined>(
   undefined
@@ -28,6 +29,9 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   >("");
   const [ogUserBio, setOgUserBio] = useState<string | undefined>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [userProfileURL, setUserProfileURL] = useState<string>("");
+  const [userProfileProperties, setUserProfileProperties] =
+    useState<Property[]>();
 
   useEffect(() => {
     const windowToken = window.sessionStorage.getItem("token");
@@ -39,6 +43,7 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
       try {
         const decoded = jwtDecode<JwtPayload>(token);
         setDecodedToken(decoded);
+        setUserProfileURL(`/profile/${decoded.username}`);
       } catch (err) {
         console.error("Failed to decode token:", err);
         setDecodedToken(null);
@@ -87,6 +92,8 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
     ogUserBio,
     isLoggedIn,
     decodedToken,
+    userProfileURL,
+    setUserProfileURL,
     token,
     setIsLoggedIn,
     setCurrentUserId,

@@ -3,7 +3,7 @@ import { UserProfileInfo } from "../UserProfileInfoContainer";
 
 const UserProfileMainSection = () => {
   return (
-    <section className="h-screen flex justify-center items-center gap-16 bg-hero-pattern px-32">
+    <section className="py-16 flex justify-center items-center gap-16 bg-hero-pattern px-32">
       <UserProfileInfo />
     </section>
   );

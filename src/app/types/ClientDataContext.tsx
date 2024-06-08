@@ -6,6 +6,8 @@ export interface ClientDataContextProps {
   currentUserBiography: string | undefined;
   currentUserName: string | undefined;
   ogUserBio: string | undefined;
+  userProfileURL: string | undefined;
+  setUserProfileURL: React.Dispatch<React.SetStateAction<string>>;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentUserId: React.Dispatch<React.SetStateAction<number | undefined>>;

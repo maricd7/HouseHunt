@@ -5,39 +5,42 @@ import { useParams } from "next/navigation";
 import { UserProfileBiography } from "../UserProfileBiography";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 import { UserProfileAvatar } from "../UserProfileAvatar";
+import { UserProfileListings } from "../UserProfileListings";
 
 const UserProfileInfo = () => {
   const params = useParams();
   const [userProfileData, setUserProfileData] = useState<any>({});
-
+  const [useProperties, setUserProperties] = useState<number[]>([]);
   const { setCurrentUserBiography, currentUserId, currentUserName } =
     useClientDataContext();
 
-  const [editPermission, setEditPermission] = useState<boolean>(true);
+  const [editPermission, setEditPermission] = useState<boolean>(false);
 
   useEffect(() => {
-    //function for getting user profile data if profile is not from the logged in user (using declaration for hoisting)
-    async function getUserProfileData() {
+    // function for getting user profile data
+    const getUserProfileData = async () => {
       try {
         const { data, error } = await supabase
           .from("users")
-          .select("id,name,email,username,role,biography")
+          .select("id,name,email,username,role,biography,properties")
           .eq("username", params.slug);
         if (data?.length) {
+          setUserProperties(data[0].properties || []);
           setCurrentUserBiography(data[0].biography);
           setUserProfileData(data[0]);
+
+          // check if user can edit the profile
+          if (currentUserId && data[0].username === currentUserName) {
+            setEditPermission(true);
+          }
         }
       } catch (error) {
-        console.log("Error fetching data for this profile!");
+        console.log("Error fetching data for this profile!", error);
       }
-    }
+    };
 
-    //check if user can edit the profile
-    if (currentUserId && userProfileData.username === currentUserName) {
-      setEditPermission(true);
-    }
     getUserProfileData();
-  }, [params, userProfileData]);
+  }, [params.slug, currentUserId, currentUserName]);
 
   return (
     <div className="bg-white rounded-lg px-8 py-16 w-full flex flex-col gap-16">
@@ -70,7 +73,11 @@ const UserProfileInfo = () => {
         <h2 className="text-4xl text-gray-950 font-semibold">
           {userProfileData.name}'s Current Listings
         </h2>
-        <div></div>
+        {useProperties.length > 0 ? (
+          <UserProfileListings useProperties={useProperties} />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -6,4 +6,5 @@ export interface UserInterface {
   email: string;
   biography: string;
   avatar: string;
+  properties: [];
 }
