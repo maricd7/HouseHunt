@@ -9,12 +9,14 @@ interface UserProfileContactOptionsProps {
   email: string | undefined;
   phoneNumber: string | undefined;
   setPhoneNumber: React.Dispatch<React.SetStateAction<string | undefined>>;
+  editPermission: boolean;
 }
 
 const UserProfileContactOptions = ({
   email,
   phoneNumber,
   setPhoneNumber,
+  editPermission,
 }: UserProfileContactOptionsProps) => {
   const phoneNumberRef = useRef<HTMLInputElement>(null);
   const { showModal } = useModal();
@@ -53,7 +55,7 @@ const UserProfileContactOptions = ({
 
   return (
     <div className="mt-8 flex flex-col gap-4">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 text-gray-400 ">
         <Icon
           icon="carbon:email"
           width="24"
@@ -62,7 +64,7 @@ const UserProfileContactOptions = ({
         />
         {email}
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 text-gray-400">
         <Icon
           icon="carbon:phone"
           width="24"
@@ -70,17 +72,19 @@ const UserProfileContactOptions = ({
           style={{ color: "#9ca3af" }}
         />
         {phoneNumber && phoneNumber}
-        <div
-          className="flex items-center gap-2 text-gray-400 cursor-pointer"
-          onClick={() => setEditPhoneNumber(true)}
-        >
-          <Icon
-            icon="carbon:edit"
-            width="24"
-            height="24"
-            style={{ color: "#3b82f6" }}
-          />
-        </div>
+        {editPermission && (
+          <div
+            className="flex items-center gap-2 text-gray-400 cursor-pointer"
+            onClick={() => setEditPhoneNumber(true)}
+          >
+            <Icon
+              icon="carbon:edit"
+              width="24"
+              height="24"
+              style={{ color: "#  030712" }}
+            />
+          </div>
+        )}
       </div>
       {editPhoneNumber ? (
         <div>

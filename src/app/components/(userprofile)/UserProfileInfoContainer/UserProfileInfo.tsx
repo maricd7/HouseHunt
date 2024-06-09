@@ -1,7 +1,7 @@
 "use client";
 import supabase from "@/app/supabase";
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { UserProfileBiography } from "../UserProfileBiography";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 import { UserProfileAvatar } from "../UserProfileAvatar";
@@ -18,6 +18,7 @@ const UserProfileInfo = () => {
     useClientDataContext();
 
   const [editPermission, setEditPermission] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     // function for getting user profile data
@@ -59,6 +60,7 @@ const UserProfileInfo = () => {
             <></>
           )}
           <UserProfileContactOptions
+            editPermission={editPermission}
             email={userProfileData.email}
             phoneNumber={phoneNumber}
             setPhoneNumber={setPhoneNumber}
@@ -78,7 +80,9 @@ const UserProfileInfo = () => {
           {editPermission ? (
             <CtaButton
               type="button"
-              onClick={() => {}}
+              onClick={() => {
+                router.push("/create-listing");
+              }}
               text="Create a Listing"
             />
           ) : (

@@ -8,7 +8,8 @@ interface MemberCardProps {
 }
 
 const MemberCard = ({ member }: MemberCardProps) => {
-  console.log(member);
+  const defaultAvatar = "/default-avatar.png";
+
   return (
     <Link
       href={`/profile/${member.username}`}
@@ -18,14 +19,14 @@ const MemberCard = ({ member }: MemberCardProps) => {
         alt="profile"
         height={128}
         width={128}
-        src={member.avatar}
+        src={member.avatar || defaultAvatar}
         className="rounded-full w-full h-fit"
       />
       <div className="flex flex-col gap-2">
         <h2 className="font-semibold text-2xl">{member.name}</h2>
         <p className="text-gray-400 text-lg">{member.email}</p>
         <p className="text-gray-400 text-md">
-          {member.biography.substring(0, 25) + "..."}
+          {member.biography ? member.biography.substring(0, 25) + "..." : ""}
         </p>
         <span className="text-md text-gray-950 px-4 py-2 bg-blue-200 w-fit rounded-lg">
           {member.role}

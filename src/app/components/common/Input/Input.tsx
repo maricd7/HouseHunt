@@ -15,7 +15,7 @@ const Input = ({
   reference,
 }: InputProps) => {
   return (
-    <div className="flex flex-col gap-2 ">
+    <div className="flex flex-col gap-2 max-w-96">
       <label>{label}</label>
       <input
         type={type}

@@ -7,8 +7,6 @@ import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 import Cookies from "js-cookie";
 
 const Hero = () => {
-  const { userData } = useClientDataContext();
-
   const controls = useAnimation();
   const router = useRouter();
   useEffect(() => {
@@ -20,7 +18,7 @@ const Hero = () => {
         ease: "easeOut",
       },
     });
-  }, [controls, userData]);
+  }, [controls]);
 
   const containerVariants = {
     hidden: { opacity: 0 },

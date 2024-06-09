@@ -11,7 +11,7 @@ const CreateListings = () => {
   const propertyAddressRef = useRef<HTMLInputElement>(null);
 
   return (
-    <form>
+    <form className="flex flex-col gap-8">
       <Input
         placeholder="Name of the Property"
         label="Name"

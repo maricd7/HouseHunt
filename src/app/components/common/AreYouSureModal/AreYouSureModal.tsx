@@ -13,7 +13,7 @@ const AreYouSureModal = ({
   onConfirm,
 }: AreYouSureModalProps) => {
   return (
-    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white flex flex-col gap-6 p-6 rounded-lg shadow-xl border border-gray-200 ">
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white flex flex-col gap-6 p-6 rounded-lg shadow-xl border border-gray-200 z-50 ">
       <h2 className="text-xl font-semibold text-gray-800">{message}</h2>
       <p className="text-gray-400">
         This action cannot be undone. Are you sure you want to proceed?

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Hero, BestOptions, AboutUs, Testimonials } from "./components";
 import { PropertiesContextProvider } from "./contexts/PropertiesContext";
 import { ClientDataContextProvider } from "./contexts/ClientDataContext";
