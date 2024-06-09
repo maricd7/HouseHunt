@@ -6,11 +6,14 @@ import { UserProfileBiography } from "../UserProfileBiography";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 import { UserProfileAvatar } from "../UserProfileAvatar";
 import { UserProfileListings } from "../UserProfileListings";
+import { CtaButton } from "../../common";
+import { UserProfileContactOptions } from "../UserProfileContactOptions";
 
 const UserProfileInfo = () => {
   const params = useParams();
   const [userProfileData, setUserProfileData] = useState<any>({});
   const [useProperties, setUserProperties] = useState<number[]>([]);
+  const [phoneNumber, setPhoneNumber] = useState<string>();
   const { setCurrentUserBiography, currentUserId, currentUserName } =
     useClientDataContext();
 
@@ -22,12 +25,13 @@ const UserProfileInfo = () => {
       try {
         const { data, error } = await supabase
           .from("users")
-          .select("id,name,email,username,role,biography,properties")
+          .select("id,name,email,username,role,biography,properties,phone")
           .eq("username", params.slug);
         if (data?.length) {
           setUserProperties(data[0].properties || []);
           setCurrentUserBiography(data[0].biography);
           setUserProfileData(data[0]);
+          setPhoneNumber(data[0].phone);
 
           // check if user can edit the profile
           if (currentUserId && data[0].username === currentUserName) {
@@ -45,14 +49,21 @@ const UserProfileInfo = () => {
   return (
     <div className="bg-white rounded-lg px-8 py-16 w-full flex flex-col gap-16">
       <div className="flex gap-8">
-        {userProfileData.id ? (
-          <UserProfileAvatar
-            userId={userProfileData.id}
-            editPermission={editPermission}
+        <div>
+          {userProfileData.id ? (
+            <UserProfileAvatar
+              userId={userProfileData.id}
+              editPermission={editPermission}
+            />
+          ) : (
+            <></>
+          )}
+          <UserProfileContactOptions
+            email={userProfileData.email}
+            phoneNumber={phoneNumber}
+            setPhoneNumber={setPhoneNumber}
           />
-        ) : (
-          <></>
-        )}
+        </div>
         <div className="flex flex-col gap-4">
           <div>
             <h2 className="font-semibold text-4xl text-gray-950">
@@ -64,9 +75,15 @@ const UserProfileInfo = () => {
             {userProfileData.role}
           </span>
           <UserProfileBiography editPermission={editPermission} />
-          <p className="mt-4">
-            Contact Me via: <span>{userProfileData.email}</span>
-          </p>
+          {editPermission ? (
+            <CtaButton
+              type="button"
+              onClick={() => {}}
+              text="Create a Listing"
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       <div>

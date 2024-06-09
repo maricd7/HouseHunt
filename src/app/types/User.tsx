@@ -7,4 +7,5 @@ export interface UserInterface {
   biography: string;
   avatar: string;
   properties: [];
+  phone: string;
 }

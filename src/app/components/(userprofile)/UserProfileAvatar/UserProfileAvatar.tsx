@@ -101,10 +101,10 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
     fetchAvatarUrl();
   }, [userId]);
   return (
-    <div className="relative">
+    <div className="relative h-fit">
       {editPermission ? (
         <div
-          className="bg-gray-800 absolute bottom-16 right-4 rounded-full cursor-pointer p-2 hover:shadow-lg"
+          className="bg-gray-800 absolute bottom-8 right-4 rounded-full cursor-pointer p-2 hover:shadow-lg"
           onClick={handleChangeAvatar}
         >
           <Icon

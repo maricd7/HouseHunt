@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import supabase from "@/app/supabase";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 import { Property } from "@/app/types/Property";
-import ListingCard from "../ListingsHero/ListingCard/ListingCard";
-import ListingCardLoading from "../ListingsHero/ListingCard/ListinCardLoading";
+import ListingCard from "../../ListingsHero/ListingCard/ListingCard";
+import ListingCardLoading from "../../ListingsHero/ListingCard/ListinCardLoading";
 
 interface UserProfileListingsProps {
   useProperties: number[];
