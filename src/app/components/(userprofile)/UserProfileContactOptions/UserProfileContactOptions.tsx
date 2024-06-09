@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState, useRef, useEffect } from "react";
 import { CtaButton, Input } from "../../common";
 import supabase from "@/app/supabase";
+import { useModal } from "@/app/contexts/ModalContex";
 
 interface UserProfileContactOptionsProps {
   email: string | undefined;
@@ -16,20 +17,31 @@ const UserProfileContactOptions = ({
   setPhoneNumber,
 }: UserProfileContactOptionsProps) => {
   const phoneNumberRef = useRef<HTMLInputElement>(null);
+  const { showModal } = useModal();
 
   const [editPhoneNumber, setEditPhoneNumber] = useState<boolean>(false);
-  const handleEditPhoneNumber = async () => {
+
+  const updatePhoneNumber = async () => {
     try {
       const { error } = await supabase
         .from("users")
         .update({ phone: phoneNumberRef.current?.value })
         .eq("email", email);
       setEditPhoneNumber(false);
+      if (error) {
+        throw error;
+      }
     } catch (error) {
       console.log(error);
     }
 
     setPhoneNumber(phoneNumberRef.current?.value);
+  };
+
+  const handleEditPhoneNumber = () => {
+    showModal("Are you sure you want to change the phone number?", () => {
+      updatePhoneNumber();
+    });
   };
 
   return (
@@ -52,7 +64,7 @@ const UserProfileContactOptions = ({
         />
         {phoneNumber && phoneNumber}
         <div
-          className="flex items-center gap-2 text-gray-400 cursor pointer"
+          className="flex items-center gap-2 text-gray-400 cursor-pointer"
           onClick={() => setEditPhoneNumber(true)}
         >
           <Icon
@@ -66,7 +78,7 @@ const UserProfileContactOptions = ({
       {editPhoneNumber ? (
         <div>
           <Input
-            placeholder="Enter your phone nubmer"
+            placeholder="Enter your phone number"
             label="Phone Number"
             type="text"
             required
@@ -75,12 +87,10 @@ const UserProfileContactOptions = ({
           <CtaButton
             type="button"
             text="Save Number"
-            onClick={() => handleEditPhoneNumber()}
+            onClick={handleEditPhoneNumber}
           />
         </div>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </div>
   );
 };
