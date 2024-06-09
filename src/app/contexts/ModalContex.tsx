@@ -10,7 +10,11 @@ import React, {
 import { AreYouSureModal } from "../components";
 
 interface ModalContextType {
-  showModal: (message: string, onConfirm: () => void | null) => void;
+  showModal: (
+    message: string,
+    onConfirm: () => void | null,
+    onCancel?: () => void | null
+  ) => void;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -22,17 +26,28 @@ export const ModalContextProvider: React.FC<{ children: ReactNode }> = ({
     isVisible: boolean;
     message: string;
     onConfirm: (() => void) | null;
-  }>({ isVisible: false, message: "", onConfirm: null });
+    onCancel: (() => void) | null;
+  }>({ isVisible: false, message: "", onConfirm: null, onCancel: null });
 
   const showModal = useCallback(
-    (message: string, onConfirm: (() => void) | null) => {
-      setModal({ isVisible: true, message, onConfirm });
+    (
+      message: string,
+      onConfirm: (() => void) | null,
+      onCancel: (() => void) | null = null
+    ) => {
+      setModal({ isVisible: true, message, onConfirm, onCancel });
     },
     []
   );
 
   const hideModal = () => {
-    setModal({ isVisible: false, message: "", onConfirm: null });
+    if (modal.onCancel) modal.onCancel();
+    setModal({
+      isVisible: false,
+      message: "",
+      onConfirm: null,
+      onCancel: null,
+    });
   };
 
   const confirmModal = () => {

@@ -44,7 +44,7 @@ const UserProfileInfo = () => {
     };
 
     getUserProfileData();
-  }, [params.slug, currentUserId, currentUserName]);
+  }, [params.slug, currentUserId, currentUserName, phoneNumber]);
 
   return (
     <div className="bg-white rounded-lg px-8 py-16 w-full flex flex-col gap-16">

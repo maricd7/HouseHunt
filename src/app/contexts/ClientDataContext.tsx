@@ -30,8 +30,6 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   const [ogUserBio, setOgUserBio] = useState<string | undefined>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userProfileURL, setUserProfileURL] = useState<string>("");
-  const [userProfileProperties, setUserProfileProperties] =
-    useState<Property[]>();
 
   useEffect(() => {
     const windowToken = window.sessionStorage.getItem("token");

@@ -39,9 +39,16 @@ const UserProfileContactOptions = ({
   };
 
   const handleEditPhoneNumber = () => {
-    showModal("Are you sure you want to change the phone number?", () => {
-      updatePhoneNumber();
-    });
+    showModal(
+      "Are you sure you want to change the phone number?",
+      () => {
+        updatePhoneNumber();
+        console.log(phoneNumber);
+      },
+      () => {
+        setEditPhoneNumber(false);
+      }
+    );
   };
 
   return (
