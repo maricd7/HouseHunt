@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef } from "react";
-import { Input } from "../common";
+import { CtaButton, Input } from "../common";
+import supabase from "@/app/supabase";
 
 const CreateListings = () => {
   const propertyNameRef = useRef<HTMLInputElement>(null);
@@ -10,8 +11,34 @@ const CreateListings = () => {
   const propertyBedroomsRef = useRef<HTMLInputElement>(null);
   const propertyAddressRef = useRef<HTMLInputElement>(null);
 
+  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const name = propertyNameRef.current?.value;
+    const price = propertyPriceRef.current?.value;
+    const description = propertyDescriptionRef.current?.value;
+    const bathrooms = propertyBathroomsRef.current?.value;
+    const bedrooms = propertyBedroomsRef.current?.value;
+    const address = propertyAddressRef.current?.value;
+    try {
+      const { data, error } = await supabase
+        .from("properties1")
+        .upsert({
+          name: name,
+          price: price,
+          description: description,
+          bathrooms: bathrooms,
+          bedrooms: bedrooms,
+          address: address,
+        })
+        .select();
+    } catch (error) {
+      console.log(error);
+    }
+
+    console.log("submitted form");
+  };
   return (
-    <form className="flex flex-col gap-8">
+    <form onSubmit={(e) => handleSubmitForm(e)} className="flex flex-col gap-8">
       <Input
         placeholder="Name of the Property"
         label="Name"
@@ -53,6 +80,15 @@ const CreateListings = () => {
         type="text"
         required
         reference={propertyAddressRef}
+      />
+      <div className="flex flex-col gap-2">
+        <label>Image</label>
+        <input type="file" />
+      </div>
+      <CtaButton
+        type="submit"
+        onClick={() => console.log("submitted")}
+        text="Create Listing"
       />
     </form>
   );
