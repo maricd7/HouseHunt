@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import { CtaButton, Input } from "../common";
 import supabase from "@/app/supabase";
+import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 
 const CreateListings = () => {
   const propertyNameRef = useRef<HTMLInputElement>(null);
@@ -10,16 +11,49 @@ const CreateListings = () => {
   const propertyBathroomsRef = useRef<HTMLInputElement>(null);
   const propertyBedroomsRef = useRef<HTMLInputElement>(null);
   const propertyAddressRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
+  const { currentUserId } = useClientDataContext();
 
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const name = propertyNameRef.current?.value;
     const price = propertyPriceRef.current?.value;
     const description = propertyDescriptionRef.current?.value;
     const bathrooms = propertyBathroomsRef.current?.value;
     const bedrooms = propertyBedroomsRef.current?.value;
     const address = propertyAddressRef.current?.value;
+
+    let imageUrl = "";
+
+    const uploadPropertyPhoto = async () => {
+      if (
+        imageInputRef.current?.files &&
+        imageInputRef.current?.files.length > 0
+      ) {
+        const file = imageInputRef.current.files[0];
+        const filePath = `public/${currentUserId}/${file.name}`;
+
+        const { data, error } = await supabase.storage
+          .from("properties")
+          .upload(filePath, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (error) {
+          throw error;
+        }
+
+        imageUrl = supabase.storage.from("properties").getPublicUrl(filePath)
+          .data.publicUrl;
+      }
+    };
+
     try {
+      await uploadPropertyPhoto();
+
       const { data, error } = await supabase
         .from("properties1")
         .upsert({
@@ -29,14 +63,21 @@ const CreateListings = () => {
           bathrooms: bathrooms,
           bedrooms: bedrooms,
           address: address,
+          image: imageUrl,
+          seller_id: currentUserId,
         })
         .select();
-    } catch (error) {
-      console.log(error);
-    }
 
-    console.log("submitted form");
+      if (error) {
+        throw error;
+      }
+
+      console.log("submitted form");
+    } catch (error: any) {
+      console.error("Error creating listing:", error.message);
+    }
   };
+
   return (
     <form onSubmit={(e) => handleSubmitForm(e)} className="flex flex-col gap-8">
       <Input
@@ -83,13 +124,9 @@ const CreateListings = () => {
       />
       <div className="flex flex-col gap-2">
         <label>Image</label>
-        <input type="file" />
+        <input type="file" ref={imageInputRef} />
       </div>
-      <CtaButton
-        type="submit"
-        onClick={() => console.log("submitted")}
-        text="Create Listing"
-      />
+      <CtaButton type="submit" text="Create Listing" onClick={() => {}} />
     </form>
   );
 };
