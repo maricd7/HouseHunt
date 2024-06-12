@@ -12,7 +12,6 @@ import { UserProfileContactOptions } from "../UserProfileContactOptions";
 const UserProfileInfo = () => {
   const params = useParams();
   const [userProfileData, setUserProfileData] = useState<any>({});
-  const [useProperties, setUserProperties] = useState<number[]>([]);
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const { setCurrentUserBiography, currentUserId, currentUserName } =
     useClientDataContext();
@@ -26,10 +25,9 @@ const UserProfileInfo = () => {
       try {
         const { data, error } = await supabase
           .from("users")
-          .select("id,name,email,username,role,biography,properties,phone")
+          .select("id,name,email,username,role,biography,phone")
           .eq("username", params.slug);
         if (data?.length) {
-          setUserProperties(data[0].properties || []);
           setCurrentUserBiography(data[0].biography);
           setUserProfileData(data[0]);
           setPhoneNumber(data[0].phone);
@@ -94,13 +92,7 @@ const UserProfileInfo = () => {
         <h2 className="text-4xl text-gray-950 font-semibold">
           {userProfileData.name}'s Current Listings
         </h2>
-        {useProperties.length > 0 ? (
-          <UserProfileListings useProperties={useProperties} />
-        ) : (
-          <h2 className=" text-xl mt-16">
-            This seller has no listings available..
-          </h2>
-        )}
+        <UserProfileListings />
       </div>
     </div>
   );
