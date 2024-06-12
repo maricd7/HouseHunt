@@ -33,6 +33,15 @@ const UserProfileListings = () => {
       .eq("id", propId);
   };
 
+  const handleSetAsSoldButtonClick = (id: number) => {
+    showModal(
+      "Are you sure you want to mark this listing as sold?",
+      () => {
+        setListingAsSold(id);
+      },
+      () => {}
+    );
+  };
   useEffect(() => {
     getUserProfileListings();
   }, [currentUserId]);
@@ -55,14 +64,18 @@ const UserProfileListings = () => {
         ? userProperties.map((property, index) => (
             <div className="flex flex-col gap-4">
               <ListingCard property={property} key={index} />
-              <button
-                onClick={() => {
-                  setListingAsSold(property.id);
-                }}
-                className="px-4 py-2 rounded-lg hover:shadow-lg border border-gray-950"
-              >
-                Mark as Sold
-              </button>
+              {property.status ? (
+                <button
+                  onClick={() => {
+                    handleSetAsSoldButtonClick(property.id);
+                  }}
+                  className="px-4 py-2 rounded-lg hover:shadow-lg border border-gray-950"
+                >
+                  Mark as Sold
+                </button>
+              ) : (
+                <></>
+              )}
             </div>
           ))
         : Array.from({ length: 4 }).map((_, index) => (
