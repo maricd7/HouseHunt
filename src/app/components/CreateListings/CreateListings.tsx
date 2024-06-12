@@ -12,6 +12,7 @@ const CreateListings = () => {
   const propertyBedroomsRef = useRef<HTMLInputElement>(null);
   const propertyAddressRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const propertyTypeRef = useRef<HTMLSelectElement>(null);
 
   const { currentUserId } = useClientDataContext();
 
@@ -24,6 +25,7 @@ const CreateListings = () => {
     const bathrooms = propertyBathroomsRef.current?.value;
     const bedrooms = propertyBedroomsRef.current?.value;
     const address = propertyAddressRef.current?.value;
+    const type = propertyTypeRef.current?.value;
 
     let imageUrl = "";
 
@@ -33,7 +35,7 @@ const CreateListings = () => {
         imageInputRef.current?.files.length > 0
       ) {
         const file = imageInputRef.current.files[0];
-        const filePath = `public/${currentUserId}/${file.name}`;
+        const filePath = `public/${currentUserId}/${name}/${file.name}`;
 
         const { data, error } = await supabase.storage
           .from("properties")
@@ -65,6 +67,7 @@ const CreateListings = () => {
           address: address,
           image: imageUrl,
           seller_id: currentUserId,
+          property_type: type,
         })
         .select();
 
@@ -122,6 +125,18 @@ const CreateListings = () => {
         required
         reference={propertyAddressRef}
       />
+      <div className="flex flex-col gap-2">
+        <label>Property type</label>
+        <select
+          ref={propertyTypeRef}
+          className="max-w-fit border border-gray-400 rounded-lg p-4"
+        >
+          <option>HOUSE</option>
+          <option>VILLA</option>
+          <option>MANSION</option>
+          <option>APARTMENT</option>
+        </select>
+      </div>
       <div className="flex flex-col gap-2">
         <label>Image</label>
         <input type="file" ref={imageInputRef} />
