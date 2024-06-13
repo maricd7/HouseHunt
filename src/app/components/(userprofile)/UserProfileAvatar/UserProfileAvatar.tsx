@@ -1,8 +1,10 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import supabase from "@/app/supabase";
+import { uploadAvatar } from "@/app/actions/uploadAvatar";
+import { fetchAvatarUrl } from "@/app/actions/fetchAvatarUrl";
 
 interface UserAvatarProps {
   userId: number;
@@ -18,7 +20,7 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
   const [file, setFile] = useState<File | null>(null);
 
   const handleChangeAvatar = () => {
-    setUploading((prevState) => !prevState);
+    setUploading(true);
   };
 
   const profileAvatarFileSetter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,42 +35,12 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
     setFile(newAvatarFile);
     setIsFileUploaded(true);
 
-    // Display the selected file immediately
+    // read file when uploaded
     const reader = new FileReader();
     reader.onloadend = () => {
       setAvatar(reader.result as string);
     };
     reader.readAsDataURL(selectedFile);
-  };
-
-  const uploadAvatar = async () => {
-    if (file) {
-      const { data, error } = await supabase.storage
-        .from("avatars")
-        .upload(`public/${userId}/avatar.jpg`, file, {
-          cacheControl: "3600",
-          upsert: true,
-        });
-      if (error) {
-        setError(error.message);
-      } else {
-        setError("");
-        if (data) {
-          // Fetch the new avatar URL with a cache-busting query parameter
-          const { data: avatarData } = supabase.storage
-            .from("avatars")
-            .getPublicUrl(`public/${userId}/avatar.jpg`);
-          if (avatarData) {
-            setAvatar(`${avatarData.publicUrl}?t=${new Date().getTime()}`);
-            setOriginalAvatar(
-              `${avatarData.publicUrl}?t=${new Date().getTime()}`
-            );
-          }
-        }
-      }
-      setUploading(false);
-      setIsFileUploaded(false);
-    }
   };
 
   const handleCancel = () => {
@@ -77,32 +49,27 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
     setIsFileUploaded(false);
   };
 
+  const handleSave = () => {
+    if (file) {
+      uploadAvatar(
+        userId,
+        file,
+        setError,
+        setAvatar,
+        setOriginalAvatar,
+        setUploading,
+        setIsFileUploaded
+      );
+    }
+  };
+
   useEffect(() => {
-    //fetch source for avatar on mount
-    const fetchAvatarUrl = async () => {
-      const { data, error } = await supabase
-        .from("users")
-        .select("avatar")
-        .eq("id", userId);
-      if (data) {
-        const avatarUrl = data[0].avatar;
-        setAvatar(avatarUrl);
-        setOriginalAvatar(avatarUrl);
-        // update avatar in users table1
-        const { error } = await supabase
-          .from("users")
-          .update({ avatar: avatarUrl })
-          .eq("id", userId);
-        if (error) {
-          console.log(error, "Error");
-        }
-      }
-    };
-    fetchAvatarUrl();
+    fetchAvatarUrl(userId, setAvatar, setOriginalAvatar);
   }, [userId]);
+
   return (
     <div className="relative h-fit">
-      {editPermission ? (
+      {editPermission && (
         <div
           className="bg-gray-800 absolute bottom-8 right-4 rounded-full cursor-pointer p-2 hover:shadow-lg"
           onClick={handleChangeAvatar}
@@ -114,13 +81,11 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
             style={{ color: "#fff" }}
           />
         </div>
-      ) : (
-        <></>
       )}
       <Image
         width={256}
         height={256}
-        src={avatar ? avatar : "/avatars/avatar.jpg"}
+        src={avatar || "/avatars/avatar.jpg"}
         alt="Profile Picture"
         className="rounded-full"
       />
@@ -135,18 +100,18 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
           />
           {isFileUploaded && (
             <div className="flex gap-2">
-              <span
-                onClick={uploadAvatar}
+              <button
+                onClick={handleSave}
                 className="bg-white text-gray-950 px-4 py-2 rounded-md cursor-pointer"
               >
                 Save
-              </span>
-              <span
+              </button>
+              <button
                 onClick={handleCancel}
                 className="bg-transparent text-red-700 px-4 py-2 border border-red-700 rounded-md cursor-pointer hover:bg-red-700 hover:text-white"
               >
                 Cancel
-              </span>
+              </button>
             </div>
           )}
         </div>

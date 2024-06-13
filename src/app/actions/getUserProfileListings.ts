@@ -1,4 +1,3 @@
-'use server'
 import { Property } from "@/app/types/Property";
 import supabase from "../supabase";
 

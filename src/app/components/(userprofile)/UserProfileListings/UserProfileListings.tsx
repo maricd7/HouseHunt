@@ -47,9 +47,9 @@ const UserProfileListings = () => {
   return (
     <div className="flex gap-8 mt-8">
       {userProperties?.length
-        ? userProperties.map((property, index) => (
-            <div className="flex flex-col gap-4">
-              <ListingCard property={property} key={index} />
+        ? userProperties.map((property) => (
+            <div className="flex flex-col gap-4" key={property.id}>
+              <ListingCard property={property} />
               {property.status ? (
                 <button
                   onClick={() => {
