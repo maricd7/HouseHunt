@@ -1,37 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import supabase from "@/app/supabase";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 import { Property } from "@/app/types/Property";
 import ListingCard from "../../ListingsHero/ListingCard/ListingCard";
 import ListingCardLoading from "../../ListingsHero/ListingCard/ListinCardLoading";
 import { useModal } from "@/app/contexts/ModalContex";
+import { getUserProfileListings } from "@/app/actions/getUserProfileListings";
+import { setListingAsSold } from "@/app/actions/setListingsAsSold";
 
 const UserProfileListings = () => {
   const [userProperties, setUserProperties] = useState<Property[]>();
   const { currentUserId } = useClientDataContext();
   const { showModal } = useModal();
-
-  const getUserProfileListings = async () => {
-    const { data, error } = await supabase
-      .from("properties1")
-      .select()
-      .eq("seller_id", currentUserId);
-    if (data) {
-      setUserProperties(data);
-    }
-    if (error) {
-      console.log(error);
-    }
-  };
-
-  //function for setting listing as sold
-  const setListingAsSold = async (propId: number) => {
-    const { error } = await supabase
-      .from("properties1")
-      .update({ status: false })
-      .eq("id", propId);
-  };
 
   const handleSetAsSoldButtonClick = (id: number) => {
     showModal(
@@ -42,13 +22,19 @@ const UserProfileListings = () => {
       () => {}
     );
   };
-  useEffect(() => {
-    getUserProfileListings();
-  }, [currentUserId]);
 
-  //fetch data on mount or when current user id changes
   useEffect(() => {
-    getUserProfileListings();
+    const fetchData = async () => {
+      if (currentUserId) {
+        const properties = await getUserProfileListings(currentUserId);
+        if (properties) {
+          setUserProperties(properties);
+        } else {
+          console.log("Fetching Listing Error");
+        }
+      }
+    };
+    fetchData();
   }, [currentUserId]);
 
   if (!userProperties) {
