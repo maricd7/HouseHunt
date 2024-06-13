@@ -33,6 +33,8 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const windowToken = window.sessionStorage.getItem("token");
+    const savedProfileURL = window.sessionStorage.getItem("userProfileURL");
+
     if (windowToken) {
       setToken(windowToken);
     }

@@ -3,23 +3,13 @@ import supabase from "@/app/supabase";
 import React, { useEffect, useState } from "react";
 import MemberCard from "../MemberCard/MemberCard";
 import { UserInterface } from "@/app/types/User";
+import { fetchMembers } from "@/app/actions/fetchMembers";
 
 const MembersContainer = () => {
   const [members, setMembers] = useState<UserInterface[]>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data, error } = await supabase.from("users").select();
-        console.log(data);
-        if (data) {
-          setMembers(data);
-        }
-      } catch (error) {
-        console.log("There was error fetching members.");
-      }
-    };
-    fetchData();
+    fetchMembers(setMembers);
   }, []);
 
   return (

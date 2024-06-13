@@ -13,6 +13,7 @@ const Logout = () => {
     router.push("/login");
     setUserProfileURL("");
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("userProfileURL");
     setIsLoggedIn(false);
   };
 

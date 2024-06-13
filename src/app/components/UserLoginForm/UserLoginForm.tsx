@@ -44,6 +44,7 @@ const UserLoginForm = () => {
       const { userName } = result;
       if (userName) {
         setUserProfileURL(`/profile/${userName}`);
+        sessionStorage.setItem("userProfileURL", `/profile/${userName}`);
       }
       if (token) {
         sessionStorage.setItem("token", token);

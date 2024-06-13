@@ -6,8 +6,8 @@ import React, {
   ReactNode,
   useContext,
 } from "react";
-import supabase from "../supabase";
 import { Property } from "../types/Property";
+import { fetchData } from "../actions/fetchPropertiesData";
 
 interface PropertiesContextProps {
   properties: Property[];
@@ -28,19 +28,7 @@ export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
   const [specialOffer, setSpecialOffer] = useState<Property[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const { data, error } = await supabase.from("properties1").select("*");
-        if (error) {
-          throw error;
-        }
-        setProperties(data);
-        getSpecialOffer(data);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    }
-    fetchData();
+    fetchData(setProperties, getSpecialOffer);
   }, []);
 
   //special offers random shuffler
