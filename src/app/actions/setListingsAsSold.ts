@@ -1,3 +1,4 @@
+"use server"
 import supabase from "../supabase";
 
 export  const setListingAsSold = async (propId: number) => {

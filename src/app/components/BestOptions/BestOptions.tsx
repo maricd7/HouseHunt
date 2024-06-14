@@ -54,15 +54,12 @@ const BestOptions = () => {
 
   return (
     <motion.section
-      className="bg-white px-32 w-full relative z-40 py-16 flex flex-col gap-8 justify-center items-center"
+      className="w-full relative z-40 py-16 flex flex-col gap-8 justify-center items-center"
       ref={sectionRef}
       initial="hidden"
       animate={controls}
       variants={containerVariants}
     >
-      <motion.h2 className="text-5xl font-semibold" variants={itemVariants}>
-        Best Options
-      </motion.h2>
       <motion.div
         className="flex gap-8 mt-8 justify-between"
         variants={itemVariants}
@@ -71,7 +68,7 @@ const BestOptions = () => {
           className="grid grid-cols-2 gap-8 w-full"
           variants={containerVariants}
         >
-          {specialOffer.slice(0, 4).map((property, index) => (
+          {specialOffer.slice(0, 1).map((property, index) => (
             <motion.div key={index} variants={itemVariants}>
               <BestOptionCard
                 id={property.id}
@@ -87,11 +84,6 @@ const BestOptions = () => {
           ))}
         </motion.div>
       </motion.div>
-      <CtaButton
-        text="View All"
-        type="button"
-        onClick={() => router.push("/listings")}
-      />
     </motion.section>
   );
 };

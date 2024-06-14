@@ -29,17 +29,19 @@ function BestOptionCard({
   return (
     <Link
       href={"/listings/" + id}
-      className="bg-white h-full rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer relative"
+      className="bg-white h-full rounded-lg p-4 flex flex-col max-w-72   gap-4 w-full shadow-lg border border-gray-300 hover:border-blue-700 cursor-pointer relative"
     >
-      <Image
-        className="rounded-lg "
-        width={240}
-        height={360}
-        alt="Hero Card Name"
-        src={image}
-      />
-      <div className="absolute bottom-8 left-8 ">
-        <PropertyType property_type={property_type} />
+      <div className="relative">
+        <Image
+          className="rounded-lg "
+          width={240}
+          height={360}
+          alt="Hero Card Name"
+          src={image}
+        />
+        <div className="absolute bottom-4 left-4 ">
+          <PropertyType property_type={property_type} />
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         <h4 className="text-2xl font-semibold text-gray-950">{name}</h4>

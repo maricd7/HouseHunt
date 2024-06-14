@@ -14,7 +14,7 @@ const HeroCard = () => {
 
   return (
     specialOffer && (
-      <div className="bg-gray-200 rounded-lg p-4 flex gap-4 w-full shadow-lg border border-gray-300 hover:scale-105 cursor-pointer z-40 relative">
+      <div className="bg-gray-200 rounded-lg p-4 flex flex-col max-w-72 gap-4 w-full shadow-lg border border-gray-300 hover:scale-105 cursor-pointer z-40 relative">
         <Image
           className="rounded-lg"
           width={360}

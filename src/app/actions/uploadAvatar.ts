@@ -1,3 +1,4 @@
+"use server"
 import supabase from "../supabase";
 
 export const uploadAvatar = async (

@@ -5,6 +5,9 @@ import { CtaButton } from "../common";
 import { useRouter } from "next/navigation";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
 import Cookies from "js-cookie";
+import { HeroCard } from "../HeroCard";
+import { BestOptions } from "../BestOptions";
+import Image from "next/image";
 
 const Hero = () => {
   const controls = useAnimation();
@@ -38,21 +41,21 @@ const Hero = () => {
 
   return (
     <motion.section
-      className="h-screen flex justify-center items-center gap-16 bg-hero-pattern px-32"
+      className="h-screen flex  items-center gap-16 bg-gray-100 px-32"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
     >
       <motion.div
-        className="gap-8 flex flex-col w-1/2 z-40"
+        className="gap-8 flex flex-col w-3/5 z-40"
         variants={containerVariants}
       >
         <motion.div className="flex flex-col gap-4" variants={itemVariants}>
-          <h1 className="text-6xl font-semibold text-gray-950 text-center">
+          <h1 className="text-6xl font-semibold text-gray-950 ">
             Find Your Perfect <span className="text-blue-700">Home:</span>{" "}
             Discover Houses, Apartments, and More!
           </h1>
-          <p className="text-lg text-gray-00 text-center">
+          <p className="text-lg text-gray-500">
             Easily search and explore a wide range of properties to find the
             perfect home that fits your lifestyle and budget. Whether you're
             looking for a cozy apartment, a spacious house, or a luxurious
@@ -60,10 +63,7 @@ const Hero = () => {
             dream home a reality.
           </p>
         </motion.div>
-        <motion.div
-          variants={itemVariants}
-          className="flex gap-8 justify-center"
-        >
+        <motion.div variants={itemVariants} className="flex gap-8">
           <CtaButton
             type="button"
             onClick={() => router.push("/signup")}
@@ -76,9 +76,9 @@ const Hero = () => {
           />
         </motion.div>
       </motion.div>
-      {/* <motion.div variants={itemVariants}>
-        <HeroCard />
-      </motion.div> */}
+      <div className="border border-gray-400 bg-white rounded-l-full overflow-hidden shadow-md hover:shadow-lg">
+        <Image src="/real-estate.jpg" height={600} width={600} alt="Hero" />
+      </div>
     </motion.section>
   );
 };

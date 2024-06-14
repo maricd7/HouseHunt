@@ -27,15 +27,22 @@ export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
   const [properties, setProperties] = useState<Property[]>([]);
   const [specialOffer, setSpecialOffer] = useState<Property[]>([]);
 
-  useEffect(() => {
-    fetchData(setProperties, getSpecialOffer);
-  }, []);
-
   //special offers random shuffler
   const getSpecialOffer = (offers: Property[]) => {
     const shuffled = offers && offers.sort(() => 0.5 - Math.random());
     setSpecialOffer(shuffled.slice(0, 4));
   };
+
+  useEffect(() => {
+    const fetchPropertiesData = async () => {
+      const data = await fetchData();
+      if (data) {
+        setProperties(data.data);
+        getSpecialOffer(data.data);
+      }
+    };
+    fetchPropertiesData();
+  }, []);
 
   const contextValue: PropertiesContextProps = {
     properties: properties,

@@ -64,7 +64,15 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
   };
 
   useEffect(() => {
-    fetchAvatarUrl(userId, setAvatar, setOriginalAvatar);
+    const getUserAvatarURL = async () => {
+      const data = await fetchAvatarUrl(userId);
+
+      if (data) {
+        const avatarURL = data;
+        setAvatar(avatarURL.data.avatar);
+      }
+    };
+    getUserAvatarURL();
   }, [userId]);
 
   return (

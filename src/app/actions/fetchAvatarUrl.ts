@@ -1,16 +1,16 @@
+"use server"
 import supabase from "../supabase";
 
-export const fetchAvatarUrl = async (userId: number, setAvatar: (url: string) => void, setOriginalAvatar: (avatarData: string) => void) => {
+export const fetchAvatarUrl = async (userId: number) => {
   const { data, error } = await supabase
     .from("users")
     .select("avatar")
     .eq("id", userId)
     .single();
 
-  if (data) {
-    const avatarUrl = `${data.avatar}?${new Date().getTime()}`;
-    setAvatar(avatarUrl);
-    setOriginalAvatar(avatarUrl);
+    if (data) {
+      return {data}; 
+    
   } else if (error) {
     console.error(error);
   }

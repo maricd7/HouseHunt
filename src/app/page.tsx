@@ -8,9 +8,9 @@ export default function Home() {
       <ClientDataContextProvider>
         <main className=" flex h-full flex justify-center items-center flex-col">
           <Hero />
-          <BestOptions />
+          {/* <BestOptions />
           <AboutUs />
-          <Testimonials />
+          <Testimonials /> */}
         </main>
       </ClientDataContextProvider>
     </PropertiesContextProvider>

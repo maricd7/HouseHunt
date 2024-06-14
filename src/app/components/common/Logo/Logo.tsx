@@ -11,7 +11,7 @@ const Logo = () => {
         height="32"
         style={{ color: "#3b82f6" }}
       />
-      <h2 className="text-2xl font-semibold">HouseHunt</h2>
+      <h2 className="text-2xl font-semibold text-gray-950">HouseHunt</h2>
     </Link>
   );
 };

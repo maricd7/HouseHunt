@@ -1,5 +1,4 @@
 "use client";
-import supabase from "@/app/supabase";
 import React, { useEffect, useState } from "react";
 import MemberCard from "../MemberCard/MemberCard";
 import { UserInterface } from "@/app/types/User";
@@ -9,7 +8,13 @@ const MembersContainer = () => {
   const [members, setMembers] = useState<UserInterface[]>();
 
   useEffect(() => {
-    fetchMembers(setMembers);
+    const getMembers = async () => {
+      const data = await fetchMembers();
+      if (data) {
+        setMembers(data.data);
+      }
+    };
+    getMembers();
   }, []);
 
   return (
