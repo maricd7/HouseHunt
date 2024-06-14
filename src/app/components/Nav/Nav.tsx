@@ -16,7 +16,7 @@ function Nav() {
         <NavLink icon="home" text="Home" href="/" />
         <NavLink icon="building" text="Listings" href="/listings" />
         <NavLink icon="user-multiple" text="Members" href="/members" />
-        <NavLink icon="information" text="About Us" href="../#about-us" />
+        {/* <NavLink icon="information" text="About Us" href="../#about-us" /> */}
         <NavLink icon="location-heart" text="Wishlist" href="/wishlist" />
         <NavLink icon="user" text="Profile" href={userProfileURL || "/login"} />
         {isLoggedIn ? (

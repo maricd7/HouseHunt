@@ -67,12 +67,12 @@ const Hero = () => {
           <CtaButton
             type="button"
             onClick={() => router.push("/signup")}
-            text="Start Selling"
+            text="Sign Up"
           />
           <CtaButton
             type="button"
             onClick={() => router.push("/signup")}
-            text="Find a Perfect Home"
+            text="Sign In"
           />
         </motion.div>
       </motion.div>

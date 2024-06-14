@@ -64,7 +64,7 @@ const UserLoginForm = () => {
         <h1 className="text-4xl font-bold text-gray-950">Login</h1>
         <h2>Login into Your HouseHunt Account Now!</h2>
       </div>
-      <form className="flex flex-col gap-8" onSubmit={handleLogin}>
+      <form className="flex flex-col gap-8 w-full " onSubmit={handleLogin}>
         <Input
           placeholder="Email"
           type="email"
