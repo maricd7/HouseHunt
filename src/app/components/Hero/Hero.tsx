@@ -3,10 +3,6 @@ import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { CtaButton } from "../common";
 import { useRouter } from "next/navigation";
-import { useClientDataContext } from "@/app/contexts/ClientDataContext";
-import Cookies from "js-cookie";
-import { HeroCard } from "../HeroCard";
-import { BestOptions } from "../BestOptions";
 import Image from "next/image";
 
 const Hero = () => {
@@ -57,10 +53,10 @@ const Hero = () => {
           </h1>
           <p className="text-lg text-gray-500">
             Easily search and explore a wide range of properties to find the
-            perfect home that fits your lifestyle and budget. Whether you're
-            looking for a cozy apartment, a spacious house, or a luxurious
-            condo, our user-friendly app has everything you need to make your
-            dream home a reality.
+            perfect home that fits your lifestyle and budget. Whether
+            you`&apos;`re looking for a cozy apartment, a spacious house, or a
+            luxurious condo, our user-friendly app has everything you need to
+            make your dream home a reality.
           </p>
         </motion.div>
         <motion.div variants={itemVariants} className="flex gap-8">
