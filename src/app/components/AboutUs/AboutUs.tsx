@@ -60,7 +60,7 @@ const AboutUs = () => {
         </motion.h2>
         <motion.p variants={itemVariants}>
           At HouseHunt, we understand that finding the perfect place to call
-          home is more than just a transaction; it`&apos;`s about fulfilling
+          home is more than just a transaction; it&apos;s about fulfilling
           dreams, creating memories, and building futures. With our cutting-edge
           real estate app, we strive to make the journey to your dream home as
           seamless and enjoyable as possible.
@@ -77,7 +77,7 @@ const AboutUs = () => {
           With HouseHunt
         </motion.h2>
         <motion.p variants={itemVariants}>
-          Your search for the perfect home is not just efficient, it`&apos;`s
+          Your search for the perfect home is not just efficient, it&apos;s
           enjoyable. We believe that every house-hunting experience should be
           filled with excitement, anticipation, and endless possibilities. Let
           HouseHunt be your trusted companion as you embark on this exhilarating
@@ -85,9 +85,9 @@ const AboutUs = () => {
         </motion.p>
         <motion.p variants={itemVariants}>
           But HouseHunt is more than just a platform for property listings.
-          We`&apos;`re dedicated to providing you with valuable insights, expert
+          We&apos;re dedicated to providing you with valuable insights, expert
           guidance, and unparalleled support throughout your home-buying
-          journey. Whether you`&apos;`re a first-time buyer or a seasoned
+          journey. Whether you&apos;re a first-time buyer or a seasoned
           investor, our team of experienced real estate professionals is here to
           help you navigate the complexities of the market and make informed
           decisions.

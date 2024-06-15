@@ -81,7 +81,7 @@ const UserLoginForm = () => {
         <span className="text-red-500 font-semibold">{errorMessage}</span>
         <CtaButton onClick={() => {}} type="submit" text="Sign In" />
         <span className="text-center">
-          Don`&apos;`t have an account ?{" "}
+          Don&apos;t have an account ?{" "}
           <Link href="/signup" className="text-blue-400">
             Sign Up
           </Link>

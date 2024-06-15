@@ -54,7 +54,7 @@ const Hero = () => {
           <p className="text-lg text-gray-500">
             Easily search and explore a wide range of properties to find the
             perfect home that fits your lifestyle and budget. Whether
-            you`&apos;`re looking for a cozy apartment, a spacious house, or a
+            you&apos;re looking for a cozy apartment, a spacious house, or a
             luxurious condo, our user-friendly app has everything you need to
             make your dream home a reality.
           </p>
