@@ -13,12 +13,14 @@ interface PropertiesContextProps {
   properties: Property[];
   specialOffer: Property[];
   setProperties: (arg: Property[]) => void;
+  fetchPropertiesData: () => void;
 }
 
 const PropertiesContext = createContext<PropertiesContextProps>({
   properties: [],
   specialOffer: [],
   setProperties: () => [],
+  fetchPropertiesData: () => [],
 });
 
 export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
@@ -33,14 +35,16 @@ export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
     setSpecialOffer(shuffled.slice(0, 4));
   };
 
+  //fetch properties data
+  const fetchPropertiesData = async () => {
+    const data = await fetchData();
+    if (data) {
+      setProperties(data.data);
+      getSpecialOffer(data.data);
+    }
+  };
+
   useEffect(() => {
-    const fetchPropertiesData = async () => {
-      const data = await fetchData();
-      if (data) {
-        setProperties(data.data);
-        getSpecialOffer(data.data);
-      }
-    };
     fetchPropertiesData();
   }, []);
 
@@ -48,6 +52,7 @@ export const PropertiesContextProvider: React.FC<{ children: ReactNode }> = ({
     properties: properties,
     specialOffer: specialOffer,
     setProperties: setProperties,
+    fetchPropertiesData,
   };
 
   return (

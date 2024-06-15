@@ -1,7 +1,8 @@
 "use client";
 import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
-import React, { useState, ChangeEvent, useEffect } from "react";
-
+import React, { useState, ChangeEvent, useEffect, useRef } from "react";
+import { fetchData } from "@/app/actions/fetchPropertiesData";
+import { Property } from "@/app/types/Property";
 interface Filters {
   query: string;
   bathrooms: number | null;
@@ -10,7 +11,9 @@ interface Filters {
   maxPrice: number | null;
 }
 const ListingsFilter = () => {
-  const { properties, setProperties } = usePropertiesContext();
+  const { properties, setProperties, fetchPropertiesData } =
+    usePropertiesContext();
+
   const [filters, setFilters] = useState<Filters>({
     query: "",
     bathrooms: null,
@@ -37,13 +40,14 @@ const ListingsFilter = () => {
 
     setProperties(filtered);
   };
-  useEffect(() => {
-    console.log(properties, "asdasd");
-  }, [properties]);
 
   // search change filters handler
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    if (value.length < 1) {
+      fetchPropertiesData();
+      return;
+    }
     setSearch(value);
     setFilters((prevFilters) => ({
       ...prevFilters,
