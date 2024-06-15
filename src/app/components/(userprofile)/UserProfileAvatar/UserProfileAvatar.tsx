@@ -96,6 +96,7 @@ const UserProfileAvatar = ({ userId, editPermission }: UserAvatarProps) => {
         src={avatar || "/avatars/avatar.jpg"}
         alt="Profile Picture"
         className="rounded-full"
+        priority
       />
       {uploading && (
         <div className="bg-gray-800 px-4 py-2 rounded-lg mt-4 w-fit text-white flex gap-4 items-center justify-center">
