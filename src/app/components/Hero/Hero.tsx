@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { CtaButton } from "../common";
+import { CtaButton, Paragraph } from "../common";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -51,13 +51,13 @@ const Hero = () => {
             Find Your Perfect <span className="text-blue-700">Home:</span>{" "}
             Discover Houses, Apartments, and More!
           </h1>
-          <p className="text-lg text-gray-500">
-            Easily search and explore a wide range of properties to find the
+          <Paragraph
+            text="Easily search and explore a wide range of properties to find the
             perfect home that fits your lifestyle and budget. Whether
-            you&apos;re looking for a cozy apartment, a spacious house, or a
+            you're looking for a cozy apartment, a spacious house, or a
             luxurious condo, our user-friendly app has everything you need to
-            make your dream home a reality.
-          </p>
+            make your dream home a reality."
+          />
         </motion.div>
         <motion.div variants={itemVariants} className="flex gap-8">
           <CtaButton

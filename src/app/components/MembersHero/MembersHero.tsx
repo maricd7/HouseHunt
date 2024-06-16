@@ -1,5 +1,6 @@
 import React from "react";
 import { MembersContainer } from "./MembersContainer";
+import { Paragraph } from "../common";
 
 const MembersHero = () => {
   return (
@@ -8,9 +9,7 @@ const MembersHero = () => {
         <h1 className="text-6xl font-semibold  text-gray-950 text-center">
           Connect with Buyers & Sellers!
         </h1>
-        <p className="text-gray-600 text-xl text-center">
-          Reach a wide audience of potential buyers and sellers quickly.
-        </p>
+        <Paragraph text=" Reach a wide audience of potential buyers and sellers quickly." />
       </div>
       <MembersContainer />
     </section>

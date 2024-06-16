@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import supabase from '@/app/supabase';
-
+import { cookies } from 'next/headers';
 
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
@@ -40,7 +40,11 @@ export async function POST(request: Request) {
   
       const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
       
-
+      // if(token){
+      //   const cookieStore = cookies()
+      //   cookieStore.set('token',token)
+      // }
+      
       //response payload
       return NextResponse.json({token,userName});
 

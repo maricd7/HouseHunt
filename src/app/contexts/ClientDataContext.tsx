@@ -30,6 +30,7 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
   const [ogUserBio, setOgUserBio] = useState<string | undefined>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userProfileURL, setUserProfileURL] = useState<string>("");
+  // const [wishlist, setWishlist] = useState<Property[]>();
 
   useEffect(() => {
     const windowToken = window.sessionStorage.getItem("token");
@@ -40,6 +41,12 @@ export const ClientDataContextProvider: React.FC<{ children: ReactNode }> = ({
     if (windowToken) {
       setToken(windowToken);
     }
+
+    // const currentWishlist = localStorage.getItem("wishlist");
+    // if (currentWishlist) {
+    //   let parsed = JSON.parse(currentWishlist);
+    //   setWishlist(parsed);
+    // }
   }, []);
 
   useEffect(() => {
