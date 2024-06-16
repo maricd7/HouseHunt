@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import useSessionToken from "@/app/hooks/useSessionToken";
 import { useClientDataContext } from "@/app/contexts/ClientDataContext";
+import { loginUser } from "@/app/actions/loginUser";
 
 const UserLoginForm = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -27,21 +28,13 @@ const UserLoginForm = () => {
     }
 
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await loginUser({ email, password });
 
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || "Login failed");
+      if (response.status !== 200) {
+        throw new Error(response.json.message || "Login failed");
       }
 
-      const { token } = result;
-      const { userName } = result;
+      const { token, userName } = response.json;
       if (userName) {
         setUserProfileURL(`/profile/${userName}`);
         sessionStorage.setItem("userProfileURL", `/profile/${userName}`);
