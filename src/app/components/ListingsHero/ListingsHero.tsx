@@ -1,6 +1,5 @@
 import React from "react";
 import ListingsContainer from "./ListingsContainer/ListingsContainer";
-import { ListingsFilter } from "../ListingsFilter";
 import { Paragraph } from "../common";
 
 const ListingsHero = () => {
@@ -15,7 +14,6 @@ const ListingsHero = () => {
           Listings on Our Real Estate Platform"
         />
       </div>
-      <ListingsFilter />
       <ListingsContainer />
     </section>
   );

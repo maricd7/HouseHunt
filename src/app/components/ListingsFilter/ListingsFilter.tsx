@@ -1,6 +1,7 @@
 "use client";
 import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
 import React, { useState, ChangeEvent } from "react";
+import { ListingsNoResults } from "../ListingsNoResults";
 
 interface Filters {
   query: string;
@@ -21,26 +22,47 @@ const ListingsFilter = () => {
     minPrice: null,
     maxPrice: null,
   });
-
   const filterProperties = (filters: Filters) => {
-    console.log("trigger", properties);
+    let filtered = properties;
 
-    // Function for filtering properties
-    const filtered = properties.filter((property) => {
-      return (
-        (!filters.query ||
-          property.name.toLowerCase().includes(filters.query.toLowerCase())) &&
-        (!filters.bathrooms || property.bathrooms === filters.bathrooms) &&
-        (!filters.bedrooms || property.bedrooms === filters.bedrooms) &&
-        (filters.minPrice === null || property.price >= filters.minPrice) &&
-        (filters.maxPrice === null || property.price <= filters.maxPrice)
+    // Filter by name query
+    if (filters.query) {
+      filtered = filtered.filter((property) =>
+        property.name.toLowerCase().includes(filters.query.toLowerCase())
       );
-    });
+    }
+
+    // Filter by bathrooms
+    if (filters.bathrooms) {
+      filtered = filtered.filter(
+        (property) => property.bathrooms === filters.bathrooms
+      );
+    }
+
+    // Filter by bedrooms
+    if (filters.bedrooms) {
+      filtered = filtered.filter(
+        (property) => property.bedrooms === filters.bedrooms
+      );
+    }
+
+    // Filter by minPrice
+    if (filters.minPrice !== null) {
+      filtered = filtered.filter(
+        (property) => property.price >= filters.minPrice
+      );
+    }
+
+    // Filter by maxPrice
+    if (filters.maxPrice !== null) {
+      filtered = filtered.filter(
+        (property) => property.price <= filters.maxPrice
+      );
+    }
 
     setProperties(filtered);
   };
 
-  // Search change filters handler
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setFilters((prevFilters) => ({
@@ -49,7 +71,6 @@ const ListingsFilter = () => {
     }));
   };
 
-  // Min price setter
   const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const minPriceValue = e.target.value ? Number(e.target.value) : null;
     setFilters((prevFilters) => ({
@@ -58,7 +79,6 @@ const ListingsFilter = () => {
     }));
   };
 
-  // Max price setter
   const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const maxPriceValue = e.target.value ? Number(e.target.value) : null;
     setFilters((prevFilters) => ({
@@ -68,7 +88,7 @@ const ListingsFilter = () => {
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
+    <div className="p-4 bg-white rounded-lg shadow-md max-w-96">
       <div className="mb-4">
         <label className="block text-gray-700 mb-2">Search</label>
         <input
