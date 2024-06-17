@@ -1,8 +1,7 @@
 "use client";
 import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
-import React, { useState, ChangeEvent, useEffect, useRef } from "react";
-import { fetchData } from "@/app/actions/fetchPropertiesData";
-import { Property } from "@/app/types/Property";
+import React, { useState, ChangeEvent } from "react";
+
 interface Filters {
   query: string;
   bathrooms: number | null;
@@ -10,6 +9,7 @@ interface Filters {
   minPrice: number | null;
   maxPrice: number | null;
 }
+
 const ListingsFilter = () => {
   const { properties, setProperties, fetchPropertiesData } =
     usePropertiesContext();
@@ -21,52 +21,46 @@ const ListingsFilter = () => {
     minPrice: null,
     maxPrice: null,
   });
-  const [search, setSearch] = useState<string>("");
 
-  const filterProperites = (filters: Filters) => {
+  const filterProperties = (filters: Filters) => {
     console.log("trigger", properties);
 
-    //function for filtering properties
+    // Function for filtering properties
     const filtered = properties.filter((property) => {
       return (
         (!filters.query ||
           property.name.toLowerCase().includes(filters.query.toLowerCase())) &&
         (!filters.bathrooms || property.bathrooms === filters.bathrooms) &&
         (!filters.bedrooms || property.bedrooms === filters.bedrooms) &&
-        (!filters.minPrice || property.price >= filters.minPrice) &&
-        (!filters.maxPrice || property.price <= filters.maxPrice)
+        (filters.minPrice === null || property.price >= filters.minPrice) &&
+        (filters.maxPrice === null || property.price <= filters.maxPrice)
       );
     });
 
     setProperties(filtered);
   };
 
-  // search change filters handler
+  // Search change filters handler
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value.length < 1) {
-      fetchPropertiesData();
-      return;
-    }
-    setSearch(value);
     setFilters((prevFilters) => ({
       ...prevFilters,
       query: value,
     }));
   };
 
-  //min price setter
+  // Min price setter
   const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const minPriceValue = Number(e.target.value);
+    const minPriceValue = e.target.value ? Number(e.target.value) : null;
     setFilters((prevFilters) => ({
       ...prevFilters,
-      maxPrice: minPriceValue,
+      minPrice: minPriceValue,
     }));
   };
 
-  //max price setter
+  // Max price setter
   const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const maxPriceValue = Number(e.target.value);
+    const maxPriceValue = e.target.value ? Number(e.target.value) : null;
     setFilters((prevFilters) => ({
       ...prevFilters,
       maxPrice: maxPriceValue,
@@ -102,7 +96,7 @@ const ListingsFilter = () => {
         </div>
       </div>
       <button
-        onClick={() => filterProperites(filters)}
+        onClick={() => filterProperties(filters)}
         className="w-full bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
       >
         Search
