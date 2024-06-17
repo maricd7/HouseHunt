@@ -53,15 +53,19 @@ const ListingsFilter = () => {
 
     // Filter by minPrice
     if (filters.minPrice !== null) {
-      filtered = filtered.filter(
-        (property) => property.price >= filters.minPrice
+      filtered = filtered.filter((property) =>
+        filters.minPrice
+          ? property.price >= filters.minPrice
+          : console.log("error filtering data")
       );
     }
 
     // Filter by maxPrice
     if (filters.maxPrice !== null) {
-      filtered = filtered.filter(
-        (property) => property.price <= filters.maxPrice
+      filtered = filtered.filter((property) =>
+        filters.maxPrice
+          ? property.price <= filters.maxPrice
+          : console.log("error filtering data")
       );
     }
 
