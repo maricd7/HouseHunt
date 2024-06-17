@@ -1,15 +1,7 @@
 "use client";
 import { usePropertiesContext } from "@/app/contexts/PropertiesContext";
-import React, { useState, ChangeEvent } from "react";
-import { ListingsNoResults } from "../ListingsNoResults";
-
-interface Filters {
-  query: string;
-  bathrooms: number | null;
-  bedrooms: number | null;
-  minPrice: number | null;
-  maxPrice: number | null;
-}
+import React, { useState, ChangeEvent, useEffect } from "react";
+import { Filters } from "@/app/types/Filters";
 
 const ListingsFilter = () => {
   const { properties, setProperties, fetchPropertiesData } =
@@ -22,7 +14,20 @@ const ListingsFilter = () => {
     minPrice: null,
     maxPrice: null,
   });
+
   const filterProperties = (filters: Filters) => {
+    const isFiltersEmpty =
+      !filters.query &&
+      filters.bathrooms === null &&
+      filters.bedrooms === null &&
+      filters.minPrice === null &&
+      filters.maxPrice === null;
+
+    if (isFiltersEmpty) {
+      fetchPropertiesData();
+      return;
+    }
+
     let filtered = properties;
 
     // Filter by name query
@@ -33,14 +38,14 @@ const ListingsFilter = () => {
     }
 
     // Filter by bathrooms
-    if (filters.bathrooms) {
+    if (filters.bathrooms !== null) {
       filtered = filtered.filter(
         (property) => property.bathrooms === filters.bathrooms
       );
     }
 
     // Filter by bedrooms
-    if (filters.bedrooms) {
+    if (filters.bedrooms !== null) {
       filtered = filtered.filter(
         (property) => property.bedrooms === filters.bedrooms
       );
@@ -62,6 +67,10 @@ const ListingsFilter = () => {
 
     setProperties(filtered);
   };
+
+  useEffect(() => {
+    filterProperties(filters);
+  }, [filters]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -115,12 +124,6 @@ const ListingsFilter = () => {
           />
         </div>
       </div>
-      <button
-        onClick={() => filterProperties(filters)}
-        className="w-full bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-      >
-        Search
-      </button>
     </div>
   );
 };
