@@ -67,7 +67,7 @@ const Hero = () => {
           />
           <CtaButton
             type="button"
-            onClick={() => router.push("/signup")}
+            onClick={() => router.push("/login")}
             text="Sign In"
           />
         </motion.div>
