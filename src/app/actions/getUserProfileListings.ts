@@ -4,6 +4,7 @@ import supabase from "../supabase";
 
 
 
+
 export const getUserProfileListings= async (currentUserId: number): Promise<Property[] | null> => {
   const { data, error } = await supabase
     .from("properties1")
@@ -14,4 +15,16 @@ export const getUserProfileListings= async (currentUserId: number): Promise<Prop
     return null;
   }
   return data;
+};
+
+export const getOtherUserProfileListings= async (username: string) => {
+  const { data, error } = await supabase
+    .from("users")
+    .select()
+    .eq("username", username);
+  if (error) {
+    console.error(error);
+    return null;
+  }
+  return data
 };

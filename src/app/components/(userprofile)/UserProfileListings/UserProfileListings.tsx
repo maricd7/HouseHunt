@@ -5,13 +5,19 @@ import { Property } from "@/app/types/Property";
 import ListingCard from "../../ListingsHero/ListingCard/ListingCard";
 import ListingCardLoading from "../../ListingsHero/ListingCard/ListinCardLoading";
 import { useModal } from "@/app/contexts/ModalContex";
-import { getUserProfileListings } from "@/app/actions/getUserProfileListings";
+import {
+  getOtherUserProfileListings,
+  getUserProfileListings,
+} from "@/app/actions/getUserProfileListings";
 import { setListingAsSold } from "@/app/actions/setListingsAsSold";
+import { useParams } from "next/navigation";
 
 const UserProfileListings = () => {
   const [userProperties, setUserProperties] = useState<Property[]>();
-  const { currentUserId } = useClientDataContext();
+  const { currentUserId, currentUserName, setCurrentUserId } =
+    useClientDataContext();
   const { showModal } = useModal();
+  const { slug } = useParams();
 
   const handleSetAsSoldButtonClick = (id: number) => {
     showModal(
@@ -32,18 +38,24 @@ const UserProfileListings = () => {
         } else {
           console.log("Fetching Listing Error");
         }
+      } else if (!currentUserName) {
+        const userdata = await getOtherUserProfileListings(slug as string);
+        console.log(userdata);
+        if (userdata) {
+          setCurrentUserId(userdata[0].id);
+        }
       }
     };
     fetchData();
   }, [currentUserId]);
 
-  if (!userProperties) {
-    return (
-      <h2 className=" text-xl mt-16">
-        This seller has no listings available..
-      </h2>
-    );
-  }
+  // if (!userProperties) {
+  //   return (
+  //     <h2 className=" text-xl mt-16">
+  //       This seller has no listings available..
+  //     </h2>
+  //   );
+  // }
   return (
     <div className="flex gap-8 mt-8">
       {userProperties?.length
