@@ -9,4 +9,5 @@ export interface Property {
   address: string;
   property_type: string;
   status: boolean;
+  seller_id: number;
 }

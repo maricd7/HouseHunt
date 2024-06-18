@@ -5,29 +5,48 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { CtaButton } from "../common";
+import { fetchSellerData } from "@/app/actions/fetchSellerData";
+import { ListingPageTopBoxSeller } from "../ListingPageTopBoxSeller";
 
 const ListingPageTopBox = () => {
-  const [details, setDetails] = useState<any>();
+  const [details, setDetails] = useState<any>([]);
   const { properties } = usePropertiesContext();
   const pathname = usePathname();
   const id = Number(pathname.replace("/listings/", ""));
+  const [sellerName, setSellerName] = useState<string>("");
+  const [sellerUsername, setSellerUsername] = useState<string>("");
+  const [sellerAvatar, setSellerAvatar] = useState<string>("");
 
   const getDetails = () => {
-    console.log(id);
-    const filteredDetails = properties.filter((prop) => prop.id === Number(id));
+    const filteredDetails = properties.filter((prop) => prop.id === id);
     setDetails(filteredDetails);
   };
-  console.log(details);
+
   useEffect(() => {
     getDetails();
   }, [properties]);
 
-  if (!details) {
+  useEffect(() => {
+    if (details.length > 0) {
+      const fetchData = async () => {
+        const sellerData = await fetchSellerData(details[0].seller_id);
+        if (sellerData) {
+          setSellerName(sellerData.name);
+          setSellerUsername(sellerData.username);
+          setSellerAvatar(sellerData.avatar);
+        }
+      };
+      fetchData();
+    }
+  }, [details]);
+
+  if (details.length === 0) {
     return <>Loading</>;
   }
+
   return (
-    <section className="h-screen flex justify-center items-center gap-16 px-32 bg-hero-pattern">
-      <div className="bg-white flex gap-16 px-8 py-16 rounded-lg">
+    <section className="h-screen flex justify-center items-center gap-16 px-32 bg-gray-50">
+      <div className="flex gap-16 px-8 py-16 rounded-lg">
         <Image
           className="rounded-lg w-full"
           width={500}
@@ -70,8 +89,12 @@ const ListingPageTopBox = () => {
             </div>
           </div>
           <h2 className="font-semibold text-4xl mt-8">${details[0]?.price}</h2>
+          <ListingPageTopBoxSeller
+            sellerUsername={sellerUsername}
+            sellerAvatar={sellerAvatar}
+            sellerName={sellerName}
+          />
           <div className="mt-8 flex gap-8 items-center">
-            <p>Seller : </p>
             <CtaButton
               text="Contact Seller"
               type="button"

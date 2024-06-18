@@ -1,0 +1,1 @@
+export {default as ListingPageTopBoxSeller} from './ListingPageTopBoxSeller'
